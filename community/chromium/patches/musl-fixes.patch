@@ -1,8 +1,22 @@
+diff --git a/base/files/file_util_posix.cc b/base/files/file_util_posix.cc
+index fa0e7e3..fc3e19f 100644
+--- a/base/files/file_util_posix.cc
++++ b/base/files/file_util_posix.cc
+@@ -845,6 +845,9 @@ FILE* OpenFile(const FilePath& filename, const char* mode) {
+ // NaCl doesn't implement system calls to open files directly.
+ #if !defined(OS_NACL)
+ FILE* FileToFILE(File file, const char* mode) {
++  if (!file.IsValid() || !(fcntl(file.GetPlatformFile(), F_GETFD) != -1 || errno != EBADF))
++    return nullptr;
++
+   FILE* stream = fdopen(file.GetPlatformFile(), mode);
+   if (stream)
+     file.TakePlatformFile();
 diff --git a/chrome/browser/metrics/chrome_browser_main_extra_parts_metrics.cc b/chrome/browser/metrics/chrome_browser_main_extra_parts_metrics.cc
-index fadb15d..0490dcc 100644
+index aa7a79c..cc8c73f 100644
 --- a/chrome/browser/metrics/chrome_browser_main_extra_parts_metrics.cc
 +++ b/chrome/browser/metrics/chrome_browser_main_extra_parts_metrics.cc
-@@ -62,7 +62,9 @@
+@@ -61,7 +61,9 @@
  // TODO(crbug.com/1052397): Revisit the macro expression once build flag switch
  // of lacros-chrome is complete.
  #if defined(OS_LINUX) || BUILDFLAG(IS_CHROMEOS_LACROS)
@@ -12,7 +26,7 @@ index fadb15d..0490dcc 100644
  
  #include "base/linux_util.h"
  #include "base/strings/string_split.h"
-@@ -325,7 +327,7 @@ void RecordLinuxDistro() {
+@@ -320,7 +322,7 @@ void RecordLinuxDistro() {
  void RecordLinuxGlibcVersion() {
  // TODO(crbug.com/1052397): Revisit the macro expression once build flag switch
  // of lacros-chrome is complete.
@@ -22,12 +36,12 @@ index fadb15d..0490dcc 100644
  
    UMALinuxGlibcVersion glibc_version_result = UMA_LINUX_GLIBC_NOT_PARSEABLE;
 diff --git a/net/dns/dns_config_service_posix.cc b/net/dns/dns_config_service_posix.cc
-index 0bb9da1..61af776 100644
+index 2de1457..00073e3 100644
 --- a/net/dns/dns_config_service_posix.cc
 +++ b/net/dns/dns_config_service_posix.cc
-@@ -93,7 +93,7 @@ base::Optional<DnsConfig> ReadDnsConfig() {
+@@ -93,7 +93,7 @@ absl::optional<DnsConfig> ReadDnsConfig() {
  
-   base::Optional<DnsConfig> dns_config;
+   absl::optional<DnsConfig> dns_config;
  // TODO(fuchsia): Use res_ninit() when it's implemented on Fuchsia.
 -#if defined(OS_OPENBSD) || defined(OS_FUCHSIA)
 +#if defined(OS_OPENBSD) || defined(OS_FUCHSIA) || defined(_GNU_SOURCE)
@@ -68,10 +82,10 @@ index 10071d3..0856910 100644
  // will prefer certain process types over others. The range for the
  // adjustment is [-1000, 1000], with [0, 1000] being user accessible.
 diff --git a/third_party/blink/renderer/platform/wtf/stack_util.cc b/third_party/blink/renderer/platform/wtf/stack_util.cc
-index 71b901f..f33aba0 100644
+index ebe753f..9579691 100644
 --- a/third_party/blink/renderer/platform/wtf/stack_util.cc
 +++ b/third_party/blink/renderer/platform/wtf/stack_util.cc
-@@ -29,7 +29,7 @@ size_t GetUnderestimatedStackSize() {
+@@ -28,7 +28,7 @@ size_t GetUnderestimatedStackSize() {
  // FIXME: On Mac OSX and Linux, this method cannot estimate stack size
  // correctly for the main thread.
  
@@ -80,7 +94,7 @@ index 71b901f..f33aba0 100644
      defined(OS_FUCHSIA)
    // pthread_getattr_np() can fail if the thread is not invoked by
    // pthread_create() (e.g., the main thread of blink_unittests).
-@@ -97,7 +97,7 @@ return Threading::ThreadStackSize();
+@@ -96,7 +96,7 @@ return Threading::ThreadStackSize();
  }
  
  void* GetStackStart() {

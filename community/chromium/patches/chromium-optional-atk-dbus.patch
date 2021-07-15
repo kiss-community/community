@@ -16,19 +16,19 @@ index 1ad352c..68a6be5 100644
  # Whether using Xvfb to provide a display server for a test might be
  # necessary.
 diff --git a/chrome/browser/chrome_browser_main_linux.cc b/chrome/browser/chrome_browser_main_linux.cc
-index a9e1513..b64e334 100644
+index 137785d..26de3f5 100644
 --- a/chrome/browser/chrome_browser_main_linux.cc
 +++ b/chrome/browser/chrome_browser_main_linux.cc
-@@ -79,7 +79,7 @@ void ChromeBrowserMainPartsLinux::PreProfileInit() {
+@@ -78,7 +78,7 @@ void ChromeBrowserMainPartsLinux::PreProfileInit() {
+ }
  
- 
- void ChromeBrowserMainPartsLinux::PostMainMessageLoopStart() {
+ void ChromeBrowserMainPartsLinux::PostCreateMainMessageLoop() {
 -#if !BUILDFLAG(IS_CHROMEOS_ASH)
 +#if !BUILDFLAG(IS_CHROMEOS_ASH) && defined(USE_DBUS)
    bluez::BluezDBusManager::Initialize(nullptr /* system_bus */);
  #endif
  
-@@ -87,7 +87,7 @@ void ChromeBrowserMainPartsLinux::PostMainMessageLoopStart() {
+@@ -86,7 +86,7 @@ void ChromeBrowserMainPartsLinux::PostCreateMainMessageLoop() {
  }
  
  void ChromeBrowserMainPartsLinux::PostDestroyThreads() {
@@ -132,10 +132,10 @@ index 2fa8e06..329fa52 100644
  #else
    return false;
 diff --git a/extensions/browser/api/bluetooth_low_energy/bluetooth_low_energy_api.cc b/extensions/browser/api/bluetooth_low_energy/bluetooth_low_energy_api.cc
-index 776abf0..4e15678 100644
+index 03c1b4c..b577bad 100644
 --- a/extensions/browser/api/bluetooth_low_energy/bluetooth_low_energy_api.cc
 +++ b/extensions/browser/api/bluetooth_low_energy/bluetooth_low_energy_api.cc
-@@ -1339,7 +1339,7 @@ void BluetoothLowEnergyCreateServiceFunction::DoWork() {
+@@ -1338,7 +1338,7 @@ void BluetoothLowEnergyCreateServiceFunction::DoWork() {
  // TODO: Ideally this should be handled by our feature system, so that this
  // code doesn't even compile on OSes it isn't being used on, but currently this
  // is not possible.
@@ -144,7 +144,7 @@ index 776abf0..4e15678 100644
    base::WeakPtr<device::BluetoothLocalGattService> service =
        device::BluetoothLocalGattService::Create(
            event_router_->adapter(),
-@@ -1368,6 +1368,7 @@ bool BluetoothLowEnergyCreateCharacteristicFunction::ParseParams() {
+@@ -1367,6 +1367,7 @@ bool BluetoothLowEnergyCreateCharacteristicFunction::ParseParams() {
  }
  
  void BluetoothLowEnergyCreateCharacteristicFunction::DoWork() {
@@ -152,7 +152,7 @@ index 776abf0..4e15678 100644
    device::BluetoothLocalGattService* service =
        event_router_->adapter()->GetGattService(params_->service_id);
    if (!service) {
-@@ -1388,6 +1389,9 @@ void BluetoothLowEnergyCreateCharacteristicFunction::DoWork() {
+@@ -1387,6 +1388,9 @@ void BluetoothLowEnergyCreateCharacteristicFunction::DoWork() {
  
    Respond(ArgumentList(apibtle::CreateCharacteristic::Results::Create(
        characteristic->GetIdentifier())));
@@ -162,7 +162,7 @@ index 776abf0..4e15678 100644
  }
  
  // createDescriptor:
-@@ -1404,6 +1408,7 @@ bool BluetoothLowEnergyCreateDescriptorFunction::ParseParams() {
+@@ -1403,6 +1407,7 @@ bool BluetoothLowEnergyCreateDescriptorFunction::ParseParams() {
  }
  
  void BluetoothLowEnergyCreateDescriptorFunction::DoWork() {
@@ -170,7 +170,7 @@ index 776abf0..4e15678 100644
    device::BluetoothLocalGattCharacteristic* characteristic =
        event_router_->GetLocalCharacteristic(params_->characteristic_id);
    if (!characteristic) {
-@@ -1419,6 +1424,9 @@ void BluetoothLowEnergyCreateDescriptorFunction::DoWork() {
+@@ -1418,6 +1423,9 @@ void BluetoothLowEnergyCreateDescriptorFunction::DoWork() {
  
    Respond(ArgumentList(
        apibtle::CreateDescriptor::Results::Create(descriptor->GetIdentifier())));
