@@ -16,7 +16,7 @@ kiss list glibc && {
     done
 }
 
-# Glob includes the GCC patchset aswell.
+# Glob includes the libstdc++ patchset aswell.
 for patch in chromium-*.patch; do
     patch -p1 < "$patch"
 done
@@ -121,10 +121,13 @@ conf="
     is_debug=false
     is_official_build=true
     link_pulseaudio=false
-    ozone_platform_wayland=false
+    ozone_platform_wayland=true
+    ozone_platform_x11=false
     proprietary_codecs=true
     rtc_build_examples=false
     rtc_use_pipewire=false
+    rtc_use_x11=false
+    rtc_use_x11_extensions=false
     symbol_level=0
     use_allocator=\"none\"
     use_allocator_shim=false
@@ -142,8 +145,7 @@ conf="
     use_system_harfbuzz=true
     use_thin_lto=false
     use_vaapi=${vaapi:-false}
-    use_x11=true
-    use_xkbcommon=false
+    use_x11=false
     build_with_tflite_lib=false
     chrome_pgo_phase=0
     enable_hangout_services_extension=false
@@ -170,22 +172,23 @@ conf="
 
 out/Release/gn gen out/Release --args="$conf"
 
-# final link needs lots of file descriptors, almost all shells support the -n flag.
-# shellcheck disable=2039,3045
-ulimit -n 4096
+# Attempt to increase file descriptor limit
+# as build may exhaust default (1024).
+#
+# -n is non-POSIX hence we "attempt".
+# shellcheck disable=2039
+ulimit -n 4096 2>/dev/null || :
 
 ninja -C out/Release chrome
 
 # Package the monster.
-install -Dm755 chromium.sh            "$1/usr/bin/chromium"
-install -Dm755 out/Release/chrome     "$1/usr/lib/chromium/chromium"
-install -Dm644 out/Release/icudtl.dat "$1/usr/lib/chromium"
-install -Dm644 out/Release/locales/*.pak -t "$1/usr/lib/chromium/locales"
+mkdir -p "$1/usr/bin" \
+         "$1/usr/lib/chromium/locales"
 
-for lib in libEGL.so libGLESv2.so; do
-    install -Dm755 "out/Release/$lib" "$1/usr/lib/chromium"
-done
+cp chromium.sh "$1/usr/bin/chromium"
 
-for stuff in bin pak; do
-    install -Dm644 out/Release/*.$stuff "$1/usr/lib/chromium"
-done
+cd out/Release
+
+cp chrome "$1/usr/lib/chromium/chromium"
+cp locales/*.pak "$1/usr/lib/chromium/locales/"
+cp -- icudtl.dat *.bin *.pak "$1/usr/lib/chromium/"

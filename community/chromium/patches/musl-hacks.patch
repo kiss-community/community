@@ -1,8 +1,22 @@
+diff --git a/mojo/public/c/system/thunks.cc b/mojo/public/c/system/thunks.cc
+index b348bb5..eab0ba1 100644
+--- a/mojo/public/c/system/thunks.cc
++++ b/mojo/public/c/system/thunks.cc
+@@ -100,7 +100,8 @@ class CoreLibraryInitializer {
+     base::ScopedAllowBlocking allow_blocking;
+     base::NativeLibraryOptions library_options;
+ #if !defined(ADDRESS_SANITIZER) && !defined(THREAD_SANITIZER) && \
+-    !defined(MEMORY_SANITIZER) && !defined(LEAK_SANITIZER)
++    !defined(MEMORY_SANITIZER) && !defined(LEAK_SANITIZER) && \
++    defined(RTLD_DEEPBIND)
+     // Sanitizer builds cannnot support RTLD_DEEPBIND, but they also disable
+     // allocator shims, so it's unnecessary there.
+     library_options.prefer_own_symbols = true;
 diff --git a/net/socket/udp_socket_posix.cc b/net/socket/udp_socket_posix.cc
-index bf201de..cd993ce 100644
+index 47f3149..03f7528 100644
 --- a/net/socket/udp_socket_posix.cc
 +++ b/net/socket/udp_socket_posix.cc
-@@ -1155,7 +1155,7 @@ SendResult UDPSocketPosixSender::InternalSendmmsgBuffers(
+@@ -1162,7 +1162,7 @@ SendResult UDPSocketPosixSender::InternalSendmmsgBuffers(
      msg_iov->push_back({const_cast<char*>(buffer->data()), buffer->length()});
    msgvec->reserve(buffers.size());
    for (size_t j = 0; j < buffers.size(); j++)

@@ -9,16 +9,12 @@ freetype-harfbuzz
 glib
 gperf              make
 gtk+3
-libXcomposite
-libXdamage
-libXi
-libXrandr
-libXtst
 libdrm
 libexif
 libgcrypt
 libjpeg-turbo
 libwebp
+libxkbcommon
 libxml2
 libxslt
 mesa
@@ -30,4 +26,5 @@ pkgconf            make
 python             make
 python2            make
 samurai            make
-xcb-proto
+wayland
+wayland-protocols  make
