@@ -3,7 +3,7 @@ gumbo-parser
 jbig2dec
 libjpeg-turbo
 libmupdf make
-libressl
+openssl
 meson make
 openjpeg2
 pkgconf make
