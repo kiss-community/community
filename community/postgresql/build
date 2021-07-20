@@ -7,7 +7,6 @@
     --enable-thread-safety \
     --with-libedit-preferred \
     --with-openssl \
-    --with-uuid=e2fs \
     --with-llvm
 
 make world
