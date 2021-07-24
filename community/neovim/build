@@ -12,7 +12,9 @@ sed -i 's/^/#/' src/nvim/po/CMakeLists.txt
 make \
     CMAKE_BUILD_TYPE=Release \
     CMAKE_INSTALL_PREFIX=/usr \
-    CMAKE_INSTALL_LIBDIR=lib \
     -Wno-dev
 
 make DESTDIR="$1" install
+
+# CMAKE_INSTALL_LIBDIR is not respected
+mv -f "$1/usr/lib64" "$1/usr/lib"
