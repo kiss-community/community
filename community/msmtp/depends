@@ -1,2 +1,2 @@
-gnutls
+openssl
 pkgconf make
