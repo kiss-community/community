@@ -1,5 +1,11 @@
 #!/bin/sh -e
 
+# Due to some changes in the package manager/pigz, we have to...
+unset DESTDIR
+mkdir -p bin
+ln -s /usr/bin/pigz "$PWD/bin/gunzip"
+export PATH="$PWD/bin:$PATH"
+
 # Remove mandatory gettext dependency.
 sed -i 's/^/#/' src/nvim/po/CMakeLists.txt
 
