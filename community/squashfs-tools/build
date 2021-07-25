@@ -2,7 +2,7 @@
 
 cd squashfs-tools
 
-make XZ_SUPPORT=1 LZO_SUPPORT=0 LZ4_SUPPORT=0 ZSTD_SUPPORT=0
+make XZ_SUPPORT=1 LZO_SUPPORT=1 LZ4_SUPPORT=1 ZSTD_SUPPORT=1
 
-install -Dm755 mksquashfs "$1/usr/bin/mksquashfs"
-install -Dm755 unsquashfs "$1/usr/bin/unsquashfs"
+mkdir -p "$1/usr/bin"
+cp mksquashfs unsquashfs "$1/usr/bin/"
