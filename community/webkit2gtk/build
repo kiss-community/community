@@ -23,8 +23,6 @@ export DESTDIR="$1"
 # Reduce memory usage.
 export LDFLAGS="$LDFLAGS -Wl,--no-keep-memory"
 
-patch -p1 < gl.patch
-
 cmake -B build \
     -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_INSTALL_PREFIX=/usr \
