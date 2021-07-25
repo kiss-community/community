@@ -1,0 +1,4 @@
+cmake make
+libconfig
+openssl
+protobuf-c
