@@ -2,7 +2,11 @@
 
 # `glibc` uses the `sysinfo` struct defined in `<linux/sysinfo.h>` but `musl`
 # uses it's own, leading to redefinition. Just let the linux one be used.
-sed -i 's|#include <sys/sysinfo.h>||' common/utils.c
+sed 's|#include <sys/sysinfo.h>||' common/utils.c > _
+mv _ common/utils.c
+
+sed '/<fcntl.h>/a #include <limits.h>' cmds/filesystem-usage.c > _
+mv _ cmds/filesystem-usage.c
 
 ./configure \
     --prefix=/usr \
