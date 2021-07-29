@@ -1,6 +1,7 @@
 cairo       
-meson make       
 gdk-pixbuf
+meson make       
+pkgconf make
 samurai make     
 wayland          
-wayland-protocols
+wayland-protocols make
