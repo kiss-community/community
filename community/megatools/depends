@@ -1,5 +1,3 @@
 curl
 glib
-libffi
-libressl
-zlib
+openssl
