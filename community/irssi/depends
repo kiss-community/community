@@ -1,4 +1,4 @@
 glib
-libressl
 ncurses
+openssl
 perl
