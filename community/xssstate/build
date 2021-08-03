@@ -1,6 +1,0 @@
-#!/bin/sh -e
-
-sed -i 's|PREFIX = /usr/local|PREFIX = /usr|g' config.mk
-
-make
-make DESTDIR="$1" install

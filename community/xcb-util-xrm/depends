@@ -1,6 +1,0 @@
-libX11
-libXau
-libxcb
-pkgconf make
-xcb-util
-xorg-util-macros make
