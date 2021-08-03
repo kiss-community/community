@@ -1,5 +1,0 @@
-#!/bin/sh -e
-
-make
-
-install -Dm755 glxgears "$1/usr/bin/glxgears"
