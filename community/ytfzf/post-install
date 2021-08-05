@@ -5,10 +5,12 @@ cat <<EOF
 NOTE: A menu system has to be installed. Possible choices:
 
 - fzf
-- dmenu (external menu)
-- rofi (external menu)
+- bemenu (external menu)
 
-External menus must be called with 'ytfzf -D'.
+To use an external menu, the variable YTFZF_EXTMENU has
+to be set. Example:
+
+export YTFZF_EXTMENU="bemenu -l 15"
 
 Optional: ueberzug can be installed with 'pip'
 to get thumbnails support.
