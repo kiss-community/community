@@ -1,0 +1,12 @@
+#!/bin/sh -e
+
+cargo fetch \
+    --locked
+
+cargo install \
+    --frozen \
+    --offline \
+    --no-track \
+    --features native-zlib \
+    --path . \
+    --root "$1/usr"
