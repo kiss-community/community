@@ -3,4 +3,4 @@
 make
 
 # No 'DESTDIR' because the Makefile doesn't support it.
-make PREFIX="$1/usr" install
+make PREFIX="/usr" install
