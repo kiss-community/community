@@ -1,4 +1,4 @@
 #!/bin/sh -e
 
 make
-make PREFIX="$1/usr" install
+make PREFIX=/usr install
