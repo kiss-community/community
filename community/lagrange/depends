@@ -1,5 +1,0 @@
-cmake make
-libunistring
-openssl
-pcre
-sdl2
