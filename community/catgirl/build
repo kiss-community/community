@@ -1,5 +1,8 @@
 #!/bin/sh -e
 
+sed -i '49a \
+#include <sys/file.h>' ui.c
+
 ./configure \
     --prefix=/usr \
     --mandir=/usr/share/man
