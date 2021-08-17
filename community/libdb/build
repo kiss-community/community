@@ -1,0 +1,24 @@
+#!/bin/sh -e
+
+# Needed for compiling on newer
+# versions of g++, taken from LFS
+# https://www.linuxfromscratch.org/blfs/view/svn/server/db.html
+sed -i 's/\(__atomic_compare_exchange\)/\1_db/' src/dbinc/atomic.h
+
+cd build_unix
+
+../dist/configure \
+  --prefix=/usr \
+  --enable-compat185 \
+  --enable-dbm \
+  --enable-cxx \
+  --enable-sql \
+  --enable-sql_compat \
+  --enable-sql_codegen \
+  --disable-java
+
+make
+make DESTDIR="$1" install
+
+# There are tons of html docs
+rm -rf "$1/usr/docs"
