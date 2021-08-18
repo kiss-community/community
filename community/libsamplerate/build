@@ -1,0 +1,15 @@
+#!/bin/sh -e
+
+./configure \
+  --prefix=/usr \
+  --disable-sndfile \
+  --disable-alsa \
+  --disable-fftw
+
+make
+make DESTDIR="$1" install
+
+# Remove all docs but keep the licence file
+mv "$1/usr/share/doc/libsamplerate/license.md" .
+rm "$1"/usr/share/doc/libsamplerate/*
+mv license.md "$1/usr/share/doc/libsamplerate/"
