@@ -1,10 +1,5 @@
 #!/bin/sh -e
 
-# this is posix sed usage
-# shellcheck disable=SC1004
-sed -i '49a \
-#include <sys/file.h>' ui.c
-
 ./configure \
     --prefix=/usr \
     --mandir=/usr/share/man
