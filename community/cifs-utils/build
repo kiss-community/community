@@ -1,0 +1,18 @@
+#!/bin/sh -e
+
+./configure \
+  --prefix=/usr \
+  --disable-pam \
+  --disable-systemd
+
+make
+make DESTDIR="$1" install
+
+# Build system is broken, it doesn't
+# respond correctly to more flags being
+# added to configure, so we will fix the
+# file locations manually
+
+rm -r "$1/usr/sbin"
+mv "$1"/sbin/* "$1/usr/bin"
+rm -r "$1/sbin"
