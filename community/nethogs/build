@@ -1,0 +1,18 @@
+#!/bin/sh -e
+
+# Fix the terrible Makefile to respect build flags.
+# shellcheck disable=2016
+sed \
+    -e 's|/sbin|/bin|g' \
+    -e 's|CFLAGS|XCFLAGS|g' \
+    -e 's|CXXFLAGS|XCXXFLAGS|g' \
+    -e 's|LDFLAGS|XLDFLAGS|g' \
+    -e 's|XCFLAGS?=|&$(CFLAGS) |g' \
+    -e 's|XCXXFLAGS?=|&$(CXXFLAGS) |g' \
+    -e 's|XLDFLAGS:=|&$(LDFLAGS) |g' \
+    src/MakeApp.mk > _
+
+mv _ src/MakeApp.mk
+
+make
+make DESTDIR="$1" PREFIX=/usr install
