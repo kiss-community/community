@@ -1,0 +1,11 @@
+#!/bin/sh -e
+
+unzip FreeImage$(echo $2 | sed 's/\.//g').zip
+
+cd FreeImage
+
+patch -p1 < ../fix-cxx17.patch
+patch -p1 < ../fix-install.patch
+
+make
+make DESTDIR="$1" install
