@@ -1,6 +1,7 @@
 #!/bin/sh -e
 
-unzip FreeImage$(echo $2 | sed 's/\.//g').zip
+V=$(echo "$2" | tr -d '.')
+unzip "FreeImage$V.zip"
 
 cd FreeImage
 
