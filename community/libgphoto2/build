@@ -13,7 +13,7 @@ make DESTDIR="$1" install
 export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$1/usr/lib"
 
 # Create and install udev rules for the user in group 'camera'
-mkdir -p "$1"/usr/lib/udev/rules.d
-mkdir -p "$1"/usr/lib/udev/hwdb.d
-"$1"/usr/lib/libgphoto2/print-camera-list udev-rules version 201 group camera > "$1"/usr/lib/udev/rules.d/40-gphoto.rules
-"$1"/usr/lib/libgphoto2/print-camera-list hwdb > "$1"/usr/lib/udev/hwdb.d/20-gphoto.hwdb
+mkdir -p "$1/usr/lib/udev/rules.d"
+mkdir -p "$1/usr/lib/udev/hwdb.d"
+"$1/usr/lib/libgphoto2/print-camera-list" udev-rules version 201 group camera > "$1/usr/lib/udev/rules.d/40-gphoto.rules"
+"$1/usr/lib/libgphoto2/print-camera-list" hwdb > "$1/usr/lib/udev/hwdb.d/20-gphoto.hwdb"
