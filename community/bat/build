@@ -1,10 +1,5 @@
 #!/bin/sh -e
 
-# Work around rustc regression:
-# https://github.com/sharkdp/bat/pull/1761
-# https://github.com/rust-lang/rust/issues/85574
-patch -p1 < 0001-Update-git2-dependency-to-fix-incompatibility-with-R.patch
-
 cargo build --release
 
 install -Dm755 target/release/bat "$1/usr/bin/bat"
