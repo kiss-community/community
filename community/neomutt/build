@@ -1,11 +1,13 @@
 #!/bin/sh -e
 
+# enable building with netbsd-curses
+sed -i 's/tinfow tinfo/tinfow tinfo terminfo/g' auto.def
+
 ./configure \
     --prefix=/usr \
     --sysconfdir=/etc \
     --ssl \
     --sasl \
-    --gnutls \
     --disable-nls \
     --disable-idn \
     --disable-doc \
@@ -19,11 +21,15 @@ make DESTDIR="$1" install
 # ./configure without --disable-doc) but this requires an internet
 # connection (!?), so I've included them as local sources. The other
 # ones are provided in the tarball.
-install -Dm644 -t "$1/usr/share/man/man1/" \
-    docs/neomutt.1 \
-    docs/pgpewrap.1 \
-    docs/smime_keys.1
-install -Dm644 -t "$1/usr/share/man/man5/" \
-    docs/neomuttrc.5 \
-    docs/mbox.5 \
-    docs/mmdf.5
+mkdir -p \
+    "$1/usr/share/man/man1" \
+    "$1/usr/share/man/man5"
+
+cp -f docs/neomutt.1 \
+      docs/pgpewrap.1 \
+      docs/smime_keys.1 \
+      "$1/usr/share/man/man1/"
+cp -f docs/neomuttrc.5 \
+      docs/mbox.5 \
+      docs/mmdf.5 \
+      "$1/usr/share/man/man5/"

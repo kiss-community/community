@@ -1,4 +1,4 @@
 cyrus-sasl
-gnutls
 ncurses
+openssl
 zlib
