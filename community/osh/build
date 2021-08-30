@@ -2,8 +2,7 @@
 
 :> nostrip
 
-./configure \
-    --prefix=/usr
+./configure --prefix=/usr
 
 make
 
