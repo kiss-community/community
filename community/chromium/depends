@@ -10,7 +10,6 @@ glib
 gperf              make
 gtk+3
 libdrm
-libexif
 libgcrypt
 libjpeg-turbo
 libwebp
