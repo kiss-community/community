@@ -1,0 +1,11 @@
+#!/bin/sh -e
+
+cc bri.c -o bri
+
+mkdir -p "$1/usr/bin"
+cp bri "$1/usr/bin/bri"
+chmod 4755 "$1/usr/bin/bri"
+
+mkdir -p "$1/usr/share/man/man1"
+cp bri.1 "$1/usr/share/man/man1/bri.1"
+chmod 644 "$1/usr/share/man/man1/bri.1"
