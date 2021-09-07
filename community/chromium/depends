@@ -23,7 +23,6 @@ opus
 perl               make
 pkgconf            make
 python             make
-python2            make
 samurai            make
 wayland
 wayland-protocols  make

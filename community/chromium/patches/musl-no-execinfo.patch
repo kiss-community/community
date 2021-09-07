@@ -1,5 +1,5 @@
 diff --git a/base/debug/stack_trace_posix.cc b/base/debug/stack_trace_posix.cc
-index 14ad3a5..3c1e49b 100644
+index 8833b20e..9aaf4497 100644
 --- a/base/debug/stack_trace_posix.cc
 +++ b/base/debug/stack_trace_posix.cc
 @@ -27,7 +27,7 @@
@@ -73,7 +73,7 @@ index 14ad3a5..3c1e49b 100644
                                            const char* prefix_string) const {
    StreamBacktraceOutputHandler handler(os);
 diff --git a/third_party/swiftshader/third_party/llvm-subzero/build/Linux/include/llvm/Config/config.h b/third_party/swiftshader/third_party/llvm-subzero/build/Linux/include/llvm/Config/config.h
-index 2f860e1..36f3c33 100644
+index 2f860e12..36f3c331 100644
 --- a/third_party/swiftshader/third_party/llvm-subzero/build/Linux/include/llvm/Config/config.h
 +++ b/third_party/swiftshader/third_party/llvm-subzero/build/Linux/include/llvm/Config/config.h
 @@ -14,7 +14,7 @@

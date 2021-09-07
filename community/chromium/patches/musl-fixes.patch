@@ -1,8 +1,8 @@
 diff --git a/base/files/file_util_posix.cc b/base/files/file_util_posix.cc
-index fa0e7e3..fc3e19f 100644
+index aa18b72d..0300b084 100644
 --- a/base/files/file_util_posix.cc
 +++ b/base/files/file_util_posix.cc
-@@ -845,6 +845,9 @@ FILE* OpenFile(const FilePath& filename, const char* mode) {
+@@ -846,6 +846,9 @@ FILE* OpenFile(const FilePath& filename, const char* mode) {
  // NaCl doesn't implement system calls to open files directly.
  #if !defined(OS_NACL)
  FILE* FileToFILE(File file, const char* mode) {
@@ -13,7 +13,7 @@ index fa0e7e3..fc3e19f 100644
    if (stream)
      file.TakePlatformFile();
 diff --git a/chrome/browser/metrics/chrome_browser_main_extra_parts_metrics.cc b/chrome/browser/metrics/chrome_browser_main_extra_parts_metrics.cc
-index aa7a79c..cc8c73f 100644
+index 5fb725b2..e54873ac 100644
 --- a/chrome/browser/metrics/chrome_browser_main_extra_parts_metrics.cc
 +++ b/chrome/browser/metrics/chrome_browser_main_extra_parts_metrics.cc
 @@ -61,7 +61,9 @@
@@ -26,7 +26,7 @@ index aa7a79c..cc8c73f 100644
  
  #include "base/linux_util.h"
  #include "base/strings/string_split.h"
-@@ -320,7 +322,7 @@ void RecordLinuxDistro() {
+@@ -322,7 +324,7 @@ void RecordLinuxDistro() {
  void RecordLinuxGlibcVersion() {
  // TODO(crbug.com/1052397): Revisit the macro expression once build flag switch
  // of lacros-chrome is complete.
@@ -36,7 +36,7 @@ index aa7a79c..cc8c73f 100644
  
    UMALinuxGlibcVersion glibc_version_result = UMA_LINUX_GLIBC_NOT_PARSEABLE;
 diff --git a/net/dns/dns_config_service_posix.cc b/net/dns/dns_config_service_posix.cc
-index 2de1457..00073e3 100644
+index 2de14574..00073e34 100644
 --- a/net/dns/dns_config_service_posix.cc
 +++ b/net/dns/dns_config_service_posix.cc
 @@ -93,7 +93,7 @@ absl::optional<DnsConfig> ReadDnsConfig() {
@@ -49,7 +49,7 @@ index 2de1457..00073e3 100644
    // res_init behaves the same way.
    memset(&_res, 0, sizeof(_res));
 diff --git a/sandbox/linux/seccomp-bpf/trap.cc b/sandbox/linux/seccomp-bpf/trap.cc
-index f5b86a7..2762d60 100644
+index f5b86a73..2762d602 100644
 --- a/sandbox/linux/seccomp-bpf/trap.cc
 +++ b/sandbox/linux/seccomp-bpf/trap.cc
 @@ -174,7 +174,7 @@ void Trap::SigSys(int nr, LinuxSigInfo* info, ucontext_t* ctx) {
@@ -62,7 +62,7 @@ index f5b86a7..2762d60 100644
  
  #if defined(__mips__)
 diff --git a/sandbox/linux/suid/process_util.h b/sandbox/linux/suid/process_util.h
-index 10071d3..0856910 100644
+index 10071d3e..08569101 100644
 --- a/sandbox/linux/suid/process_util.h
 +++ b/sandbox/linux/suid/process_util.h
 @@ -12,6 +12,15 @@
@@ -82,7 +82,7 @@ index 10071d3..0856910 100644
  // will prefer certain process types over others. The range for the
  // adjustment is [-1000, 1000], with [0, 1000] being user accessible.
 diff --git a/third_party/blink/renderer/platform/wtf/stack_util.cc b/third_party/blink/renderer/platform/wtf/stack_util.cc
-index ebe753f..9579691 100644
+index ebe753f1..95796910 100644
 --- a/third_party/blink/renderer/platform/wtf/stack_util.cc
 +++ b/third_party/blink/renderer/platform/wtf/stack_util.cc
 @@ -28,7 +28,7 @@ size_t GetUnderestimatedStackSize() {
@@ -104,7 +104,7 @@ index ebe753f..9579691 100644
    pthread_attr_t attr;
    int error;
 diff --git a/third_party/ffmpeg/libavutil/cpu.c b/third_party/ffmpeg/libavutil/cpu.c
-index 52f6b9a..8da9488 100644
+index 8960415d..ecc87aef 100644
 --- a/third_party/ffmpeg/libavutil/cpu.c
 +++ b/third_party/ffmpeg/libavutil/cpu.c
 @@ -41,7 +41,6 @@
@@ -116,7 +116,7 @@ index 52f6b9a..8da9488 100644
  #if HAVE_UNISTD_H
  #include <unistd.h>
 diff --git a/third_party/lss/linux_syscall_support.h b/third_party/lss/linux_syscall_support.h
-index 8d4e4d2..45d589b 100644
+index 8d4e4d2a..45d589b8 100644
 --- a/third_party/lss/linux_syscall_support.h
 +++ b/third_party/lss/linux_syscall_support.h
 @@ -139,12 +139,14 @@ extern "C" {
@@ -156,7 +156,7 @@ index 8d4e4d2..45d589b 100644
  #pragma pop_macro("pread64")
  #pragma pop_macro("pwrite64")
 diff --git a/third_party/nasm/nasmlib/realpath.c b/third_party/nasm/nasmlib/realpath.c
-index c31003e..73de448 100644
+index c31003e3..73de4480 100644
 --- a/third_party/nasm/nasmlib/realpath.c
 +++ b/third_party/nasm/nasmlib/realpath.c
 @@ -47,7 +47,7 @@
@@ -169,7 +169,7 @@ index c31003e..73de448 100644
  /*
   * GNU-specific, but avoids the realpath(..., NULL)
 diff --git a/third_party/ots/src/include/opentype-sanitiser.h b/third_party/ots/src/include/opentype-sanitiser.h
-index df36fe3..df1ab9d 100644
+index df36fe34..df1ab9d0 100644
 --- a/third_party/ots/src/include/opentype-sanitiser.h
 +++ b/third_party/ots/src/include/opentype-sanitiser.h
 @@ -20,6 +20,7 @@ typedef unsigned __int64 uint64_t;
@@ -181,7 +181,7 @@ index df36fe3..df1ab9d 100644
  #include <stdint.h>
  #define ots_ntohl(x) ntohl (x)
 diff --git a/third_party/perfetto/include/perfetto/ext/base/thread_utils.h b/third_party/perfetto/include/perfetto/ext/base/thread_utils.h
-index 2e9c4e5..cb71b29 100644
+index 2e9c4e54..cb71b297 100644
 --- a/third_party/perfetto/include/perfetto/ext/base/thread_utils.h
 +++ b/third_party/perfetto/include/perfetto/ext/base/thread_utils.h
 @@ -29,7 +29,7 @@
@@ -203,7 +203,7 @@ index 2e9c4e5..cb71b29 100644
      return false;
  #else
 diff --git a/third_party/swiftshader/third_party/llvm-subzero/lib/Support/Unix/Signals.inc b/third_party/swiftshader/third_party/llvm-subzero/lib/Support/Unix/Signals.inc
-index 3750d7f..d399b39 100644
+index 3750d7f4..d399b39a 100644
 --- a/third_party/swiftshader/third_party/llvm-subzero/lib/Support/Unix/Signals.inc
 +++ b/third_party/swiftshader/third_party/llvm-subzero/lib/Support/Unix/Signals.inc
 @@ -25,7 +25,7 @@

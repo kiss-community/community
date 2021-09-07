@@ -1,5 +1,5 @@
 diff --git a/buildtools/third_party/libc++/trunk/include/locale b/buildtools/third_party/libc++/trunk/include/locale
-index 9a705c7..3605a85 100644
+index 664c470f..26859e13 100644
 --- a/buildtools/third_party/libc++/trunk/include/locale
 +++ b/buildtools/third_party/libc++/trunk/include/locale
 @@ -10,6 +10,15 @@
@@ -19,7 +19,7 @@ index 9a705c7..3605a85 100644
      locale synopsis
  
 diff --git a/buildtools/third_party/libc++/trunk/src/locale.cpp b/buildtools/third_party/libc++/trunk/src/locale.cpp
-index a0209d0..ca8044e 100644
+index 903c78a1..e18ae5c1 100644
 --- a/buildtools/third_party/libc++/trunk/src/locale.cpp
 +++ b/buildtools/third_party/libc++/trunk/src/locale.cpp
 @@ -1043,11 +1043,11 @@ ctype<char>::do_narrow(const char_type* low, const char_type* high, char dfault,
@@ -36,7 +36,7 @@ index a0209d0..ca8044e 100644
  
  #ifdef _LIBCPP_PROVIDES_DEFAULT_RUNE_TABLE
  const ctype<char>::mask*
-@@ -1151,12 +1151,10 @@ ctype<char>::classic_table()  _NOEXCEPT
+@@ -1151,12 +1151,10 @@ ctype<char>::classic_table() noexcept
  #elif defined(_AIX)
      return (const unsigned int *)__lc_ctype_ptr->obj->mask;
  #else
