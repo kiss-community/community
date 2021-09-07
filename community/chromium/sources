@@ -1,12 +1,14 @@
-https://commondatastorage.googleapis.com/chromium-browser-official/chromium-92.0.4515.107.tar.xz
-https://github.com/stha09/chromium-patches/releases/download/chromium-92-patchset-7/chromium-92-patchset-7.tar.xz
-git+https://github.com/Eloston/ungoogled-chromium#f908f906d55ad7f36bdc179010cd9f5a7ed9c093 ungoogled-chromium
+https://commondatastorage.googleapis.com/chromium-browser-official/chromium-93.0.4577.63.tar.xz
+https://github.com/stha09/chromium-patches/releases/download/chromium-93-patchset-6/chromium-93-patchset-6.tar.xz
+git+https://github.com/Eloston/ungoogled-chromium#fff1538f74cf3c8d7f0512aa088e72df8b61b972 ungoogled-chromium
 files/chromium.sh
+patches/chromium-InkDropHost-crash.patch
+patches/chromium-ffmpeg-4.4.patch
 patches/chromium-optional-atk-dbus.patch
-patches/chromium-renamed-freetype-member.patch
 patches/chromium-sql-make-VirtualCursor-standard-layout-type.patch
 patches/glibc-2.33.patch
 patches/glibc-malloc.patch
+patches/glibc-variable-stack-size.patch
 patches/musl-crashpad.patch
 patches/musl-default-pthread-stacksize.patch
 patches/musl-fixes.patch

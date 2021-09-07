@@ -1,5 +1,5 @@
 diff --git a/third_party/libsync/src/include/sync/sync.h b/third_party/libsync/src/include/sync/sync.h
-index 50ed0ac..bc9d567 100644
+index 50ed0ac5..bc9d5675 100644
 --- a/third_party/libsync/src/include/sync/sync.h
 +++ b/third_party/libsync/src/include/sync/sync.h
 @@ -19,12 +19,16 @@

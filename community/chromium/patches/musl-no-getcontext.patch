@@ -1,5 +1,5 @@
 diff --git a/third_party/breakpad/breakpad/src/client/linux/handler/exception_handler.cc b/third_party/breakpad/breakpad/src/client/linux/handler/exception_handler.cc
-index ca353c4..a6cb5f9 100644
+index ca353c40..a6cb5f98 100644
 --- a/third_party/breakpad/breakpad/src/client/linux/handler/exception_handler.cc
 +++ b/third_party/breakpad/breakpad/src/client/linux/handler/exception_handler.cc
 @@ -490,7 +490,9 @@ bool ExceptionHandler::SimulateSignalDelivery(int sig) {

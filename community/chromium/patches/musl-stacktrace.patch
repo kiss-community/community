@@ -1,8 +1,8 @@
 diff --git a/base/debug/stack_trace.cc b/base/debug/stack_trace.cc
-index b298548..b434ff8 100644
+index 39dabf95..6e4b0651 100644
 --- a/base/debug/stack_trace.cc
 +++ b/base/debug/stack_trace.cc
-@@ -251,7 +251,9 @@ void StackTrace::Print() const {
+@@ -252,7 +252,9 @@ void StackTrace::Print() const {
  }
  
  void StackTrace::OutputToStream(std::ostream* os) const {
@@ -12,7 +12,7 @@ index b298548..b434ff8 100644
  }
  
  std::string StackTrace::ToString() const {
-@@ -259,7 +261,7 @@ std::string StackTrace::ToString() const {
+@@ -260,7 +262,7 @@ std::string StackTrace::ToString() const {
  }
  std::string StackTrace::ToStringWithPrefix(const char* prefix_string) const {
    std::stringstream stream;
@@ -22,7 +22,7 @@ index b298548..b434ff8 100644
  #endif
    return stream.str();
 diff --git a/base/logging.cc b/base/logging.cc
-index 48886b3..53a242e 100644
+index 768951f9..7cdf345b 100644
 --- a/base/logging.cc
 +++ b/base/logging.cc
 @@ -582,8 +582,8 @@ LogMessage::LogMessage(const char* file, int line, const char* condition)

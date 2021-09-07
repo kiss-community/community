@@ -1,5 +1,5 @@
 diff --git a/base/process/process_metrics_posix.cc b/base/process/process_metrics_posix.cc
-index 49f1957..e631e8c 100644
+index 49f19578..e631e8ca 100644
 --- a/base/process/process_metrics_posix.cc
 +++ b/base/process/process_metrics_posix.cc
 @@ -105,7 +105,7 @@ void IncreaseFdLimitTo(unsigned int max_descriptors) {
@@ -24,20 +24,20 @@ index 49f1957..e631e8c 100644
    return 0;
  #endif
 diff --git a/base/trace_event/malloc_dump_provider.cc b/base/trace_event/malloc_dump_provider.cc
-index 44d8d98..4357bde 100644
+index ed492eb9..14088370 100644
 --- a/base/trace_event/malloc_dump_provider.cc
 +++ b/base/trace_event/malloc_dump_provider.cc
-@@ -203,7 +203,7 @@ bool MallocDumpProvider::OnMemoryDump(const MemoryDumpArgs& args,
+@@ -212,7 +212,7 @@ bool MallocDumpProvider::OnMemoryDump(const MemoryDumpArgs& args,
                       &allocated_objects_count);
  #elif defined(OS_FUCHSIA)
  // TODO(fuchsia): Port, see https://crbug.com/706592.
 -#else
 +#elif defined(__GLIBC__)
-   struct mallinfo info = mallinfo();
-   // In case of Android's jemalloc |arena| is 0 and the outer pages size is
-   // reported by |hblkhd|. In case of dlmalloc the total is given by
+ #if defined(__GLIBC__) && defined(__GLIBC_PREREQ)
+ #if __GLIBC_PREREQ(2, 33)
+ #define MALLINFO2_FOUND_IN_LIBC
 diff --git a/third_party/swiftshader/third_party/llvm-10.0/configs/linux/include/llvm/Config/config.h b/third_party/swiftshader/third_party/llvm-10.0/configs/linux/include/llvm/Config/config.h
-index ac4b3e3..3736a5b 100644
+index ac4b3e30..3736a5b2 100644
 --- a/third_party/swiftshader/third_party/llvm-10.0/configs/linux/include/llvm/Config/config.h
 +++ b/third_party/swiftshader/third_party/llvm-10.0/configs/linux/include/llvm/Config/config.h
 @@ -125,7 +125,9 @@
@@ -51,7 +51,7 @@ index ac4b3e3..3736a5b 100644
  /* Define to 1 if you have the <malloc/malloc.h> header file. */
  /* #undef HAVE_MALLOC_MALLOC_H */
 diff --git a/third_party/swiftshader/third_party/llvm-subzero/lib/Support/Unix/Process.inc b/third_party/swiftshader/third_party/llvm-subzero/lib/Support/Unix/Process.inc
-index b239046..1ffdbc5 100644
+index b2390466..1ffdbc58 100644
 --- a/third_party/swiftshader/third_party/llvm-subzero/lib/Support/Unix/Process.inc
 +++ b/third_party/swiftshader/third_party/llvm-subzero/lib/Support/Unix/Process.inc
 @@ -86,7 +86,7 @@ unsigned Process::getPageSize() {
@@ -64,7 +64,7 @@ index b239046..1ffdbc5 100644
    mi = ::mallinfo();
    return mi.uordblks;
 diff --git a/third_party/tflite/src/tensorflow/lite/profiling/memory_info.cc b/third_party/tflite/src/tensorflow/lite/profiling/memory_info.cc
-index 6a4438f..8c973f1 100644
+index 6a4438f4..8c973f11 100644
 --- a/third_party/tflite/src/tensorflow/lite/profiling/memory_info.cc
 +++ b/third_party/tflite/src/tensorflow/lite/profiling/memory_info.cc
 @@ -27,7 +27,7 @@ namespace memory {
