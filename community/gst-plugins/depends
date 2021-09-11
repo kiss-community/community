@@ -4,7 +4,6 @@ gdk-pixbuf
 gst-plugins-base
 gstreamer
 lame
-lcms
 libjpeg-turbo
 libpng
 libsoup
