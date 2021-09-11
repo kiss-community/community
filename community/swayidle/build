@@ -1,0 +1,13 @@
+#!/bin/sh -e
+
+export DESTDIR="$1"
+
+meson \
+    --prefix=/usr \
+    -Dbash-completions=false \
+    -Dfish-completions=false \
+    -Dzsh-completions=false \
+    . build
+
+ninja -C build
+ninja -C build install
