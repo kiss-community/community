@@ -1,0 +1,18 @@
+#!/bin/sh -e
+
+export DESTDIR="$1"
+
+meson \
+    --prefix=/usr \
+    -Dpam=disabled \
+    -Dbash-completions=false \
+    -Dfish-completions=false \
+    -Dzsh-completions=false \
+    . build
+
+ninja -C build
+ninja -C build install
+
+chmod a+s "$1/usr/bin/swaylock"
+
+rm -rf "$1/etc/pam.d/" # upstream bug: pam policies still get copied
