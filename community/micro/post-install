@@ -1,7 +1,0 @@
-#!/bin/sh
-
-cat <<EOF
-
-NOTE: You need xsel or xclip for clipboard support.
-
-EOF
