@@ -1,0 +1,25 @@
+diff --git a/Makefile b/Makefile
+index 6595f61..d791647 100644
+--- a/Makefile
++++ b/Makefile
+@@ -138,8 +138,9 @@ ifeq ($(strip $(O_STATIC)),1)
+ endif
+ 
+ DISTFILES = src nnn.1 Makefile README.md LICENSE
+-SRC = src/nnn.c
+-HEADERS = src/nnn.h
++SRC = src/nnn.c fts/fts.c
++HEADERS = src/nnn.h fts/fts.h
++CFLAGS += -I./fts
+ BIN = nnn
+ DESKTOPFILE = misc/desktop/nnn.desktop
+ LOGOSVG = misc/logo/logo.svg
+@@ -152,7 +153,7 @@ all: $(BIN)
+ 
+ $(BIN): $(SRC) $(HEADERS)
+ 	@$(MAKE) --silent prepatch
+-	$(CC) $(CPPFLAGS) $(CFLAGS) $(LDFLAGS) -o $@ $< $(LDLIBS)
++	$(CC) $(CPPFLAGS) $(CFLAGS) $(LDFLAGS) -o $@ $(SRC) $(LDLIBS)
+ 	@$(MAKE) --silent postpatch
+ 
+ # targets for backwards compatibility
