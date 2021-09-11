@@ -1,9 +1,0 @@
-libX11
-libXau
-libXext
-libXi
-libXinerama
-libXtst
-libxcb
-libxkbcommon
-perl make
