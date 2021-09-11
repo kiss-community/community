@@ -1,6 +1,7 @@
 #!/bin/sh -e
 
-patch -p1 < fts-removal.patch
+patch -p1 < fts.patch
+touch fts/config.h # workaround for fts build
 
 make O_NORL=1 strip
 make DESTDIR="$1" PREFIX=/usr install

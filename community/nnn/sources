@@ -1,2 +1,3 @@
-https://github.com/jarun/nnn/archive/v4.1.tar.gz
-patches/fts-removal.patch
+https://github.com/jarun/nnn/archive/vVERSION.tar.gz
+https://github.com/pullmoll/musl-fts/archive/v1.2.7.tar.gz    fts/
+patches/fts.patch
