@@ -1,7 +1,3 @@
 #!/bin/sh -e
 
-export GO111MODULE=on
-export GOFLAGS="$GOFLAGS -trimpath -modcacherw"
-export GOPATH="${GOPATH:-$PWD/go}"
-
 make GOBIN="$1/usr/bin" install
