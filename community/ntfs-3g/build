@@ -1,7 +1,12 @@
 #!/bin/sh -e
 
 ./configure \
+    --sbindir=/usr/bin \
     --prefix=/usr
 
 make
 make DESTDIR="$1" install
+
+# fix delinquents that don't respect --prefix
+mv -f "$1/bin"/* "$1/sbin"/* "$1/usr/bin/"
+rmdir "$1/bin" "$1/sbin"
