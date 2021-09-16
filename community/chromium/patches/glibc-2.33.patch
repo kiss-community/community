@@ -1,5 +1,5 @@
 diff --git a/sandbox/linux/seccomp-bpf-helpers/baseline_policy.cc b/sandbox/linux/seccomp-bpf-helpers/baseline_policy.cc
-index f2a60bb4..7ef44e80 100644
+index f2a60bb..7ef44e8 100644
 --- a/sandbox/linux/seccomp-bpf-helpers/baseline_policy.cc
 +++ b/sandbox/linux/seccomp-bpf-helpers/baseline_policy.cc
 @@ -304,6 +304,18 @@ ResultExpr EvaluateSyscallImpl(int fs_denied_errno,
@@ -22,7 +22,7 @@ index f2a60bb4..7ef44e80 100644
        SyscallSets::IsCurrentDirectory(sysno)) {
      return Error(fs_denied_errno);
 diff --git a/sandbox/linux/seccomp-bpf-helpers/sigsys_handlers.cc b/sandbox/linux/seccomp-bpf-helpers/sigsys_handlers.cc
-index 64edbd68..3ba28763 100644
+index 64edbd6..3ba2876 100644
 --- a/sandbox/linux/seccomp-bpf-helpers/sigsys_handlers.cc
 +++ b/sandbox/linux/seccomp-bpf-helpers/sigsys_handlers.cc
 @@ -6,6 +6,8 @@
@@ -82,7 +82,7 @@ index 64edbd68..3ba28763 100644
  #if !defined(OS_NACL_NONSFI)
    if (seccomp_crash_key)
 diff --git a/sandbox/linux/seccomp-bpf-helpers/sigsys_handlers.h b/sandbox/linux/seccomp-bpf-helpers/sigsys_handlers.h
-index 7a958b93..d0bfab74 100644
+index 7a958b9..d0bfab7 100644
 --- a/sandbox/linux/seccomp-bpf-helpers/sigsys_handlers.h
 +++ b/sandbox/linux/seccomp-bpf-helpers/sigsys_handlers.h
 @@ -62,6 +62,10 @@ SANDBOX_EXPORT intptr_t SIGSYSPtraceFailure(const arch_seccomp_data& args,
@@ -105,7 +105,7 @@ index 7a958b93..d0bfab74 100644
  // Allocates a crash key so that Seccomp information can be recorded.
  void AllocateCrashKeys();
 diff --git a/sandbox/linux/services/syscall_wrappers.cc b/sandbox/linux/services/syscall_wrappers.cc
-index fcfd2aa1..5396b36d 100644
+index fcfd2aa..5396b36 100644
 --- a/sandbox/linux/services/syscall_wrappers.cc
 +++ b/sandbox/linux/services/syscall_wrappers.cc
 @@ -261,4 +261,13 @@ int sys_sigaction(int signum,
@@ -123,7 +123,7 @@ index fcfd2aa1..5396b36d 100644
 +
  }  // namespace sandbox
 diff --git a/sandbox/linux/services/syscall_wrappers.h b/sandbox/linux/services/syscall_wrappers.h
-index 1975bfbd..ed7ee5a1 100644
+index 1975bfb..ed7ee5a 100644
 --- a/sandbox/linux/services/syscall_wrappers.h
 +++ b/sandbox/linux/services/syscall_wrappers.h
 @@ -17,6 +17,7 @@ struct sock_fprog;
