@@ -1,0 +1,7 @@
+#!/bin/sh -e
+
+make install DESTDIR="$1" PREFIX=/usr MANPREFIX=/man
+
+mkdir -p "$1/etc/sv/sdhcp"
+cp -f sdhcp.run "$1/etc/sv/sdhcp/run"
+ln -sf /run/runit/supervise.sdhcp "$1/etc/sv/sdhcp/supervise"

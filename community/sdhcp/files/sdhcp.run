@@ -1,0 +1,3 @@
+#!/bin/sh
+ip link set eth0 up
+exec sdhcp 1> /dev/null
