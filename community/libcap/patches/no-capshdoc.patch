@@ -1,0 +1,29 @@
+diff --git a/progs/Makefile b/progs/Makefile
+index 846bd76..0f6db9e 100644
+--- a/progs/Makefile
++++ b/progs/Makefile
+@@ -45,16 +45,12 @@ endif
+ test:
+ 	@echo "no program tests without privilege, try 'make sudotest'"
+ 
+-capshdoc.h.cf: capshdoc.h ./mkcapshdoc.sh
+-	./mkcapshdoc.sh > $@
+-	diff -u capshdoc.h $@ || (rm $@ ; exit 1)
+-
+-capsh: capsh.c capshdoc.h.cf $(DEPS)
++capsh: capsh.c $(DEPS)
+ 	$(CC) $(CFLAGS) $(CPPFLAGS) $(CAPSH_SHELL) $(LDFLAGS) -o $@ $< $(LIBCAPLIB)
+ 
+ # Statically linked with minimal linkage flags to enable running in a
+ # chroot and in other in-tree testing contexts.
+-tcapsh-static: capsh.c capshdoc.h.cf $(DEPS)
++tcapsh-static: capsh.c $(DEPS)
+ 	$(CC) $(CFLAGS) $(CPPFLAGS) $(CAPSH_SHELL) -o $@ $< $(LIBCAPLIB) --static
+ 
+ uns_test: ../tests/uns_test.c
+@@ -67,4 +63,4 @@ sudotest: tcapsh-static uns_test capsh setcap getcap tcapsh-static
+ clean:
+ 	$(LOCALCLEAN)
+ 	rm -f *.o $(BUILD) privileged ping hack.sh compare-cap uns_test
+-	rm -f capsh tcapsh* capshdoc.h.cf
++	rm -f capsh tcapsh*
