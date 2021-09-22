@@ -1,7 +1,5 @@
 #!/bin/sh -e
 
-patch -p1 < realpath-workaround.patch
-
 ./configure \
     --prefix=/usr \
     --localstatedir=/var \

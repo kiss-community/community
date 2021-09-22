@@ -8,10 +8,10 @@ patch -p1 < 0001-make-iproute2-fhs-compliant.patch
 sed -i 's/CC := gcc/CC ?= gcc/' Makefile
 
 ./configure \
-    --prefix=/usr
+	--include_dir /usr/include
 
-make
-make DESTDIR="$1" SBINDIR="/usr/bin" install
+make KERNEL_INCLUDE=y
+make PREFIX=/usr DESTDIR="$1" SBINDIR="/usr/bin" install
 
 install -Dm0644 include/libnetlink.h "$1/usr/include/libnetlink.h"
 install -Dm0644 lib/libnetlink.a "$1/usr/lib/libnetlink.a"

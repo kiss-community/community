@@ -56,13 +56,15 @@ rm -f  "$1/usr/lib/go/pkg/tool/"*/api
 rm -rf "$1/usr/lib/go/pkg/bootstrap"
 rm -rf "$1/usr/lib/go/pkg/obj"
 
-cd "$1/usr/lib/go/src"
-
 # Remove tests.
-find . -type f -a -name \*_test.go -delete
-find . -type f -a -name \*.bash    -delete
-find . -type f -a -name \*.bat     -delete
-find . -type f -a -name \*.rc      -delete
+for path in "$1/usr/lib/go/src" "$1/usr/lib/go/misc/cgo"
+do
+	find "$path" -type f -a -name \*_test.go -depth -exec rm {} +
+	find "$path" -type f -a -name \*.bash    -depth -exec rm {} +
+	find "$path" -type f -a -name \*.bat     -depth -exec rm {} +
+	find "$path" -type f -a -name \*.rc      -depth -exec rm {} +
+done
+
 
 find . -type d -a -name testdata |
     while read -r dir; do

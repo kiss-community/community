@@ -1,9 +1,10 @@
-https://commondatastorage.googleapis.com/chromium-browser-official/chromium-93.0.4577.63.tar.xz
+https://commondatastorage.googleapis.com/chromium-browser-official/chromium-93.0.4577.82.tar.xz
 https://github.com/stha09/chromium-patches/releases/download/chromium-93-patchset-6/chromium-93-patchset-6.tar.xz
-git+https://github.com/Eloston/ungoogled-chromium#fff1538f74cf3c8d7f0512aa088e72df8b61b972 ungoogled-chromium
+git+https://github.com/Eloston/ungoogled-chromium#1835aef1e831ad784b2513908761439bb6d37834 ungoogled-chromium
 files/chromium.sh
 patches/chromium-InkDropHost-crash.patch
 patches/chromium-ffmpeg-4.4.patch
+patches/chromium-fix-narrowing-cast.patch
 patches/chromium-optional-atk-dbus.patch
 patches/chromium-sql-make-VirtualCursor-standard-layout-type.patch
 patches/glibc-2.33.patch
