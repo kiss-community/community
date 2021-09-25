@@ -1,5 +1,5 @@
 glib
 meson make
 pkgconf make
-python make
+python
 samurai make
