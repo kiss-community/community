@@ -2,6 +2,8 @@
 
 meson \
     --prefix=/usr \
+    -Ddocs=false \
+    -Dintrospection=disabled \
     . output
 
 ninja -C output
