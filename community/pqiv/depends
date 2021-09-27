@@ -1,0 +1,4 @@
+bash    make
+gtk+3
+libwebp
+pkgconf make
