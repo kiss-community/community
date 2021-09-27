@@ -1,0 +1,5 @@
+glib
+meson make
+pkgconf make
+python
+samurai make
