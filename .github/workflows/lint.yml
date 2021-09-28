@@ -1,0 +1,11 @@
+name: kiss-lint
+on: [pull_request, workflow_dispatch]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: jedahan/github-actions-kiss-lint@v13
+        with:
+          kisspath: community
