@@ -1,13 +1,11 @@
-https://commondatastorage.googleapis.com/chromium-browser-official/chromium-93.0.4577.82.tar.xz
-https://github.com/stha09/chromium-patches/releases/download/chromium-93-patchset-6/chromium-93-patchset-6.tar.xz
-git+https://github.com/Eloston/ungoogled-chromium#1835aef1e831ad784b2513908761439bb6d37834 ungoogled-chromium
+https://commondatastorage.googleapis.com/chromium-browser-official/chromium-94.0.4606.71.tar.xz
+https://github.com/stha09/chromium-patches/releases/download/chromium-94-patchset-3/chromium-94-patchset-3.tar.xz
+git+https://github.com/Eloston/ungoogled-chromium#42b9f08afb407324a8dbe762c532c5ddcaf55bcc ungoogled-chromium
 files/chromium.sh
 patches/chromium-InkDropHost-crash.patch
-patches/chromium-ffmpeg-4.4.patch
 patches/chromium-fix-narrowing-cast.patch
 patches/chromium-optional-atk-dbus.patch
 patches/chromium-sql-make-VirtualCursor-standard-layout-type.patch
-patches/glibc-2.33.patch
 patches/glibc-malloc.patch
 patches/glibc-variable-stack-size.patch
 patches/musl-crashpad.patch
@@ -23,5 +21,7 @@ patches/musl-resolver.patch
 patches/musl-sandbox.patch
 patches/musl-scoped-file.patch
 patches/musl-stacktrace.patch
+patches/musl-stat.patch
 patches/musl-sync.patch
 patches/musl-v8-monotonic-pthread-cont_timedwait.patch
+patches/ungoogled-safebrowsing.patch

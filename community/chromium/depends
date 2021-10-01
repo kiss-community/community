@@ -2,10 +2,8 @@ alsa-lib
 atk
 bison              make
 bzip2
-ffmpeg
 flac
 fontconfig
-freetype-harfbuzz
 glib
 gperf              make
 gtk+3
@@ -14,8 +12,6 @@ libgcrypt
 libjpeg-turbo
 libwebp
 libxkbcommon
-libxml2
-libxslt
 mesa
 nodejs             make
 nss
