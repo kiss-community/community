@@ -35,6 +35,8 @@ python ungoogled-chromium/utils/domain_substitution.py apply \
     -f ungoogled-chromium/domain_substitution.list \
     -c domainsubcache.tar.gz ./
 
+patch -p1 < ungoogled-safebrowsing.patch
+
 mkdir -p third_party/node/linux/node-linux-x64/bin
 ln -s /usr/bin/node third_party/node/linux/node-linux-x64/bin/
 
@@ -53,6 +55,10 @@ sed 's/OFFICIAL_BUILD/GOOGLE_CHROME_BUILD/' \
     tools/generate_shim_headers/generate_shim_headers.py > _
 mv -f _ tools/generate_shim_headers/generate_shim_headers.py
 
+sed '1i\#include <algorithm>' \
+    ui/ozone/public/platform_gl_egl_utility.h > _
+mv -f _ ui/ozone/public/platform_gl_egl_utility.h
+
 # compile gn early, so it can be used to generate gni stuff.
 ./tools/gn/bootstrap/bootstrap.py --skip-generate-buildfiles
 
@@ -62,16 +68,11 @@ mv -f _ tools/generate_shim_headers/generate_shim_headers.py
 # libvpx: Broken ?
 # zlib: KISS build without 'minizip'.
 system="
-    ffmpeg
     flac
     fontconfig
-    freetype
-    harfbuzz-ng
     libdrm
     libjpeg
     libwebp
-    libxml
-    libxslt
     opus
 "
 
@@ -108,11 +109,13 @@ kiss list pipewire && pipewire=true
 
 conf="
     angle_enable_null=true
+    angle_enable_swiftshader=false
     blink_enable_generated_code_formatting=false
     blink_symbol_level=0
     clang_use_chrome_plugins=false
     custom_toolchain=\"//build/toolchain/linux/unbundle:default\"
     enable_swiftshader=false
+    enable_swiftshader_vulkan=false
     enable_vr=false
     enable_widevine=false
     fatal_linker_warnings=false
@@ -142,12 +145,12 @@ conf="
     use_lld=false
     use_pulseaudio=false
     use_sysroot=false
-    use_system_harfbuzz=true
     use_thin_lto=false
     use_vaapi=${vaapi:-false}
     use_x11=false
     build_with_tflite_lib=false
     chrome_pgo_phase=0
+    disable_fieldtrial_testing_config=true
     enable_hangout_services_extension=false
     enable_js_type_check=false
     enable_mdns=false
@@ -160,7 +163,6 @@ conf="
     enable_reporting=false
     enable_service_discovery=false
     exclude_unwind_tables=true
-    fieldtrial_testing_like_official_build=true
     google_api_key=\"\"
     google_default_client_id=\"\"
     google_default_client_secret=\"\"

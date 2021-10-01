@@ -13,7 +13,7 @@ index aa18b72..0300b08 100644
    if (stream)
      file.TakePlatformFile();
 diff --git a/chrome/browser/metrics/chrome_browser_main_extra_parts_metrics.cc b/chrome/browser/metrics/chrome_browser_main_extra_parts_metrics.cc
-index 5fb725b..e54873a 100644
+index ce6dd5c..5a43529 100644
 --- a/chrome/browser/metrics/chrome_browser_main_extra_parts_metrics.cc
 +++ b/chrome/browser/metrics/chrome_browser_main_extra_parts_metrics.cc
 @@ -61,7 +61,9 @@
@@ -26,7 +26,7 @@ index 5fb725b..e54873a 100644
  
  #include "base/linux_util.h"
  #include "base/strings/string_split.h"
-@@ -322,7 +324,7 @@ void RecordLinuxDistro() {
+@@ -329,7 +331,7 @@ void RecordLinuxDistro() {
  void RecordLinuxGlibcVersion() {
  // TODO(crbug.com/1052397): Revisit the macro expression once build flag switch
  // of lacros-chrome is complete.
@@ -49,7 +49,7 @@ index 2de1457..00073e3 100644
    // res_init behaves the same way.
    memset(&_res, 0, sizeof(_res));
 diff --git a/sandbox/linux/seccomp-bpf/trap.cc b/sandbox/linux/seccomp-bpf/trap.cc
-index f5b86a7..2762d60 100644
+index cef1cdd..46d9acb 100644
 --- a/sandbox/linux/seccomp-bpf/trap.cc
 +++ b/sandbox/linux/seccomp-bpf/trap.cc
 @@ -174,7 +174,7 @@ void Trap::SigSys(int nr, LinuxSigInfo* info, ucontext_t* ctx) {
@@ -82,10 +82,10 @@ index 10071d3..0856910 100644
  // will prefer certain process types over others. The range for the
  // adjustment is [-1000, 1000], with [0, 1000] being user accessible.
 diff --git a/third_party/blink/renderer/platform/wtf/stack_util.cc b/third_party/blink/renderer/platform/wtf/stack_util.cc
-index ebe753f..9579691 100644
+index c3646e6..99ac33e 100644
 --- a/third_party/blink/renderer/platform/wtf/stack_util.cc
 +++ b/third_party/blink/renderer/platform/wtf/stack_util.cc
-@@ -28,7 +28,7 @@ size_t GetUnderestimatedStackSize() {
+@@ -29,7 +29,7 @@ size_t GetUnderestimatedStackSize() {
  // FIXME: On Mac OSX and Linux, this method cannot estimate stack size
  // correctly for the main thread.
  
@@ -94,7 +94,7 @@ index ebe753f..9579691 100644
      defined(OS_FUCHSIA)
    // pthread_getattr_np() can fail if the thread is not invoked by
    // pthread_create() (e.g., the main thread of blink_unittests).
-@@ -96,7 +96,7 @@ return Threading::ThreadStackSize();
+@@ -97,7 +97,7 @@ return Threading::ThreadStackSize();
  }
  
  void* GetStackStart() {
@@ -104,7 +104,7 @@ index ebe753f..9579691 100644
    pthread_attr_t attr;
    int error;
 diff --git a/third_party/ffmpeg/libavutil/cpu.c b/third_party/ffmpeg/libavutil/cpu.c
-index 8960415..ecc87ae 100644
+index 4627af4..0e62038 100644
 --- a/third_party/ffmpeg/libavutil/cpu.c
 +++ b/third_party/ffmpeg/libavutil/cpu.c
 @@ -41,7 +41,6 @@

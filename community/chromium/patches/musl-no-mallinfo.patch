@@ -24,10 +24,10 @@ index 49f1957..e631e8c 100644
    return 0;
  #endif
 diff --git a/base/trace_event/malloc_dump_provider.cc b/base/trace_event/malloc_dump_provider.cc
-index ed492eb..1408837 100644
+index 6824e40..7d3d011 100644
 --- a/base/trace_event/malloc_dump_provider.cc
 +++ b/base/trace_event/malloc_dump_provider.cc
-@@ -212,7 +212,7 @@ bool MallocDumpProvider::OnMemoryDump(const MemoryDumpArgs& args,
+@@ -213,7 +213,7 @@ bool MallocDumpProvider::OnMemoryDump(const MemoryDumpArgs& args,
                       &allocated_objects_count);
  #elif defined(OS_FUCHSIA)
  // TODO(fuchsia): Port, see https://crbug.com/706592.
@@ -37,10 +37,10 @@ index ed492eb..1408837 100644
  #if __GLIBC_PREREQ(2, 33)
  #define MALLINFO2_FOUND_IN_LIBC
 diff --git a/third_party/swiftshader/third_party/llvm-10.0/configs/linux/include/llvm/Config/config.h b/third_party/swiftshader/third_party/llvm-10.0/configs/linux/include/llvm/Config/config.h
-index ac4b3e3..3736a5b 100644
+index 24bdc67..43dc9f8 100644
 --- a/third_party/swiftshader/third_party/llvm-10.0/configs/linux/include/llvm/Config/config.h
 +++ b/third_party/swiftshader/third_party/llvm-10.0/configs/linux/include/llvm/Config/config.h
-@@ -125,7 +125,9 @@
+@@ -128,7 +128,9 @@
  /* #undef HAVE_MALLCTL */
  
  /* Define to 1 if you have the `mallinfo' function. */
@@ -48,18 +48,23 @@ index ac4b3e3..3736a5b 100644
  #define HAVE_MALLINFO 1
 +#endif
  
- /* Define to 1 if you have the <malloc/malloc.h> header file. */
- /* #undef HAVE_MALLOC_MALLOC_H */
+ /* Some projects using SwiftShader bypass cmake (eg Chromium via gn) */
+ /* so we need to check glibc version for the new API to be safe */
 diff --git a/third_party/swiftshader/third_party/llvm-subzero/lib/Support/Unix/Process.inc b/third_party/swiftshader/third_party/llvm-subzero/lib/Support/Unix/Process.inc
-index b239046..1ffdbc5 100644
+index 1a767bc..1ba48de 100644
 --- a/third_party/swiftshader/third_party/llvm-subzero/lib/Support/Unix/Process.inc
 +++ b/third_party/swiftshader/third_party/llvm-subzero/lib/Support/Unix/Process.inc
-@@ -86,7 +86,7 @@ unsigned Process::getPageSize() {
+@@ -86,11 +86,11 @@ unsigned Process::getPageSize() {
  }
  
  size_t Process::GetMallocUsage() {
--#if defined(HAVE_MALLINFO)
-+#if defined(HAVE_MALLINFO) && defined(__GLIBC__)
+-#if defined(HAVE_MALLINFO2)
++#if defined(HAVE_MALLINFO2) && defined(__GLIBC__)
+   struct mallinfo2 mi;
+   mi = ::mallinfo2();
+   return mi.uordblks;
+-#elif defined(HAVE_MALLINFO)
++#elif defined(HAVE_MALLINFO) && defined(__GLIBC__)
    struct mallinfo mi;
    mi = ::mallinfo();
    return mi.uordblks;
