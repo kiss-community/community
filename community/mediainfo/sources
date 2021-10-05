@@ -1,1 +1,3 @@
-https://mediaarea.net/download/source/mediainfo/21.09/mediainfo_21.09.tar.xz
+https://mediaarea.net/download/binary/mediainfo/21.09/MediaInfo_CLI_21.09_GNU_FromSource.tar.xz
+patches/fix_musl.patch
+patches/fix_configure.patch

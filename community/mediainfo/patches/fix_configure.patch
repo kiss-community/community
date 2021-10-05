@@ -1,0 +1,11 @@
+--- a/CLI_Compile.sh
++++ b/CLI_Compile.sh
+@@ -109,7 +109,7 @@
+     cd MediaInfo/Project/GNU/CLI/
+     test -e Makefile && rm Makefile
+     chmod +x configure
+-    ./configure --enable-staticlibs $*
++    ./configure --prefix=/usr --enable-staticlibs $*
+ 
+     if test -e Makefile; then
+         make clean

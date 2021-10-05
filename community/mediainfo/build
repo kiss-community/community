@@ -1,11 +1,10 @@
 #!/bin/sh -e
 
-cd Project/GNU/CLI
+for patch in *.patch; do
+    patch -p1 < "$patch"
+done
 
-./autogen.sh
+./CLI_Compile.sh
 
-./configure \
-    --prefix=/usr
-
-make
+cd MediaInfo/Project/GNU/CLI
 make DESTDIR="$1" install
