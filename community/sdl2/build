@@ -1,5 +1,7 @@
 #!/bin/sh -e
 
+patch -p1 < 402b86f2a88b5ee3e112dbde2ec232ee5f36572f.patch
+
 ./configure \
     --prefix=/usr
 
