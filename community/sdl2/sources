@@ -1,2 +1,2 @@
 https://libsdl.org/release/SDL2-VERSION.tar.gz
-https://github.com/libsdl-org/SDL/commit/402b86f2a88b5ee3e112dbde2ec232ee5f36572f.patch
+patches/xkb-segfault.patch
