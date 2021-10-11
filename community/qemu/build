@@ -1,16 +1,10 @@
 #!/bin/sh -e
 
-for patch in *.patch; do
-    patch -p1 < "$patch"
-done
+patch -p1 < CVE-2021-20255.patch
 
-# This is required for linux-headers 5.10
-# If you encounter build failures using a later kernel,
-# comment out this line:
-sed -i 's/#include <sys\/sysinfo.h>//' linux-user/syscall.c
-
-# Remove bash dependency
-sed -i 's/env bash/env sh/g' Makefile
+# Don't use bash
+sed 's/SHELL = bash -o pipefail/SHELL = sh/g' Makefile > _
+mv -f _ Makefile
 
 # Build qemu-system* binaries dynamically linked
 ./configure \
@@ -29,7 +23,7 @@ sed -i 's/env bash/env sh/g' Makefile
     --enable-system
 
 make
-make DESTDIR="$1" PREFIX=/usr install
+make PREFIX=/usr install
 make clean
 
 # Build qemu Linux user binaries statically linked.
@@ -46,4 +40,4 @@ make clean
     --static
 
 make
-make DESTDIR="$1" PREFIX=/usr install
+make PREFIX=/usr install
