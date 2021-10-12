@@ -1,7 +1,17 @@
 #!/bin/sh -e
 
-patch -p1 < fts.patch
-touch fts/config.h # workaround for fts build
+# build musl-fts
+{
+  cd fts
+  cat <<EOF > config.h
+#define HAVE_DECL_MAX 1
+#define HAVE_DECL_UINTMAX_MAX 0
+#define HAVE_DIRFD 1
+EOF
+  make
+  cd ..
+  export CFLAGS="$CFLAGS -I./fts" LDFLAGS="$LDFLAGS -L./fts -lfts"
+}
 
 make O_NORL=1 strip
 make DESTDIR="$1" PREFIX=/usr install

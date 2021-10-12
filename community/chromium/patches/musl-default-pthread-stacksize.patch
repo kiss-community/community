@@ -1,5 +1,5 @@
 diff --git a/base/threading/platform_thread_linux.cc b/base/threading/platform_thread_linux.cc
-index a03c2bb0..90e57c3e 100644
+index a03c2bb..90e57c3 100644
 --- a/base/threading/platform_thread_linux.cc
 +++ b/base/threading/platform_thread_linux.cc
 @@ -439,7 +439,8 @@ void TerminateOnThread() {}
@@ -13,7 +13,7 @@ index a03c2bb0..90e57c3e 100644
    // ThreadSanitizer bloats the stack heavily. Evidence has been that the
    // default stack size isn't enough for some browser tests.
 diff --git a/chrome/browser/shutdown_signal_handlers_posix.cc b/chrome/browser/shutdown_signal_handlers_posix.cc
-index ccc39d4b..5660183c 100644
+index ccc39d4..5660183 100644
 --- a/chrome/browser/shutdown_signal_handlers_posix.cc
 +++ b/chrome/browser/shutdown_signal_handlers_posix.cc
 @@ -187,11 +187,19 @@ void InstallShutdownSignalHandlers(

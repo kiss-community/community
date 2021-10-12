@@ -1,5 +1,5 @@
 diff --git a/net/dns/BUILD.gn b/net/dns/BUILD.gn
-index 851032d5..2e62e276 100644
+index 1895dfb..903230d 100644
 --- a/net/dns/BUILD.gn
 +++ b/net/dns/BUILD.gn
 @@ -110,11 +110,6 @@ source_set("dns") {
@@ -14,7 +14,7 @@ index 851032d5..2e62e276 100644
    } else if (is_posix) {
      sources += [
        "dns_config_service_posix.cc",
-@@ -416,8 +411,6 @@ source_set("tests") {
+@@ -412,8 +407,6 @@ source_set("tests") {
  
    if (is_android) {
      sources += [ "dns_config_service_android_unittest.cc" ]
@@ -24,7 +24,7 @@ index 851032d5..2e62e276 100644
      sources += [ "dns_config_service_posix_unittest.cc" ]
    }
 diff --git a/net/dns/dns_reloader.cc b/net/dns/dns_reloader.cc
-index 0672e711..ff1f7957 100644
+index 0672e71..ff1f795 100644
 --- a/net/dns/dns_reloader.cc
 +++ b/net/dns/dns_reloader.cc
 @@ -4,9 +4,8 @@
@@ -40,10 +40,10 @@ index 0672e711..ff1f7957 100644
  
  #include "base/lazy_instance.h"
 diff --git a/net/dns/host_resolver_manager.cc b/net/dns/host_resolver_manager.cc
-index 2dff5aae..3c6b9252 100644
+index 04445e3..a84ce95 100644
 --- a/net/dns/host_resolver_manager.cc
 +++ b/net/dns/host_resolver_manager.cc
-@@ -2571,8 +2571,7 @@ HostResolverManager::HostResolverManager(
+@@ -2720,8 +2720,7 @@ HostResolverManager::HostResolverManager(
    NetworkChangeNotifier::AddConnectionTypeObserver(this);
    if (system_dns_config_notifier_)
      system_dns_config_notifier_->AddObserver(this);
@@ -54,7 +54,7 @@ index 2dff5aae..3c6b9252 100644
  #endif
  
 diff --git a/net/dns/host_resolver_proc.cc b/net/dns/host_resolver_proc.cc
-index eca5fce0..b13ed2fe 100644
+index eca5fce..b13ed2f 100644
 --- a/net/dns/host_resolver_proc.cc
 +++ b/net/dns/host_resolver_proc.cc
 @@ -176,8 +176,7 @@ int SystemHostResolverCall(const std::string& host,

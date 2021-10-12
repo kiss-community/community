@@ -1,6 +1,7 @@
 #!/bin/sh -e
 
-sed -i '45d;46d' progs/Makefile
+# Adding explanations of various capabilities to capsh requires a bash script.
+patch -p1 < no-capshdoc.patch
 
 mk() {
     make \

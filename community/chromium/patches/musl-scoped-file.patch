@@ -1,5 +1,5 @@
 diff --git a/base/files/scoped_file_linux.cc b/base/files/scoped_file_linux.cc
-index 26bc18e6..70977a7c 100644
+index 26bc18e..70977a7 100644
 --- a/base/files/scoped_file_linux.cc
 +++ b/base/files/scoped_file_linux.cc
 @@ -7,6 +7,7 @@

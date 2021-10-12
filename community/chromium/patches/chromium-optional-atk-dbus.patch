@@ -1,14 +1,14 @@
 diff --git a/build/config/ui.gni b/build/config/ui.gni
-index 280ecc8..5073c0f 100644
+index f267598..362e9bd 100644
 --- a/build/config/ui.gni
 +++ b/build/config/ui.gni
 @@ -46,7 +46,9 @@ declare_args() {
  
  assert(!use_glib || (is_linux && !is_chromecast))
  
--use_atk = is_linux && !is_chromecast && use_glib
+-use_atk = is_linux && !is_chromecast && use_glib && current_toolchain == default_toolchain
 +declare_args() {
-+  use_atk = is_linux && !is_chromecast && use_glib
++  use_atk = is_linux && !is_chromecast && use_glib && current_toolchain == default_toolchain
 +}
  
  # Whether using Xvfb to provide a display server for a test might be

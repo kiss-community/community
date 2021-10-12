@@ -1,5 +1,9 @@
 #!/bin/sh -e
 
+read -r pymaj pymin <<EOF
+$(python -c 'import sys; print(sys.version_info.major, sys.version_info.minor)')
+EOF
+
 ./bootstrap.sh \
     --prefix="$1/usr" \
     --with-python=/usr/bin/python3
@@ -9,9 +13,9 @@ for action in stage install; do
         variant=release \
         debug-symbols=off \
         threading=multi \
-        python=3.9
+        python="$pymaj.$pymin"
 done
 
 # https://github.com/boostorg/python/issues/203#issuecomment-391477685
-ln -s "$1/usr/lib/libboost_python39.so" "$1/usr/lib/libboost_python3.so"
-ln -s "$1/usr/lib/libboost_numpy39.so"  "$1/usr/lib/libboost_numpy3.so"
+ln -s "$1/usr/lib/libboost_python$pymaj$pymin.so" "$1/usr/lib/libboost_python$pymaj.so"
+ln -s "$1/usr/lib/libboost_numpy$pymaj$pymin.so"  "$1/usr/lib/libboost_numpy$pymaj.so"

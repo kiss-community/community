@@ -1,0 +1,14 @@
+#!/bin/sh -e
+
+cat <<EOF
+
+NOTE: additional dependencies can be installed for support
+of other formats
+
+- ffmpeg: video support
+- libarchive: images in archive or cbX comic book
+- libspectre: ps/eps support
+- imagemagick: additional images like psd
+- poppler: pdf support
+
+EOF

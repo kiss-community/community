@@ -1,0 +1,10 @@
+#!/bin/sh -e
+
+meson \
+    --prefix=/usr \
+    -Ddocs=false \
+    -Dintrospection=disabled \
+    . output
+
+ninja -C output
+ninja -C output install

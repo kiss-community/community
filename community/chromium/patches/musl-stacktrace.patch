@@ -1,5 +1,5 @@
 diff --git a/base/debug/stack_trace.cc b/base/debug/stack_trace.cc
-index 39dabf95..6e4b0651 100644
+index bd4763b..ed75ace 100644
 --- a/base/debug/stack_trace.cc
 +++ b/base/debug/stack_trace.cc
 @@ -252,7 +252,9 @@ void StackTrace::Print() const {
@@ -22,7 +22,7 @@ index 39dabf95..6e4b0651 100644
  #endif
    return stream.str();
 diff --git a/base/logging.cc b/base/logging.cc
-index 768951f9..7cdf345b 100644
+index 768951f..7cdf345 100644
 --- a/base/logging.cc
 +++ b/base/logging.cc
 @@ -582,8 +582,8 @@ LogMessage::LogMessage(const char* file, int line, const char* condition)
