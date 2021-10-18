@@ -2,6 +2,7 @@
 
 ./configure \
   --prefix=/usr \
+  --enable-static \
   --disable-sndfile \
   --disable-alsa \
   --disable-fftw
