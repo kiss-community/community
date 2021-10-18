@@ -1,0 +1,19 @@
+#!/bin/sh -e
+
+./configure \
+  --prefix=/usr \
+  --libdir=/usr/lib \
+  --disable-all-programs \
+  --enable-libuuid
+
+make
+make DESTDIR="$1" install
+
+rm -rf \
+  "$1/bin" \
+  "$1/sbin" \
+  "$1/usr/bin" \
+  "$1/usr/sbin" \
+  "$1/usr/share/bash-completion" \
+  "$1/usr/share/man/man1" \
+  "$1/usr/share/man/man8"
