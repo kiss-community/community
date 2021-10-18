@@ -1,0 +1,7 @@
+#!/bin/sh
+
+cat <<EOF
+
+For libglvnd to work you also need to rebuild mesa
+
+EOF
