@@ -14,5 +14,5 @@ make DESTDIR="$1" install
 # file locations manually
 
 rm -r "$1/usr/sbin"
-mv "$1/sbin/"* "$1/usr/bin"
+mv "$1"/sbin/* "$1/usr/bin"
 rm -r "$1/sbin"
