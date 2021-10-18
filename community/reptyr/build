@@ -1,0 +1,7 @@
+#!/bin/sh -e
+
+make PREFIX="/usr"
+make PREFIX="/usr" DESTDIR="$1" install
+
+rm -rf "$1/etc"
+rm -rf "$1/usr/share/man/fr"
