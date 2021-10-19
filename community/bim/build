@@ -1,0 +1,12 @@
+#!/bin/sh -e
+
+# Remove git tag invocation to remove bash
+# No expression expansion is supposed to happen
+# shellcheck disable=SC2016
+sed -i 's/ $(shell bash docs\/git-tag)//g' Makefile
+
+make
+make DESTDIR="$1" prefix=/usr install
+
+# Install the man page
+install -Dm 644 -t "$1/usr/share/man/man1/" docs/bim.1
