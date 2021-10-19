@@ -55,9 +55,16 @@ sed 's/OFFICIAL_BUILD/GOOGLE_CHROME_BUILD/' \
     tools/generate_shim_headers/generate_shim_headers.py > _
 mv -f _ tools/generate_shim_headers/generate_shim_headers.py
 
-sed '1i\#include <algorithm>' \
+# Missing include required for std::find()
+sed '/<vector>/a #include <algorithm>' \
     ui/ozone/public/platform_gl_egl_utility.h > _
 mv -f _ ui/ozone/public/platform_gl_egl_utility.h
+
+# Useless internal glibc header include.
+# stdint.h is already included by stuff and is enough to define intN_t types.
+sed '/<bits\/stdint-intn.h>/d' \
+    ui/ozone/platform/wayland/host/wayland_window.cc > _
+mv -f _ ui/ozone/platform/wayland/host/wayland_window.cc
 
 # compile gn early, so it can be used to generate gni stuff.
 ./tools/gn/bootstrap/bootstrap.py --skip-generate-buildfiles

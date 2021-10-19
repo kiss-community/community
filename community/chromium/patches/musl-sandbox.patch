@@ -39,10 +39,10 @@ index a8f860f..4becce0 100644
        .Else(CrashSIGSYSClone());
  }
 diff --git a/sandbox/linux/seccomp-bpf-helpers/syscall_sets.cc b/sandbox/linux/seccomp-bpf-helpers/syscall_sets.cc
-index 8227dc1..51ed84b 100644
+index eba03d4..4c152a1 100644
 --- a/sandbox/linux/seccomp-bpf-helpers/syscall_sets.cc
 +++ b/sandbox/linux/seccomp-bpf-helpers/syscall_sets.cc
-@@ -418,6 +418,7 @@ bool SyscallSets::IsAllowedProcessStartOrDeath(int sysno) {
+@@ -419,6 +419,7 @@ bool SyscallSets::IsAllowedProcessStartOrDeath(int sysno) {
  #if defined(__i386__)
      case __NR_waitpid:
  #endif
@@ -50,7 +50,7 @@ index 8227dc1..51ed84b 100644
        return true;
      case __NR_clone:  // Should be parameter-restricted.
      case __NR_setns:  // Privileged.
-@@ -430,7 +431,6 @@ bool SyscallSets::IsAllowedProcessStartOrDeath(int sysno) {
+@@ -431,7 +432,6 @@ bool SyscallSets::IsAllowedProcessStartOrDeath(int sysno) {
  #if defined(__i386__) || defined(__x86_64__) || defined(__mips__)
      case __NR_set_thread_area:
  #endif
@@ -58,7 +58,7 @@ index 8227dc1..51ed84b 100644
      case __NR_unshare:
  #if !defined(__mips__) && !defined(__aarch64__)
      case __NR_vfork:
-@@ -544,6 +544,8 @@ bool SyscallSets::IsAllowedAddressSpaceAccess(int sysno) {
+@@ -545,6 +545,8 @@ bool SyscallSets::IsAllowedAddressSpaceAccess(int sysno) {
      case __NR_mlock:
      case __NR_munlock:
      case __NR_munmap:
@@ -67,7 +67,7 @@ index 8227dc1..51ed84b 100644
        return true;
      case __NR_madvise:
      case __NR_mincore:
-@@ -561,7 +563,6 @@ bool SyscallSets::IsAllowedAddressSpaceAccess(int sysno) {
+@@ -562,7 +564,6 @@ bool SyscallSets::IsAllowedAddressSpaceAccess(int sysno) {
      case __NR_modify_ldt:
  #endif
      case __NR_mprotect:

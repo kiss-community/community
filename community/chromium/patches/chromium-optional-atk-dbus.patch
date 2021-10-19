@@ -1,23 +1,25 @@
 diff --git a/build/config/ui.gni b/build/config/ui.gni
-index f267598..362e9bd 100644
+index 55478b0..b7eaf79 100644
 --- a/build/config/ui.gni
 +++ b/build/config/ui.gni
-@@ -46,7 +46,9 @@ declare_args() {
+@@ -37,8 +37,10 @@ declare_args() {
  
  assert(!use_glib || (is_linux && !is_chromecast))
  
--use_atk = is_linux && !is_chromecast && use_glib && current_toolchain == default_toolchain
+-use_atk = is_linux && !is_chromecast && use_glib &&
+-          current_toolchain == default_toolchain
 +declare_args() {
-+  use_atk = is_linux && !is_chromecast && use_glib && current_toolchain == default_toolchain
++  use_atk = is_linux && !is_chromecast && use_glib &&
++            current_toolchain == default_toolchain
 +}
  
  # Whether using Xvfb to provide a display server for a test might be
  # necessary.
 diff --git a/chrome/browser/chrome_browser_main_linux.cc b/chrome/browser/chrome_browser_main_linux.cc
-index 137785d..26de3f5 100644
+index 4fd6dc8..d2a63dd 100644
 --- a/chrome/browser/chrome_browser_main_linux.cc
 +++ b/chrome/browser/chrome_browser_main_linux.cc
-@@ -78,7 +78,7 @@ void ChromeBrowserMainPartsLinux::PreProfileInit() {
+@@ -84,7 +84,7 @@ void ChromeBrowserMainPartsLinux::PreProfileInit() {
  }
  
  void ChromeBrowserMainPartsLinux::PostCreateMainMessageLoop() {
@@ -26,8 +28,8 @@ index 137785d..26de3f5 100644
    bluez::BluezDBusManager::Initialize(nullptr /* system_bus */);
  #endif
  
-@@ -86,7 +86,7 @@ void ChromeBrowserMainPartsLinux::PostCreateMainMessageLoop() {
- }
+@@ -110,7 +110,7 @@ void ChromeBrowserMainPartsLinux::PostBrowserStart() {
+ #endif
  
  void ChromeBrowserMainPartsLinux::PostDestroyThreads() {
 -#if !BUILDFLAG(IS_CHROMEOS_ASH)
@@ -130,7 +132,7 @@ index 2fa8e06..329fa52 100644
  #else
    return false;
 diff --git a/extensions/browser/api/bluetooth_low_energy/bluetooth_low_energy_api.cc b/extensions/browser/api/bluetooth_low_energy/bluetooth_low_energy_api.cc
-index 5a54979..acefb5d 100644
+index 1dea6d4..41e60b5 100644
 --- a/extensions/browser/api/bluetooth_low_energy/bluetooth_low_energy_api.cc
 +++ b/extensions/browser/api/bluetooth_low_energy/bluetooth_low_energy_api.cc
 @@ -1338,7 +1338,7 @@ void BluetoothLowEnergyCreateServiceFunction::DoWork() {
@@ -210,7 +212,7 @@ index 5bc4ea6..8199154 100644
    android_library("java") {
      # Conceptually, this should be visible only to //services/device:java.
 diff --git a/ui/gtk/BUILD.gn b/ui/gtk/BUILD.gn
-index bef73bd..0a2737a 100644
+index 2d4b2f6..6968ed0 100644
 --- a/ui/gtk/BUILD.gn
 +++ b/ui/gtk/BUILD.gn
 @@ -69,8 +69,6 @@ component("gtk") {
@@ -222,7 +224,7 @@ index bef73bd..0a2737a 100644
      "settings_provider.h",
      "settings_provider_gtk.cc",
      "settings_provider_gtk.h",
-@@ -92,8 +90,6 @@ component("gtk") {
+@@ -90,8 +88,6 @@ component("gtk") {
    deps = [
      ":gtk_stubs",
      "//base",
