@@ -40,10 +40,10 @@ index 0672e71..ff1f795 100644
  
  #include "base/lazy_instance.h"
 diff --git a/net/dns/host_resolver_manager.cc b/net/dns/host_resolver_manager.cc
-index 04445e3..a84ce95 100644
+index dbfcc71..f979e6b 100644
 --- a/net/dns/host_resolver_manager.cc
 +++ b/net/dns/host_resolver_manager.cc
-@@ -2720,8 +2720,7 @@ HostResolverManager::HostResolverManager(
+@@ -2902,8 +2902,7 @@ HostResolverManager::HostResolverManager(
    NetworkChangeNotifier::AddConnectionTypeObserver(this);
    if (system_dns_config_notifier_)
      system_dns_config_notifier_->AddObserver(this);
@@ -67,3 +67,31 @@ index eca5fce..b13ed2f 100644
    DnsReloaderMaybeReload();
  #endif
    absl::optional<AddressInfo> ai;
+diff --git a/net/dns/public/resolv_reader.cc b/net/dns/public/resolv_reader.cc
+index 5686762..3cbb1a0 100644
+--- a/net/dns/public/resolv_reader.cc
++++ b/net/dns/public/resolv_reader.cc
+@@ -20,6 +20,7 @@
+ namespace net {
+ 
+ std::unique_ptr<struct __res_state> ResolvReader::GetResState() {
++#ifdef __GLIBC__
+   auto res = std::make_unique<struct __res_state>();
+   memset(res.get(), 0, sizeof(struct __res_state));
+ 
+@@ -29,10 +30,15 @@ std::unique_ptr<struct __res_state> ResolvReader::GetResState() {
+   }
+ 
+   return res;
++#else
++  return nullptr;
++#endif
+ }
+ 
+ void ResolvReader::CloseResState(struct __res_state* res) {
++#ifdef __GLIBC__ // Won't leak since we always return a nullptr above.
+   res_nclose(res);
++#endif
+ }
+ 
+ absl::optional<std::vector<IPEndPoint>> GetNameservers(

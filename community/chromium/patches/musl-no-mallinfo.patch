@@ -24,7 +24,7 @@ index 49f1957..e631e8c 100644
    return 0;
  #endif
 diff --git a/base/trace_event/malloc_dump_provider.cc b/base/trace_event/malloc_dump_provider.cc
-index 6824e40..7d3d011 100644
+index 245b6de..6ecd5da 100644
 --- a/base/trace_event/malloc_dump_provider.cc
 +++ b/base/trace_event/malloc_dump_provider.cc
 @@ -213,7 +213,7 @@ bool MallocDumpProvider::OnMemoryDump(const MemoryDumpArgs& args,
@@ -69,11 +69,11 @@ index 1a767bc..1ba48de 100644
    mi = ::mallinfo();
    return mi.uordblks;
 diff --git a/third_party/tflite/src/tensorflow/lite/profiling/memory_info.cc b/third_party/tflite/src/tensorflow/lite/profiling/memory_info.cc
-index 6a4438f..8c973f1 100644
+index efd957a..68b3604 100644
 --- a/third_party/tflite/src/tensorflow/lite/profiling/memory_info.cc
 +++ b/third_party/tflite/src/tensorflow/lite/profiling/memory_info.cc
 @@ -27,7 +27,7 @@ namespace memory {
- const int MemoryUsage::kValueNotSet = 0;
+ const size_t MemoryUsage::kValueNotSet = 0;
  
  bool MemoryUsage::IsSupported() {
 -#ifdef __linux__

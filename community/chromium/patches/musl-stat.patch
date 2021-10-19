@@ -1,4 +1,6 @@
---- a/base/files/file.h.orig
+diff --git a/base/files/file.h b/base/files/file.h
+index 69c5d90..47b8a62 100644
+--- a/base/files/file.h
 +++ b/base/files/file.h
 @@ -19,7 +19,8 @@
  #include "build/build_config.h"
