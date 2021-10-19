@@ -1,4 +1,5 @@
 #!/bin/sh -e
+# shellcheck disable=SC2115
 
 ./configure \
   --prefix=/usr \
