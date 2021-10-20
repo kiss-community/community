@@ -1,0 +1,8 @@
+#!/bin/sh -e
+
+cat <<EOF
+
+NOTE: libmediainfo can be removed, because mediainfo 
+      is statically linked now.
+
+EOF
