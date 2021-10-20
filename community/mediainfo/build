@@ -7,4 +7,5 @@ done
 ./CLI_Compile.sh
 
 cd MediaInfo/Project/GNU/CLI
+
 make DESTDIR="$1" install
