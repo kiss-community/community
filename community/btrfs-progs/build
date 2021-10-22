@@ -5,12 +5,16 @@
 sed 's|#include <sys/sysinfo.h>||' common/utils.c > _
 mv _ common/utils.c
 
+udev=--disable-libudev
+kiss list libudev-zero && udev=--enable-libudev
+
 ./configure \
     --prefix=/usr \
     --bindir=/usr/bin \
     --disable-documentation \
     --disable-backtrace \
-    --disable-zstd
+    --disable-zstd \
+    "$udev"
 
 make
 make DESTDIR="$1" install
