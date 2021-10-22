@@ -1,15 +1,22 @@
-https://invent.kde.org/qt/qt/qtwebengine/-/archive/349db5edcb67574f646eca7b336b9571b9777816.tar.gz
-https://invent.kde.org/qt/qt/qtwebengine-chromium/-/archive/eaffb82d5ee99ea1db8c0d4d359bbc72e77f065b.tar.gz src/3rdparty
-patches/dispatch_to_musl.patch
-patches/execinfo.patch
-patches/mallinfo.patch
-patches/musl-sandbox.patch
-patches/patch-syscalls-to-match-musl.patch
-patches/pread-pwrite.patch
-patches/pvalloc.patch
-patches/remove-dbus.patch
-patches/resolv.patch
-patches/siginfo_t.patch
-patches/stackstart.patch
-patches/sysreq-for__WORDSIZE.patch
-patches/thread-stacksize.patch
+https://invent.kde.org/qt/qt/qtwebengine/-/archive/b99b6ed65f66b4630bdc2b407a97bd0e526165d3.tar.gz
+https://invent.kde.org/qt/qt/qtwebengine-chromium/-/archive/d33026ed7c5f25bd0c7936963021936148015522.tar.gz src/3rdparty
+git+https://chromium.googlesource.com/catapult#5eedfe23148a234211ba477f76fc2ea2e8529189 src/3rdparty/chromium/third_party/catapult
+patches/01-chromium-musl-syscalls.patch
+patches/02-fix-chromium-build.patch
+patches/03-musl-hacks.patch
+patches/04-musl-sandbox.patch
+patches/05-nasm.patch
+patches/06-musl-crashpad.patch
+patches/07-musl-dispatch-to-musl.patch
+patches/08-musl-elf-arm.patch
+patches/09-musl-execinfo.patch
+patches/10-musl-mallinfo.patch
+patches/11-musl-pread-pwrite.patch
+patches/12-musl-pvalloc.patch
+patches/13-musl-resolve.patch
+patches/14-musl-siginfo-t.patch
+patches/15-musl-stackstart.patch
+patches/16-musl-sysreg-for__WORDSIZE.patch
+patches/17-musl-thread-stacksize.patch
+patches/18-remove-glibc-and-dbus.patch
+patches/19-python3.patch

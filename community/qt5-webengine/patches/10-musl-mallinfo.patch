@@ -41,4 +41,3 @@ index c327f4865..2717eca5a 100644
  #endif
  
    MemoryAllocatorDump* outer_dump = pmd->CreateAllocatorDump("malloc");
-

@@ -24,7 +24,10 @@
  #include "base/bind.h"
  #include "base/files/file.h"
  #include "base/files/file_path.h"
---- a/dev/null
+diff --git a/src/3rdparty/chromium/net/dns/resolv_compat.h b/src/3rdparty/chromium/net/dns/resolv_compat.h
+new file mode 100644
+index 0000000..4f0e852
+--- /dev/null
 +++ b/src/3rdparty/chromium/net/dns/resolv_compat.h
 @@ -0,0 +1,29 @@
 +#if !defined(__GLIBC__)
@@ -39,20 +42,20 @@
 +
 +static inline int res_ninit(res_state statp)
 +{
-+   int rc = res_init();
-+   if (statp != &_res) {
-+       memcpy(statp, &_res, sizeof(*statp));
-+   }
-+   return rc;
++	int rc = res_init();
++	if (statp != &_res) {
++		memcpy(statp, &_res, sizeof(*statp));
++	}
++	return rc;
 +}
 +
 +static inline int res_nclose(res_state statp)
 +{
-+   if (!statp)
-+       return -1;
-+   if (statp != &_res) {
-+       memset(statp, 0, sizeof(*statp));
-+   }
-+   return 0;
++	if (!statp)
++		return -1;
++	if (statp != &_res) {
++		memset(statp, 0, sizeof(*statp));
++	}
++	return 0;
 +}
 +#endif

@@ -5,7 +5,10 @@ mkdir .git
 
 # Don't link against execinfo.h.
 sed -i 's/define QLOG/define N/g' \
-    ./src/corelib/global/qlogging.cpp
+    src/corelib/global/qlogging.cpp
+
+sed -i 's/FREEBSD)/FREEBSD) || defined(Q_OS_LINUX) \&\& !defined(__GLIBC__)/' \
+    src/corelib/codecs/qiconvcodec.cpp
 
 ./configure \
     -confirm-license \

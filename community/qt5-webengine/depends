@@ -12,7 +12,7 @@ linux-headers     make
 nodejs            make
 nss
 perl              make
-python2           make
+python            make
 qt5
 qt5-declarative
 qt5-webchannel
