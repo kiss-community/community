@@ -1,3 +1,6 @@
 #!/bin/sh -e
 
-install -Dm755 chroma "$1/usr/bin/chroma"
+tar xf ./chroma-*.tar.gz\?no-extract
+
+mkdir -p "$1/usr/bin"
+cp chroma "$1/usr/bin/chroma"
