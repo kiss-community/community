@@ -1,0 +1,7 @@
+#!/bin/sh -e
+
+make SBINDIR=/usr/bin
+make SBINDIR=/usr/bin DESTDIR="$1" install
+
+pigz -d < "$1/usr/share/man/man8/iw.8.gz" > "$1/usr/share/man/man8/iw.8"
+rm "$1/usr/share/man/man8/iw.8.gz"
