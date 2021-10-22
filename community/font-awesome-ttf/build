@@ -1,7 +1,0 @@
-#!/bin/sh -e
-
-cd webfonts
-
-for font in *.ttf; do
-    install -Dm755 "$font" "$1/usr/share/fonts/TTF/$font"
-done
