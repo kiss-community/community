@@ -3,6 +3,8 @@
 make MYCFLAGS="$CFLAGS -fPIC" \
      MYLDFLAGS="$LDFLAGS" \
      posix
+     
+sed -i "s/install -p/install/" Makefile
 
 make INSTALL_TOP="$1/usr" \
      INSTALL_MAN="$1/usr/share/man/man1" \
