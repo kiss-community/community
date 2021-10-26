@@ -2,6 +2,12 @@
 
 export DESTDIR="$1"
 
+export LDFLAGS="$LDFLAGS -static"
+
+# Removed openssl API used only for leak checks, it's recommended to use sanitizers instead now.
+sed '/CRYPTO_mem_ctrl/d' src/ssli_openssl.c > _
+mv -f _ src/ssli_openssl.c
+
 cmake -B build \
     -DCMAKE_INSTALL_PREFIX=/usr
 
