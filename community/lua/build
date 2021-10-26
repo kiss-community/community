@@ -3,10 +3,12 @@
 make MYCFLAGS="$CFLAGS -fPIC" \
      MYLDFLAGS="$LDFLAGS" \
      posix
+     
+sed -i "s/install -p/install/" Makefile
 
 make INSTALL_TOP="$1/usr" \
      INSTALL_MAN="$1/usr/share/man/man1" \
-     INSTALL_DATA="cp -d" \
+     INSTALL_DATA="cp -P" \
      install
 
 install -Dm 644 lua.pc "$1/usr/lib/pkgconfig/lua.pc"
