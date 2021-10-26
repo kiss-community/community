@@ -59,10 +59,10 @@ rm -rf "$1/usr/lib/go/pkg/obj"
 # Remove tests.
 for path in "$1/usr/lib/go/src" "$1/usr/lib/go/misc/cgo"
 do
-	find "$path" -type f -a -name \*_test.go -depth -exec rm {} +
-	find "$path" -type f -a -name \*.bash    -depth -exec rm {} +
-	find "$path" -type f -a -name \*.bat     -depth -exec rm {} +
-	find "$path" -type f -a -name \*.rc      -depth -exec rm {} +
+    find "$path" -type f -a -name \*_test.go -depth -exec rm {} +
+    find "$path" -type f -a -name \*.bash    -depth -exec rm {} +
+    find "$path" -type f -a -name \*.bat     -depth -exec rm {} +
+    find "$path" -type f -a -name \*.rc      -depth -exec rm {} +
 done
 
 
