@@ -2,11 +2,13 @@
 
 ./configure \
     --prefix=/usr \
-    --disable-rpath \
     --disable-doxygen-docs \
     --disable-xmms-plugin \
-    --disable-thorough-tests \
+    --disable-cpplibs \
+    --disable-oggtest \
+    --disable-examples \
+    --disable-rpath \
     --with-pic
 
 make
-make DESTDIR="$1" install
+make install
