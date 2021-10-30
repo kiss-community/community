@@ -1,6 +1,10 @@
 #!/bin/sh -e
 
 cd src/
-make
-make man
-make DESTDIR="$1" PREFIX=/usr install
+make \
+    DESTDIR="$1" \
+    PREFIX=/usr \
+    libexecdir="$1/usr/lib" \
+    version="v$2" \
+    gzip_man=no \
+    all install
