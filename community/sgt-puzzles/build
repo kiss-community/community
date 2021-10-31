@@ -2,6 +2,10 @@
 
 export DESTDIR="$1"
 
+sed -i 's/#include <gdk\/gdkx.h>//' gtk.c
+sed -i 's/#include <X11\/.*>//g' gtk.c
+sed -i 's/CurrentTime/GDK_CURRENT_TIME/g' gtk.c
+
 cmake -B build \
     -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_INSTALL_PREFIX=/usr \
