@@ -1,0 +1,7 @@
+#!/bin/sh -e
+
+make lazy-extractors
+make yt-dlp
+
+install -Dm755 yt-dlp "$1/usr/bin/yt-dlp"
+cp -f youtube-dl "$1/usr/bin"
