@@ -11,6 +11,7 @@ meson \
     -Dgssapi=disabled \
     -Dbrotli=disabled \
     -Dsysprof=disabled \
+    -Dpkcs11_tests=disabled \
     . output
 
 ninja -C output
