@@ -1,6 +1,0 @@
-cmake make
-pkgconf make
-gnutls
-ncurses
-libgcrypt
-zlib
