@@ -1,6 +1,0 @@
-#!/bin/sh -e
-
-cd src
-
-make
-make DESTDIR="$1" PREFIX=/usr install
