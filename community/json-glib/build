@@ -2,7 +2,8 @@
 
 meson \
     --prefix=/usr \
-    -Ddocs=false \
+    --libexecdir=/usr/lib \
+    -Dgtk_doc=disabled \
     -Dintrospection=disabled \
     . output
 
