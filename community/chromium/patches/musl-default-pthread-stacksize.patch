@@ -13,10 +13,10 @@ index a03c2bb..90e57c3 100644
    // ThreadSanitizer bloats the stack heavily. Evidence has been that the
    // default stack size isn't enough for some browser tests.
 diff --git a/chrome/browser/shutdown_signal_handlers_posix.cc b/chrome/browser/shutdown_signal_handlers_posix.cc
-index ccc39d4..5660183 100644
+index d2d23bc..f7dca90 100644
 --- a/chrome/browser/shutdown_signal_handlers_posix.cc
 +++ b/chrome/browser/shutdown_signal_handlers_posix.cc
-@@ -187,11 +187,19 @@ void InstallShutdownSignalHandlers(
+@@ -189,11 +189,19 @@ void InstallShutdownSignalHandlers(
    g_shutdown_pipe_read_fd = pipefd[0];
    g_shutdown_pipe_write_fd = pipefd[1];
  #if !defined(ADDRESS_SANITIZER)
