@@ -13,10 +13,10 @@ index d7dc6e3..5cb40a2 100644
      // allocator shims, so it's unnecessary there.
      library_options.prefer_own_symbols = true;
 diff --git a/net/socket/udp_socket_posix.cc b/net/socket/udp_socket_posix.cc
-index c34a1e7..02e8d9d 100644
+index 1a90794..4a5ebd7 100644
 --- a/net/socket/udp_socket_posix.cc
 +++ b/net/socket/udp_socket_posix.cc
-@@ -1162,7 +1162,7 @@ SendResult UDPSocketPosixSender::InternalSendmmsgBuffers(
+@@ -1161,7 +1161,7 @@ SendResult UDPSocketPosixSender::InternalSendmmsgBuffers(
      msg_iov->push_back({const_cast<char*>(buffer->data()), buffer->length()});
    msgvec->reserve(buffers.size());
    for (size_t j = 0; j < buffers.size(); j++)

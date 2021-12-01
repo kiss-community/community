@@ -35,8 +35,6 @@ python ungoogled-chromium/utils/domain_substitution.py apply \
     -f ungoogled-chromium/domain_substitution.list \
     -c domainsubcache.tar.gz ./
 
-patch -p1 < ungoogled-safebrowsing.patch
-
 mkdir -p third_party/node/linux/node-linux-x64/bin
 ln -s /usr/bin/node third_party/node/linux/node-linux-x64/bin/
 
