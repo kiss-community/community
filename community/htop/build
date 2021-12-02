@@ -1,10 +1,9 @@
 #!/bin/sh -e
 
-autoreconf -sfi
+autoreconf -fi
 ./configure \
     --prefix=/usr \
-    --sysconfdir=/etc \
-    --enable-unicode \
+    --sysconfdir=/etc
 
 make
 make DESTDIR="$1" install
