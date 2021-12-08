@@ -1,1 +1,2 @@
 https://git.causal.agency/catgirl/snapshot/catgirl-1.9a.tar.gz
+patches/fix-strptime-decode-for-musl-libc.patch
