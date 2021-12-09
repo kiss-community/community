@@ -1,0 +1,23 @@
+#!/bin/sh -e
+
+for p in *.patch; do
+    patch -p1 < "$p"
+done
+
+export DESTDIR="$1"
+
+kiss list libsndfile && sndfile=enabled
+
+meson \
+    --prefix=/usr \
+    --libexecdir=/usr/lib \
+    -Ddbus=disabled \
+    -Dtests=disabled \
+    -Dpw-cat="${sndfile:-disabled}" \
+    -Dudevrulesdir=/usr/lib/udev/rules.d \
+    . output
+
+ninja -C output
+ninja -C output install
+
+:>"$1/usr/share/pipewire/media-session.d/with-alsa"
