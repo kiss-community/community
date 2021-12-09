@@ -1,0 +1,5 @@
+alsa-lib
+libudev-zero
+linux-headers make
+meson make
+pkgconf make

@@ -1,0 +1,264 @@
+diff --git a/src/modules/module-protocol-pulse/internal.h b/src/modules/module-protocol-pulse/internal.h
+index df222cf..ac3bfc4 100644
+--- a/src/modules/module-protocol-pulse/internal.h
++++ b/src/modules/module-protocol-pulse/internal.h
+@@ -68,7 +68,9 @@ struct impl {
+ 	struct spa_hook context_listener;
+ 
+ 	struct pw_properties *props;
++#ifdef HAVE_DBUS
+ 	void *dbus_name;
++#endif
+ 
+ 	struct ratelimit rate_limit;
+ 
+diff --git a/subprojects/media-session/meson.build b/subprojects/media-session/meson.build
+index e5f8362..8242f82 100644
+--- a/subprojects/media-session/meson.build
++++ b/subprojects/media-session/meson.build
+@@ -80,7 +80,11 @@ mathlib = cc.find_library('m', required : false)
+ rt_lib = cc.find_library('rt', required : false) # clock_gettime
+ dl_lib = cc.find_library('dl', required : false)
+ pthread_lib = dependency('threads')
+-dbus_dep = dependency('dbus-1')
++dbus_dep = dependency('dbus-1', required : get_option('dbus'))
++summary({'dbus': dbus_dep.found()}, bool_yn: true)
++if dbus_dep.found()
++  cdata.set('HAVE_DBUS', 1)
++endif
+ 
+ libinotify_dep = (build_machine.system() == 'freebsd'
+     ? dependency('libinotify', required: true)
+diff --git a/subprojects/media-session/meson_options.txt b/subprojects/media-session/meson_options.txt
+index d25b03a..71d78bb 100644
+--- a/subprojects/media-session/meson_options.txt
++++ b/subprojects/media-session/meson_options.txt
+@@ -5,6 +5,10 @@ option('docs',
+        description: 'Build documentation',
+        type: 'feature',
+        value: 'disabled')
++option('dbus',
++       description: 'Enable dbus support',
++       type: 'feature',
++       value: 'auto')
+ option('tests',
+        description: 'Build tests',
+        type: 'feature',
+diff --git a/subprojects/media-session/src/alsa-monitor.c b/subprojects/media-session/src/alsa-monitor.c
+index c21e490..22d2d1c 100644
+--- a/subprojects/media-session/src/alsa-monitor.c
++++ b/subprojects/media-session/src/alsa-monitor.c
+@@ -48,15 +48,18 @@
+ #include <spa/pod/parser.h>
+ #include <spa/debug/dict.h>
+ #include <spa/debug/pod.h>
++#ifdef HAVE_DBUS
+ #include <spa/support/dbus.h>
++#endif
+ 
+ #include <pipewire/pipewire.h>
+ #include <pipewire/i18n.h>
+ #include <pipewire/extensions/session-manager.h>
+ 
+ #include "media-session.h"
++#ifdef HAVE_DBUS
+ #include "reserve.h"
+-
++#endif
+ 
+ /** \page page_media_session_module_alsa_monitor Media Session Module: ALSA Monitor
+  *
+@@ -154,7 +157,9 @@ struct device {
+ 
+ 	char *factory_name;
+ 
++#ifdef HAVE_DBUS
+ 	struct rd_device *reserve;
++#endif
+ 	struct spa_hook sync_listener;
+ 	int seq;
+ 	int priority;
+@@ -262,8 +267,15 @@ static int node_release(void *data)
+ 
+ 	node->acquired = false;
+ 
+-	if (device && --device->n_acquired == 0 && device->reserve)
++	if (device && --device->n_acquired == 0
++#ifdef HAVE_DBUS
++	&& device->reserve
++#endif
++	) {
++#ifdef HAVE_DBUS
+ 		rd_device_release(device->reserve);
++#endif
++	}
+ 	return 0;
+ }
+ 
+@@ -709,6 +721,7 @@ static void set_profile(struct device *device, int index)
+ 	}
+ }
+ 
++#ifdef HAVE_DBUS
+ static void set_jack_profile(struct impl *impl, int index)
+ {
+ 	char buf[1024];
+@@ -753,16 +766,20 @@ static void add_jack_timeout(struct impl *impl)
+ 	value.tv_nsec = 0;
+ 	pw_loop_update_timer(main_loop, impl->jack_timeout, &value, NULL, false);
+ }
++#endif
+ 
+ static void do_reserve_acquired(struct device *device)
+ {
+ 	if (!device->probed)
+ 		probe_device(device);
+ 
++#ifdef HAVE_DBUS
+ 	if (device->n_acquired == 0 && device->reserve)
+ 		rd_device_release(device->reserve);
++#endif
+ }
+ 
++#ifdef HAVE_DBUS
+ static void reserve_acquired(void *data, struct rd_device *d)
+ {
+ 	struct device *device = data;
+@@ -863,16 +880,20 @@ static const struct rd_device_callbacks reserve_callbacks = {
+ 	.busy = reserve_busy,
+ 	.available = reserve_available,
+ };
++#endif
+ 
+ static int do_device_acquire(struct device *device)
+ {
+ 	struct impl *impl = device->impl;
++#ifdef HAVE_DBUS
+ 	struct sm_media_session *session = impl->session;
+ 	int res;
++#endif
+ 
+ 	if (!impl->reserve)
+ 		goto done;
+ 
++#ifdef HAVE_DBUS
+ 	if (device->reserve == NULL) {
+ 		const char *reserve;
+ 		const char *path = pw_properties_get(device->props, SPA_KEY_API_ALSA_PATH);
+@@ -909,13 +930,16 @@ static int do_device_acquire(struct device *device)
+ 		goto done;
+ 	}
+ 	return res;
++#endif
+ 
+ done:
+ 	do_reserve_acquired(device);
++#ifdef HAVE_DBUS
+ 	if (device->reserve != NULL) {
+ 		rd_device_destroy(device->reserve);
+ 		device->reserve = NULL;
+ 	}
++#endif
+ 	return 0;
+ }
+ 
+@@ -934,8 +958,10 @@ static void device_destroy(void *data)
+ 		spa_hook_remove(&device->device_listener);
+ 	if (device->seq != 0)
+ 		spa_hook_remove(&device->sync_listener);
++#ifdef HAVE_DBUS
+ 	if (device->reserve)
+ 		rd_device_destroy(device->reserve);
++#endif
+ }
+ 
+ static void device_free(void *data)
+@@ -1141,7 +1167,9 @@ static int alsa_start_jack_device(struct impl *impl)
+ static void session_destroy(void *data)
+ {
+ 	struct impl *impl = data;
++#ifdef HAVE_DBUS
+ 	remove_jack_timeout(impl);
++#endif
+ 	spa_hook_remove(&impl->session_listener);
+ 	spa_hook_remove(&impl->listener);
+ 	if (impl->jack_device)
+@@ -1158,9 +1186,11 @@ static void session_dbus_disconnected(void *data)
+ 	struct impl *impl = data;
+ 
+ 	spa_list_for_each(d, &impl->device_list, link) {
++#ifdef HAVE_DBUS
+ 		if (d->reserve != NULL)
+ 			rd_device_destroy(d->reserve);
+ 		d->reserve = NULL;
++#endif
+ 	}
+ }
+ 
+diff --git a/subprojects/media-session/src/media-session.c b/subprojects/media-session/src/media-session.c
+index c50d0a9..3088d05 100644
+--- a/subprojects/media-session/src/media-session.c
++++ b/subprojects/media-session/src/media-session.c
+@@ -54,7 +54,9 @@
+ #include "pipewire/extensions/session-manager.h"
+ #include "pipewire/extensions/client-node.h"
+ 
++#ifdef HAVE_DBUS
+ #include <dbus/dbus.h>
++#endif
+ 
+ #include "media-session.h"
+ 
+@@ -83,7 +85,9 @@ PW_LOG_TOPIC(ms_topic, "ms.core");
+ #define sm_media_session_emit_dbus_disconnected(s)	sm_media_session_emit(s, dbus_disconnected, 0)
+ 
+ int sm_access_flatpak_start(struct sm_media_session *sess);
++#ifdef HAVE_DBUS
+ int sm_access_portal_start(struct sm_media_session *sess);
++#endif
+ int sm_default_nodes_start(struct sm_media_session *sess);
+ int sm_default_profile_start(struct sm_media_session *sess);
+ int sm_default_routes_start(struct sm_media_session *sess);
+@@ -2414,7 +2418,9 @@ static const struct {
+ 
+ } modules[] = {
+ 	{ "flatpak", "manage flatpak access", sm_access_flatpak_start, NULL },
++#ifdef HAVE_DBUS
+ 	{ "portal", "manage portal permissions", sm_access_portal_start, NULL },
++#endif
+ 	{ "metadata", "export metadata API", sm_metadata_start, NULL },
+ 	{ "default-nodes", "restore default nodes", sm_default_nodes_start, NULL },
+ 	{ "default-profile", "restore default profiles", sm_default_profile_start, NULL },
+diff --git a/subprojects/media-session/src/meson.build b/subprojects/media-session/src/meson.build
+index 50ca38c..0036f33 100644
+--- a/subprojects/media-session/src/meson.build
++++ b/subprojects/media-session/src/meson.build
+@@ -4,9 +4,12 @@ if systemd.found() and systemd_dep.found()
+   sm_logind_src = ['logind.c']
+   sm_logind_dep = [systemd_dep]
+ endif
++dbus_src = []
++if dbus_dep.found()
++  dbus_src = ['access-portal.c', 'reserve.c']
++endif
+ media_session_sources = [
+     'access-flatpak.c',
+-    'access-portal.c',
+     'alsa-no-dsp.c',
+     'alsa-midi.c',
+     'alsa-monitor.c',
+@@ -25,13 +28,12 @@ media_session_sources = [
+     'restore-stream.c',
+     'policy-ep.c',
+     'policy-node.c',
+-    'reserve.c',
+     'streams-follow-default.c',
+     'v4l2-monitor.c',
+     'v4l2-endpoint.c',
+     'libcamera-monitor.c',
+     'suspend-node.c',
+-  ] + sm_logind_src
++  ] + sm_logind_src + dbus_src
+ pipewire_media_session = executable('pipewire-media-session',
+   media_session_sources,
+   include_directories: [configinc],

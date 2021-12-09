@@ -1,0 +1,5 @@
+https://gitlab.freedesktop.org/pipewire/pipewire/-/archive/0.3.40/pipewire-0.3.40.tar.gz
+https://gitlab.freedesktop.org/pipewire/media-session/-/archive/0.4.1/media-session-0.4.1.tar.gz subprojects/media-session
+patches/autostart-media-session.patch
+patches/libudev-zero.patch
+patches/no-dbus.patch
