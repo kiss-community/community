@@ -1,12 +1,12 @@
 #!/bin/sh -e
 
-# We have an alternative system, use "ksh" and "sh" as binary names. 
+export CFLAGS="$CFLAGS -DSMALL"
+
 ./configure \
     --prefix=/usr \
-    --bindir=/usr/bin \
-    --mandir=/usr/share/man \
+    --disable-curses \
     --enable-ksh \
-    --enable-sh
+    --enable-static
 
 make
-make DESTDIR="$1" install
+make install
