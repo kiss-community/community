@@ -1,5 +1,14 @@
 #!/bin/sh -e
 
+# sccache uses a version of rust-openssl that doesn't support openssl version
+# 3.
+# Update to the new version of rust-openssl so that openssl can be detected
+# properly.
+# This appears to already be fixed in sccache master, but hasn't been released
+# yet.
+# See: https://github.com/sfackler/rust-openssl/issues/1030
+patch -p1 < 01-bump-openssl-dep.patch
+
 cargo fetch \
     --locked
 

@@ -1,1 +1,2 @@
 https://github.com/mozilla/sccache/archive/refs/tags/v0.2.15.tar.gz
+01-bump-openssl-dep.patch
