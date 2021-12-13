@@ -1,7 +1,5 @@
 #!/bin/sh -e
 
-patch -p1 < fix-strptime-decode-for-musl-libc.patch
-
 ./configure \
     --prefix=/usr \
     --mandir=/usr/share/man
