@@ -1,7 +1,24 @@
 #!/bin/sh -e
 
+# Build libtorrent first
+(
+    cd libtorrent
+
+    ./configure \
+        --prefix=/usr
+
+    make
+    make install
+)
+
+# Build rtorrent
+cd rtorrent
+
+export DEPENDENCIES_CFLAGS=" -I$1/usr/include -L$1/usr/lib "
+export DEPENDENCIES_LIBS=" -ltorrent "
+
 ./configure \
     --prefix=/usr
 
 make
-make DESTDIR="$1" install
+make install

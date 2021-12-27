@@ -1,1 +1,2 @@
-https://rtorrent.net/downloads/rtorrent-0.9.8.tar.gz
+https://github.com/rakshasa/rtorrent-archive/raw/master/libtorrent-0.13.8.tar.gz libtorrent/
+https://github.com/rakshasa/rtorrent-archive/raw/master/rtorrent-VERSION.tar.gz rtorrent/
