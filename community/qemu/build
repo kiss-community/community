@@ -1,7 +1,5 @@
 #!/bin/sh -e
 
-patch -p1 < CVE-2021-20255.patch
-
 # Don't use bash
 sed 's/SHELL = bash -o pipefail/SHELL = sh/g' Makefile > _
 mv -f _ Makefile
@@ -20,6 +18,7 @@ mv -f _ Makefile
     --enable-curses \
     --disable-user \
     --disable-linux-user \
+    --disable-gnutls \
     --enable-system
 
 make
@@ -37,6 +36,7 @@ make clean
     --disable-user \
     --enable-linux-user \
     --disable-system \
+    --disable-gnutls \
     --static
 
 make
