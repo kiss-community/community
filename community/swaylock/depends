@@ -1,3 +1,8 @@
+cairo
 flex make
+libxkbcommon
 meson make
+pkgconf make
 samurai make
+wayland
+wayland-protocols make
