@@ -1,3 +1,8 @@
 #!/bin/sh -e
 
-install -Dm755 vcsh-standalone.sh "$1/usr/bin/vcsh"
+./configure \
+   prefix=/usr
+
+make \
+   DESTDIR="$1"\
+   install
