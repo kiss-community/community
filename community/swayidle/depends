@@ -1,3 +1,6 @@
 flex make
 meson make
+pkgconf make
 samurai make
+wayland
+wayland-protocols make
