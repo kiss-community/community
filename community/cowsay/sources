@@ -1,2 +1,1 @@
-https://github.com/tnalpgge/rank-amateur-cowsay/archive/cowsay-3.04.tar.gz
-patches/cowsay.patch
+git+https://github.com/cowsay-org/cowsay.git@vVERSION
