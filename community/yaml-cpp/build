@@ -1,0 +1,10 @@
+#!/bin/sh -e
+
+cmake -B build \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DCMAKE_INSTALL_LIBDIR=lib \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DYAML_BUILD_SHARED_LIBS=ON
+
+cmake --build   build
+cmake --install build
