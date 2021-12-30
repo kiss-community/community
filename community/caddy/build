@@ -3,13 +3,13 @@
 export GOPATH="$PWD/go"
 export GO111MODULE=on
 
-cd cmd/caddy
+go build \
+    -modcacherw \
+    -trimpath \
+    -o caddy ./cmd/caddy
 
-go build -v
+install -Dm 755 caddy      "$1/usr/bin/caddy"
+install -Dm 755 caddy.run  "$1/etc/sv/caddy/run"
+install -Dm 755 caddy.conf "$1/etc/caddy/caddy.conf"
 
-install -Dm 755 caddy "$1/usr/bin/caddy"
-
-install -Dm 755 ../../caddy.conf "$1/etc/caddy/caddy.conf"
-
-install -Dm 755 ../../caddy.run "$1/etc/sv/caddy/run"
 ln -sf /run/runit/supervise.caddy "$1/etc/sv/caddy/supervise"
