@@ -1,2 +1,2 @@
-https://github.com/llvm/llvm-project/releases/download/llvmorg-12.0.1/lld-12.0.1.src.tar.xz
-https://github.com/llvm/llvm-project/releases/download/llvmorg-12.0.1/libunwind-12.0.1.src.tar.xz libunwind
+https://github.com/llvm/llvm-project/releases/download/llvmorg-VERSION/lld-VERSION.src.tar.xz
+https://github.com/llvm/llvm-project/releases/download/llvmorg-VERSION/libunwind-VERSION.src.tar.xz libunwind
