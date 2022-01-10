@@ -1,1 +1,2 @@
 https://libsdl.org/release/SDL2-VERSION.tar.gz
+patches/wayland_1_20.patch
