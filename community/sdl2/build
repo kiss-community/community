@@ -1,5 +1,7 @@
 #!/bin/sh -e
 
+patch -p1 < wayland_1_20.patch
+
 ./configure \
     --prefix=/usr
 
