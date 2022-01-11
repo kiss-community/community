@@ -1,0 +1,13 @@
+#!/bin/sh -e
+
+export CFLAGS="$CFLAGS -DEGL_NO_X11"
+
+cmake -B build \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DCMAKE_INSTALL_LIBDIR=lib \
+    -DFREEGLUT_WAYLAND=ON \
+    -DFREEGLUT_GLES=ON \
+    -DFREEGLUT_BUILD_DEMOS=OFF
+
+cmake --build   build
+cmake --install build
