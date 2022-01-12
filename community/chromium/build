@@ -110,7 +110,6 @@ case $("$CC" --version) in (*clang*)
 esac
 
 kiss list libva && vaapi=true
-kiss list pipewire && pipewire=true
 
 conf="
     angle_enable_null=true
@@ -135,7 +134,6 @@ conf="
     ozone_platform_x11=false
     proprietary_codecs=true
     rtc_build_examples=false
-    rtc_use_pipewire=${pipewire:-false}
     symbol_level=0
     use_allocator=\"none\"
     use_allocator_shim=false
