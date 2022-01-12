@@ -16,10 +16,10 @@ index 55478b0..b7eaf79 100644
  # Whether using Xvfb to provide a display server for a test might be
  # necessary.
 diff --git a/chrome/browser/chrome_browser_main_linux.cc b/chrome/browser/chrome_browser_main_linux.cc
-index 4fd6dc8..d2a63dd 100644
+index 8aa8272..f34dbf2 100644
 --- a/chrome/browser/chrome_browser_main_linux.cc
 +++ b/chrome/browser/chrome_browser_main_linux.cc
-@@ -84,7 +84,7 @@ void ChromeBrowserMainPartsLinux::PreProfileInit() {
+@@ -82,7 +82,7 @@ void ChromeBrowserMainPartsLinux::PreProfileInit() {
  }
  
  void ChromeBrowserMainPartsLinux::PostCreateMainMessageLoop() {
@@ -28,7 +28,7 @@ index 4fd6dc8..d2a63dd 100644
    bluez::BluezDBusManager::Initialize(nullptr /* system_bus */);
  #endif
  
-@@ -110,7 +110,7 @@ void ChromeBrowserMainPartsLinux::PostBrowserStart() {
+@@ -108,7 +108,7 @@ void ChromeBrowserMainPartsLinux::PostBrowserStart() {
  #endif
  
  void ChromeBrowserMainPartsLinux::PostDestroyThreads() {
@@ -110,10 +110,10 @@ index 4052389..20d2bf5 100644
  
  void OpenExternal(Profile* profile, const GURL& url) {
 diff --git a/device/bluetooth/bluetooth_adapter_factory.cc b/device/bluetooth/bluetooth_adapter_factory.cc
-index 2fa8e06..329fa52 100644
+index 9320f03..d973fa6 100644
 --- a/device/bluetooth/bluetooth_adapter_factory.cc
 +++ b/device/bluetooth/bluetooth_adapter_factory.cc
-@@ -46,7 +46,7 @@ bool BluetoothAdapterFactory::IsBluetoothSupported() {
+@@ -43,7 +43,7 @@ bool BluetoothAdapterFactory::IsBluetoothSupported() {
    // instance even on platforms that would otherwise not support it.
    if (Get()->adapter_)
      return true;
@@ -122,15 +122,17 @@ index 2fa8e06..329fa52 100644
      defined(OS_CHROMEOS) || defined(OS_MAC)
    return true;
  #else
-@@ -69,7 +69,7 @@ bool BluetoothAdapterFactory::IsLowEnergySupported() {
-   return base::win::GetVersion() >= base::win::Version::WIN10;
- #elif defined(OS_MAC)
+@@ -56,8 +56,8 @@ bool BluetoothAdapterFactory::IsLowEnergySupported() {
+     return values_for_testing_->GetLESupported();
+   }
+ 
+-#if defined(OS_ANDROID) || defined(OS_CHROMEOS) || defined(OS_LINUX) || \
+-    defined(OS_MAC)
++#if defined(OS_ANDROID) || defined(OS_CHROMEOS) || \
++    (defined(OS_LINUX) && defined(USE_DBUS)) || defined(OS_MAC)
    return true;
--#elif (defined(OS_LINUX) || defined(OS_CHROMEOS))
-+#elif (defined(OS_LINUX) && defined(USE_DBUS) || defined(OS_CHROMEOS))
-   return true;
- #else
-   return false;
+ #elif defined(OS_WIN)
+   // Windows 8 supports Low Energy GATT operations but it does not support
 diff --git a/extensions/browser/api/bluetooth_low_energy/bluetooth_low_energy_api.cc b/extensions/browser/api/bluetooth_low_energy/bluetooth_low_energy_api.cc
 index 169712a..bc22a0b 100644
 --- a/extensions/browser/api/bluetooth_low_energy/bluetooth_low_energy_api.cc
@@ -212,7 +214,7 @@ index 5bc4ea6..8199154 100644
    android_library("java") {
      # Conceptually, this should be visible only to //services/device:java.
 diff --git a/ui/gtk/BUILD.gn b/ui/gtk/BUILD.gn
-index 2d4b2f6..6968ed0 100644
+index 97090e8..5b6dbcd 100644
 --- a/ui/gtk/BUILD.gn
 +++ b/ui/gtk/BUILD.gn
 @@ -69,8 +69,6 @@ component("gtk") {
