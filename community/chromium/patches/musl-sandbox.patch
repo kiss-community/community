@@ -39,7 +39,7 @@ index a8f860f..4becce0 100644
        .Else(CrashSIGSYSClone());
  }
 diff --git a/sandbox/linux/seccomp-bpf-helpers/syscall_sets.cc b/sandbox/linux/seccomp-bpf-helpers/syscall_sets.cc
-index eba03d4..4c152a1 100644
+index e7caffd..f512bc0 100644
 --- a/sandbox/linux/seccomp-bpf-helpers/syscall_sets.cc
 +++ b/sandbox/linux/seccomp-bpf-helpers/syscall_sets.cc
 @@ -419,6 +419,7 @@ bool SyscallSets::IsAllowedProcessStartOrDeath(int sysno) {

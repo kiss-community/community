@@ -40,7 +40,7 @@ index 9ffff30..e957a4a 100644
  
  #include "base/lazy_instance.h"
 diff --git a/net/dns/host_resolver_manager.cc b/net/dns/host_resolver_manager.cc
-index 99db63e..483316c 100644
+index f342444..91124a3 100644
 --- a/net/dns/host_resolver_manager.cc
 +++ b/net/dns/host_resolver_manager.cc
 @@ -2906,8 +2906,7 @@ HostResolverManager::HostResolverManager(

@@ -1,5 +1,5 @@
 diff --git a/base/process/memory_linux.cc b/base/process/memory_linux.cc
-index aef0c29..9c94dbd 100644
+index 5c0a7aa..96e63c9 100644
 --- a/base/process/memory_linux.cc
 +++ b/base/process/memory_linux.cc
 @@ -23,6 +23,12 @@
@@ -15,7 +15,7 @@ index aef0c29..9c94dbd 100644
  namespace base {
  
  namespace {
-@@ -119,7 +125,7 @@ bool UncheckedMalloc(size_t size, void** result) {
+@@ -120,7 +126,7 @@ bool UncheckedMalloc(size_t size, void** result) {
      (!defined(LIBC_GLIBC) && !BUILDFLAG(USE_TCMALLOC))
    *result = malloc(size);
  #elif defined(LIBC_GLIBC) && !BUILDFLAG(USE_TCMALLOC)
