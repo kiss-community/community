@@ -1,4 +1,5 @@
 linux-headers make
+nspr
 perl          make
 sqlite
 zlib
