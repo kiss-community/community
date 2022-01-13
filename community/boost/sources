@@ -1,1 +1,2 @@
-https://boostorg.jfrog.io/artifactory/main/release/1.77.0/source/boost_1_77_0.tar.bz2
+https://boostorg.jfrog.io/artifactory/main/release/VERSION/source/boost_MAJOR_MINOR_PATCH.tar.bz2
+patches/musl.patch

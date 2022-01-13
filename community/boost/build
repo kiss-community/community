@@ -1,21 +1,33 @@
 #!/bin/sh -e
 
+patch -p1 < musl.patch
+
 read -r pymaj pymin <<EOF
 $(python -c 'import sys; print(sys.version_info.major, sys.version_info.minor)')
 EOF
 
 ./bootstrap.sh \
     --prefix="$1/usr" \
-    --with-python=/usr/bin/python3
+    --without-icu
 
 for action in stage install; do
     ./b2 $action \
         variant=release \
-        debug-symbols=off \
         threading=multi \
-        python="$pymaj.$pymin"
+        link=shared \
+        python="$pymaj.$pymin" \
+        cflags="$CFLAGS -O3" \
+        cxxflags="$CXXFLAGS -std=c++14 -O3" \
+        linkflags="$LDFLAGS" \
+        --disable-icu boost.locale.icu=off \
+        --without-mpi \
+        --without-locale \
+        --without-context \
+        --without-coroutine \
+        --without-fiber \
+        --without-stacktrace
 done
 
 # https://github.com/boostorg/python/issues/203#issuecomment-391477685
-ln -s "$1/usr/lib/libboost_python$pymaj$pymin.so" "$1/usr/lib/libboost_python$pymaj.so"
-ln -s "$1/usr/lib/libboost_numpy$pymaj$pymin.so"  "$1/usr/lib/libboost_numpy$pymaj.so"
+ln -s "/usr/lib/libboost_python$pymaj$pymin.so" "$1/usr/lib/libboost_python$pymaj.so"
+ln -s "/usr/lib/libboost_numpy$pymaj$pymin.so"  "$1/usr/lib/libboost_numpy$pymaj.so"
