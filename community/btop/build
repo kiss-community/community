@@ -1,0 +1,4 @@
+#!/bin/sh -e
+
+make STATIC=true ADDFLAGS="$CXXFLAGS"
+make PREFIX=/usr install
