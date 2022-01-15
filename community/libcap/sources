@@ -1,2 +1,2 @@
-https://kernel.org/pub/linux/libs/security/linux-privs/libcap2/libcap-VERSION.tar.xz
-patches/no-capshdoc.patch
+https://kernel.org/pub/linux/libs/security/linux-privs/libcap2/libcap-2.62.tar.xz
+patches/no-bash.patch
