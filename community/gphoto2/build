@@ -5,7 +5,7 @@
 ## deleted
 patch -p1 < libexif.patch
 
-autoreconf
+autoconf
 
 ./configure \
     --prefix=/usr \
