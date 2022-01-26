@@ -1,0 +1,95 @@
+#!/usr/bin/sh -e
+# Fortune implementation in POSIX sh/awk
+
+usage() {
+		echo 'Usage: fortune [OPTIONS]
+a simple POSIX sh/awk implementation of fortune
+
+	-h, --help                    show this help message
+	-l, --list                    list installed cookie files
+	-c FILE, --cookie FILE        specify cookie file
+	-n LENGTH, --min LENGTH       specify min fortune length
+	-N LENGTH, --max LENGTH       specify max fortune length
+
+	fortune looks for fortunes in $FORTUNEDIR, which defaults to
+	/usr/share/fortune.
+
+Exit codes:
+	0    success
+	1    generic error
+	2    argument parsing error'
+}
+
+parse_err() {
+		echo "$1"
+		$2
+		exit 2
+}
+
+DIR=${FORTUNEDIR:-"/usr/share/fortune/"}
+FILE="$(find $DIR -type f -not -name '*.dat')"
+MAXLENGTH=1000000000000
+MINLENGTH=0
+
+while [ "$1" != "" ]; do
+		case $1 in
+				-h | --help)
+						usage
+						exit
+						;;
+				-c | --cookie)
+						FILE=$DIR/$2
+						;;
+				-n | --min)
+						MINLENGTH=$2
+						;;
+				-N | --max)
+						MAXLENGTH=$2
+						;;
+				-l | --list)
+						ls -1 $DIR
+						exit
+						;;
+				*)
+						parse_err "ERROR: unknown option \"$1\"" usage
+						;;
+		esac
+		shift 2
+done
+
+[ "$MAXLENGTH" -lt "$MINLENGTH" ] && {
+		parse_err "ERROR: maximum length is less than minimum length"
+}
+
+[ -d "$FILE" ] && {
+		parse_err "ERROR: directory given, please provide a file or glob of files"
+}
+
+[ "$(find $FILE -maxdepth 1 -print -quit 2> /dev/null)" ] || {
+		parse_err "ERROR: no such file or directory"
+}
+
+awk -v maxlen=$MAXLENGTH -v minlen=$MINLENGTH \
+		'BEGIN {
+	f++
+}
+
+$1 == "%" {
+	len = length(fortunes[f])
+	if ( len>maxlen || len<minlen ) {
+		fortunes[f] = ""
+	} else {
+		f++
+	}
+}
+
+{
+	sub("%", "")
+	fortunes[f] = fortunes[f] (length(fortunes[f])?"\n":"") $0
+}
+
+END {
+	"od -A n -t d -N 3 /dev/urandom" | getline seed
+	srand(seed)
+	print fortunes[int(rand() * (f - 2)) + 1]
+}' $FILE
