@@ -1,7 +1,15 @@
 #!/bin/sh -e
 
+## Patch configure.ac to compile without libexif.
+## On next release this patch can be probably
+## deleted
+patch -p1 < libexif.patch
+
+autoreconf
+
 ./configure \
-    --prefix=/usr
+    --prefix=/usr \
+    --disable-nls
 	
 make
 make DESTDIR="$1" install
