@@ -1,0 +1,7 @@
+http://jfs.sourceforge.net/project/pub/jfsutils-VERSION.tar.gz
+patches/jfsutils-1.1.15-check-for-ar.patch
+patches/jfsutils-1.1.15-format-security-errors.patch
+patches/jfsutils-1.1.15-gcc10.patch
+patches/jfsutils-1.1.15-linux-headers.patch
+patches/jfsutils-1.1.15-paths_h.patch
+patches/jfsutils-1.1.15-sysmacros.patch

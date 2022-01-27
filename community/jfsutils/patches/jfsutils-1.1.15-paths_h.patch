@@ -1,0 +1,19 @@
+diff --git a/libfs/fssubs.c.old b/libfs/fssubs.c
+index 5596d36..5f0cf94 100644
+--- a/libfs/fssubs.c.old
++++ b/libfs/fssubs.c
+@@ -27,14 +27,11 @@
+ 
+ #if HAVE_MNTENT_H
+ #include <mntent.h>
+-#undef HAVE_GETMNTINFO		/* we don't want both */
+ #endif
+ 
+-#if HAVE_GETMNTINFO
+ #include <paths.h>
+ #include <sys/param.h>
+ #include <sys/mount.h>
+-#endif
+ 
+ #if HAVE_SYS_STATVFS_H
+ 
