@@ -1769,22 +1769,31 @@ index d47c398259b..2702b68b9bd 100755
  
    if options.output_cc:
      out_cc.close()
-diff --git a/configure.pri b/configure.pri
-index e072961f..5efe30bc 100644
 --- a/configure.pri
 +++ b/configure.pri
-@@ -12,10 +12,6 @@ defineTest(isPythonVersionSupported) {
-     python_version ~= s/[()]//g
-     python_version = $$split(python_version, ',')
-     python_major_version = $$first(python_version)
+@@ -7,20 +7,7 @@
+ equals(QMAKE_HOST.os, Windows): EXE_SUFFIX = .exe
+ 
+ defineTest(isPythonVersionSupported) {
+-    python = $$system_quote($$system_path($$1))
+-    python_version = $$system('$$python -c "import sys; print(sys.version_info[0:3])"')
+-    python_version ~= s/[()]//g
+-    python_version = $$split(python_version, ',')
+-    python_major_version = $$first(python_version)
 -    greaterThan(python_major_version, 2) {
 -        qtLog("Python version 3 is not supported by Chromium.")
 -        return(false)
 -    }
-     python_minor_version = $$member(python_version, 1)
-     python_patch_version = $$member(python_version, 2)
-     greaterThan(python_major_version, 1): greaterThan(python_minor_version, 6): greaterThan(python_patch_version, 4): return(true)
-@@ -52,10 +48,10 @@ defineTest(qtConfReport_jumboBuild) {
+-    python_minor_version = $$member(python_version, 1)
+-    python_patch_version = $$member(python_version, 2)
+-    greaterThan(python_major_version, 1): greaterThan(python_minor_version, 6): greaterThan(python_patch_version, 4): return(true)
+-    qtLog("Unsupported python version: $${python_major_version}.$${python_minor_version}.$${python_patch_version}.")
+-    return(false)
++    return(true)
+ }
+ 
+ defineTest(qtConfTest_detectJumboBuild) {
+@@ -52,10 +39,10 @@
      qtConfReportPadded($${1}, $$mergeLimit)
  }
  
@@ -1798,7 +1807,7 @@ index e072961f..5efe30bc 100644
          python = $$qtConfFindInPath("python$$EXE_SUFFIX")
      }
      isEmpty(python) {
-@@ -63,11 +59,11 @@ defineTest(qtConfTest_detectPython2) {
+@@ -63,11 +50,11 @@
          return(false)
      }
      !isPythonVersionSupported($$python) {
@@ -1812,11 +1821,9 @@ index e072961f..5efe30bc 100644
      $${1}.location = $$clean_path($$python)
      export($${1}.location)
      $${1}.cache += location
-diff --git a/mkspecs/features/functions.prf b/mkspecs/features/functions.prf
-index 2750d707..9fda13d0 100644
 --- a/mkspecs/features/functions.prf
 +++ b/mkspecs/features/functions.prf
-@@ -39,11 +39,11 @@ defineReplace(which) {
+@@ -39,11 +39,11 @@
  
  # Returns the unquoted path to the python executable.
  defineReplace(pythonPath) {
@@ -1831,11 +1838,9 @@ index 2750d707..9fda13d0 100644
  }
  
  # Returns the python executable for use with shell / make targets.
-diff --git a/src/buildtools/config/support.pri b/src/buildtools/config/support.pri
-index e7f869a1..1bf2c5d7 100644
 --- a/src/buildtools/config/support.pri
 +++ b/src/buildtools/config/support.pri
-@@ -21,7 +21,7 @@ defineReplace(qtwebengine_checkWebEngineCoreError) {
+@@ -21,7 +21,7 @@
      !qtwebengine_checkForGperf(QtWebEngine):return(false)
      !qtwebengine_checkForBison(QtWebEngine):return(false)
      !qtwebengine_checkForFlex(QtWebEngine):return(false)
@@ -1844,7 +1849,7 @@ index e7f869a1..1bf2c5d7 100644
      !qtwebengine_checkForNodejs(QtWebEngine):return(false)
      !qtwebengine_checkForSanitizer(QtWebEngine):return(false)
      linux:!qtwebengine_checkForPkgCfg(QtWebEngine):return(false)
-@@ -51,7 +51,7 @@ defineReplace(qtwebengine_checkPdfError) {
+@@ -51,7 +51,7 @@
      !qtwebengine_checkForGperf(QtPdf):return(false)
      !qtwebengine_checkForBison(QtPdf):return(false)
      !qtwebengine_checkForFlex(QtPdf):return(false)
@@ -1853,7 +1858,7 @@ index e7f869a1..1bf2c5d7 100644
      !qtwebengine_checkForSanitizer(QtPdf):return(false)
      linux:!qtwebengine_checkForPkgCfg(QtPdf):return(false)
      linux:!qtwebengine_checkForHostPkgCfg(QtPdf):return(false)
-@@ -143,10 +143,10 @@ defineTest(qtwebengine_checkForFlex) {
+@@ -143,10 +143,10 @@
      return(true)
  }
  
@@ -1867,8 +1872,6 @@ index e7f869a1..1bf2c5d7 100644
          return(false)
      }
      return(true)
-diff --git a/src/buildtools/configure.json b/src/buildtools/configure.json
-index 88d1790c..032aa665 100644
 --- a/src/buildtools/configure.json
 +++ b/src/buildtools/configure.json
 @@ -295,9 +295,9 @@

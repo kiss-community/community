@@ -20,6 +20,8 @@ sed -i '/errno.h>/a #include <string.h>' \
 sed -i 's/use_dbus.*/use_dbus=false/' \
     src/3rdparty/chromium/build/config/features.gni
 
+sed -i 's/from collections/from collections.abc/' src/3rdparty/chromium/third_party/jinja2/tests.py
+
 # The build fails if qtwebengine is already installed.
 find . -name '*.pr[fio]' | while read -r file; do
     sed -i "s#INCLUDEPATH += #&\$\$QTWEBENGINE_ROOT/include #" "$file"
