@@ -1,5 +1,0 @@
-#!/bin/sh -e
-
-cargo build --release
-
-install -Dm755 target/release/hyperfine "$1/usr/bin/hyperfine"
