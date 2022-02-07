@@ -1,3 +1,6 @@
-libtool make
+alsa-lib
 automake make
 fftw
+iniparser
+libtool make
+ncurses
