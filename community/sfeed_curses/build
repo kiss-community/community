@@ -1,8 +1,0 @@
-#!/bin/sh -e
-
-make
-make \
-    DESTDIR="$1" \
-    PREFIX=/usr \
-    MANPREFIX=/usr/share/man \
-    install
