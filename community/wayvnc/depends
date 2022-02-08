@@ -1,0 +1,6 @@
+aml
+libxkbcommon
+meson make
+neatvnc
+pixman
+wayland
