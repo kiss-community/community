@@ -1,8 +1,8 @@
 diff --git a/sandbox/linux/seccomp-bpf-helpers/syscall_parameters_restrictions.cc b/sandbox/linux/seccomp-bpf-helpers/syscall_parameters_restrictions.cc
-index a8f860f..4becce0 100644
+index 36221d2..e114a0a 100644
 --- a/sandbox/linux/seccomp-bpf-helpers/syscall_parameters_restrictions.cc
 +++ b/sandbox/linux/seccomp-bpf-helpers/syscall_parameters_restrictions.cc
-@@ -138,21 +138,11 @@ namespace sandbox {
+@@ -133,21 +133,11 @@ namespace sandbox {
  // present (as in newer versions of posix_spawn).
  ResultExpr RestrictCloneToThreadsAndEPERMFork() {
    const Arg<unsigned long> flags(0);
@@ -29,7 +29,7 @@ index a8f860f..4becce0 100644
  
    // The following two flags are the two important flags in any vfork-emulating
    // clone call. EPERM any clone call that contains both of them.
-@@ -162,7 +152,7 @@ ResultExpr RestrictCloneToThreadsAndEPERMFork() {
+@@ -157,7 +147,7 @@ ResultExpr RestrictCloneToThreadsAndEPERMFork() {
        AnyOf((flags & (CLONE_VM | CLONE_THREAD)) == 0,
              (flags & kImportantCloneVforkFlags) == kImportantCloneVforkFlags);
  
@@ -39,10 +39,10 @@ index a8f860f..4becce0 100644
        .Else(CrashSIGSYSClone());
  }
 diff --git a/sandbox/linux/seccomp-bpf-helpers/syscall_sets.cc b/sandbox/linux/seccomp-bpf-helpers/syscall_sets.cc
-index e7caffd..f512bc0 100644
+index b3cf6fc..87ecedc 100644
 --- a/sandbox/linux/seccomp-bpf-helpers/syscall_sets.cc
 +++ b/sandbox/linux/seccomp-bpf-helpers/syscall_sets.cc
-@@ -419,6 +419,7 @@ bool SyscallSets::IsAllowedProcessStartOrDeath(int sysno) {
+@@ -423,6 +423,7 @@ bool SyscallSets::IsAllowedProcessStartOrDeath(int sysno) {
  #if defined(__i386__)
      case __NR_waitpid:
  #endif
@@ -50,7 +50,7 @@ index e7caffd..f512bc0 100644
        return true;
      case __NR_clone:  // Should be parameter-restricted.
      case __NR_setns:  // Privileged.
-@@ -431,7 +432,6 @@ bool SyscallSets::IsAllowedProcessStartOrDeath(int sysno) {
+@@ -435,7 +436,6 @@ bool SyscallSets::IsAllowedProcessStartOrDeath(int sysno) {
  #if defined(__i386__) || defined(__x86_64__) || defined(__mips__)
      case __NR_set_thread_area:
  #endif
@@ -58,7 +58,7 @@ index e7caffd..f512bc0 100644
      case __NR_unshare:
  #if !defined(__mips__) && !defined(__aarch64__)
      case __NR_vfork:
-@@ -545,6 +545,8 @@ bool SyscallSets::IsAllowedAddressSpaceAccess(int sysno) {
+@@ -549,6 +549,8 @@ bool SyscallSets::IsAllowedAddressSpaceAccess(int sysno) {
      case __NR_mlock:
      case __NR_munlock:
      case __NR_munmap:
@@ -67,7 +67,7 @@ index e7caffd..f512bc0 100644
        return true;
      case __NR_madvise:
      case __NR_mincore:
-@@ -562,7 +564,6 @@ bool SyscallSets::IsAllowedAddressSpaceAccess(int sysno) {
+@@ -566,7 +568,6 @@ bool SyscallSets::IsAllowedAddressSpaceAccess(int sysno) {
      case __NR_modify_ldt:
  #endif
      case __NR_mprotect:

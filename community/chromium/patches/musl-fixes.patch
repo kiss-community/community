@@ -1,19 +1,5 @@
-diff --git a/base/files/file_util_posix.cc b/base/files/file_util_posix.cc
-index aa18b72..0300b08 100644
---- a/base/files/file_util_posix.cc
-+++ b/base/files/file_util_posix.cc
-@@ -846,6 +846,9 @@ FILE* OpenFile(const FilePath& filename, const char* mode) {
- // NaCl doesn't implement system calls to open files directly.
- #if !defined(OS_NACL)
- FILE* FileToFILE(File file, const char* mode) {
-+  if (!file.IsValid() || !(fcntl(file.GetPlatformFile(), F_GETFD) != -1 || errno != EBADF))
-+    return nullptr;
-+
-   FILE* stream = fdopen(file.GetPlatformFile(), mode);
-   if (stream)
-     file.TakePlatformFile();
 diff --git a/chrome/browser/metrics/chrome_browser_main_extra_parts_metrics.cc b/chrome/browser/metrics/chrome_browser_main_extra_parts_metrics.cc
-index 39e6db0..aada445 100644
+index 86f5d07..8086cdf 100644
 --- a/chrome/browser/metrics/chrome_browser_main_extra_parts_metrics.cc
 +++ b/chrome/browser/metrics/chrome_browser_main_extra_parts_metrics.cc
 @@ -62,7 +62,9 @@
@@ -49,10 +35,10 @@ index 3a541ac..c3af527 100644
    // res_init behaves the same way.
    memset(&_res, 0, sizeof(_res));
 diff --git a/sandbox/linux/seccomp-bpf/trap.cc b/sandbox/linux/seccomp-bpf/trap.cc
-index cef1cdd..46d9acb 100644
+index cb71a9b..bcf19ea 100644
 --- a/sandbox/linux/seccomp-bpf/trap.cc
 +++ b/sandbox/linux/seccomp-bpf/trap.cc
-@@ -174,7 +174,7 @@ void Trap::SigSys(int nr, LinuxSigInfo* info, ucontext_t* ctx) {
+@@ -175,7 +175,7 @@ void Trap::SigSys(int nr, LinuxSigInfo* info, ucontext_t* ctx) {
    // If the version of glibc doesn't include this information in
    // siginfo_t (older than 2.17), we need to explicitly copy it
    // into an arch_sigsys structure.

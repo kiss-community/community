@@ -16,27 +16,27 @@ index 55478b0..b7eaf79 100644
  # Whether using Xvfb to provide a display server for a test might be
  # necessary.
 diff --git a/chrome/browser/chrome_browser_main_linux.cc b/chrome/browser/chrome_browser_main_linux.cc
-index 8aa8272..f34dbf2 100644
+index 073e6ed..c716431 100644
 --- a/chrome/browser/chrome_browser_main_linux.cc
 +++ b/chrome/browser/chrome_browser_main_linux.cc
-@@ -82,7 +82,7 @@ void ChromeBrowserMainPartsLinux::PreProfileInit() {
- }
- 
- void ChromeBrowserMainPartsLinux::PostCreateMainMessageLoop() {
--#if !BUILDFLAG(IS_CHROMEOS_ASH)
-+#if !BUILDFLAG(IS_CHROMEOS_ASH) && defined(USE_DBUS)
+@@ -89,7 +89,7 @@ void ChromeBrowserMainPartsLinux::PostCreateMainMessageLoop() {
+ #if BUILDFLAG(IS_CHROMEOS_ASH) || BUILDFLAG(IS_CHROMEOS_LACROS)
+   // No-op: Ash and Lacros Bluetooth DBusManager initialization depend on
+   // FeatureList, and is done elsewhere.
+-#else
++#elif defined(USE_DBUS)
    bluez::BluezDBusManager::Initialize(nullptr /* system_bus */);
- #endif
+ #endif  // BUILDFLAG(IS_CHROMEOS_ASH) || BUILDFLAG(IS_CHROMEOS_LACROS)
  
-@@ -108,7 +108,7 @@ void ChromeBrowserMainPartsLinux::PostBrowserStart() {
- #endif
- 
+@@ -117,7 +117,7 @@ void ChromeBrowserMainPartsLinux::PostBrowserStart() {
  void ChromeBrowserMainPartsLinux::PostDestroyThreads() {
--#if !BUILDFLAG(IS_CHROMEOS_ASH)
-+#if !BUILDFLAG(IS_CHROMEOS_ASH) && defined(USE_DBUS)
+ #if BUILDFLAG(IS_CHROMEOS_ASH) || BUILDFLAG(IS_CHROMEOS_LACROS)
+   // No-op; per PostBrowserStart() comment, this is done elsewhere.
+-#else
++#elif defined(USE_DBUS)
    bluez::BluezDBusManager::Shutdown();
    bluez::BluezDBusThreadManager::Shutdown();
- #endif
+ #endif  // BUILDFLAG(IS_CHROMEOS_ASH) || BUILDFLAG(IS_CHROMEOS_LACROS)
 diff --git a/chrome/browser/metrics/bluetooth_available_utility.cc b/chrome/browser/metrics/bluetooth_available_utility.cc
 index a08be4c..55f3824 100644
 --- a/chrome/browser/metrics/bluetooth_available_utility.cc
@@ -110,7 +110,7 @@ index 4052389..20d2bf5 100644
  
  void OpenExternal(Profile* profile, const GURL& url) {
 diff --git a/device/bluetooth/bluetooth_adapter_factory.cc b/device/bluetooth/bluetooth_adapter_factory.cc
-index 9320f03..d973fa6 100644
+index c81514e..6cd96b0 100644
 --- a/device/bluetooth/bluetooth_adapter_factory.cc
 +++ b/device/bluetooth/bluetooth_adapter_factory.cc
 @@ -43,7 +43,7 @@ bool BluetoothAdapterFactory::IsBluetoothSupported() {
@@ -183,10 +183,10 @@ index 169712a..bc22a0b 100644
  
  // registerService:
 diff --git a/services/device/battery/battery_status_manager_default.cc b/services/device/battery/battery_status_manager_default.cc
-index fe24b5a..dd2c598 100644
+index dd9709e..375e2f1 100644
 --- a/services/device/battery/battery_status_manager_default.cc
 +++ b/services/device/battery/battery_status_manager_default.cc
-@@ -27,11 +27,10 @@ class BatteryStatusManagerDefault : public BatteryStatusManager {
+@@ -26,11 +26,10 @@ class BatteryStatusManagerDefault : public BatteryStatusManager {
   private:
    // BatteryStatusManager:
    bool StartListeningBatteryChange() override {
@@ -200,10 +200,10 @@ index fe24b5a..dd2c598 100644
  
  }  // namespace
 diff --git a/services/device/wake_lock/power_save_blocker/BUILD.gn b/services/device/wake_lock/power_save_blocker/BUILD.gn
-index 5bc4ea6..8199154 100644
+index 1637134..059e94a 100644
 --- a/services/device/wake_lock/power_save_blocker/BUILD.gn
 +++ b/services/device/wake_lock/power_save_blocker/BUILD.gn
-@@ -94,6 +94,9 @@ if (is_android) {
+@@ -86,6 +86,9 @@ if (is_android) {
      visibility = [ ":power_save_blocker" ]
      sources = java_sources_needing_jni
    }
@@ -214,7 +214,7 @@ index 5bc4ea6..8199154 100644
    android_library("java") {
      # Conceptually, this should be visible only to //services/device:java.
 diff --git a/ui/gtk/BUILD.gn b/ui/gtk/BUILD.gn
-index 97090e8..5b6dbcd 100644
+index db29cdc..6026dfb 100644
 --- a/ui/gtk/BUILD.gn
 +++ b/ui/gtk/BUILD.gn
 @@ -69,8 +69,6 @@ component("gtk") {

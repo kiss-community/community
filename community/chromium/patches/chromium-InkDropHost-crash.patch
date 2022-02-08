@@ -1,8 +1,8 @@
 diff --git a/ui/views/animation/ink_drop_host_view.h b/ui/views/animation/ink_drop_host_view.h
-index 7ff4204..a41b820 100644
+index 7de6bdd..9e832eb 100644
 --- a/ui/views/animation/ink_drop_host_view.h
 +++ b/ui/views/animation/ink_drop_host_view.h
-@@ -228,6 +228,11 @@ class VIEWS_EXPORT InkDropHost {
+@@ -229,6 +229,11 @@ class VIEWS_EXPORT InkDropHost {
    // Used to observe View and inform the InkDrop of host-transform changes.
    ViewLayerTransformObserver host_view_transform_observer_;
  
@@ -14,7 +14,7 @@ index 7ff4204..a41b820 100644
    // Should not be accessed directly. Use GetInkDrop() instead.
    std::unique_ptr<InkDrop> ink_drop_;
  
-@@ -249,8 +254,6 @@ class VIEWS_EXPORT InkDropHost {
+@@ -250,8 +255,6 @@ class VIEWS_EXPORT InkDropHost {
    int ink_drop_small_corner_radius_ = 2;
    int ink_drop_large_corner_radius_ = 4;
  
