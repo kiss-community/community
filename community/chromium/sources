@@ -1,12 +1,14 @@
-https://commondatastorage.googleapis.com/chromium-browser-official/chromium-97.0.4692.71.tar.xz
-https://github.com/stha09/chromium-patches/releases/download/chromium-97-patchset-4/chromium-97-patchset-4.tar.xz
-git+https://github.com/Eloston/ungoogled-chromium#93cf016effb260428578c765e53b33020bc170d6 ungoogled-chromium
+https://commondatastorage.googleapis.com/chromium-browser-official/chromium-98.0.4758.80.tar.xz
+https://github.com/stha09/chromium-patches/releases/download/chromium-98-patchset-5/chromium-98-patchset-5.tar.xz
+https://github.com/Eloston/ungoogled-chromium/archive/refs/tags/98.0.4758.80-1.tar.gz ungoogled-chromium
 files/chromium.sh
 patches/chromium-InkDropHost-crash.patch
+patches/chromium-downgrade-duplicate-peer-error-to-dvlog.patch
+patches/chromium-fix-build-break-with-system-libdrm.patch
 patches/chromium-fix-narrowing-cast.patch
 patches/chromium-optional-atk-dbus.patch
 patches/chromium-sql-make-VirtualCursor-standard-layout-type.patch
-patches/chromium-wayland-terminate.patch
+patches/chromium-use-FT_Done_MM_Var-in-CFX_Font-AdjustMMParams.patch
 patches/glibc-malloc.patch
 patches/glibc-variable-stack-size.patch
 patches/musl-crashpad.patch

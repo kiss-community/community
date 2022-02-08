@@ -1,0 +1,13 @@
+diff --git a/mojo/core/node_controller.cc b/mojo/core/node_controller.cc
+index 84b7687..3eb4b7b 100644
+--- a/mojo/core/node_controller.cc
++++ b/mojo/core/node_controller.cc
+@@ -582,7 +582,7 @@ void NodeController::AddPeer(const ports::NodeName& name,
+     }
+ 
+     if (dropped_peers_.Contains(name) && !allow_name_reuse) {
+-      LOG(ERROR) << "Trying to re-add dropped peer " << name;
++      DVLOG(1) << "Trying to re-add dropped peer " << name;
+       return;
+     }
+ 

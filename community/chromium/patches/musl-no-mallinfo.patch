@@ -24,7 +24,7 @@ index 49f1957..e631e8c 100644
    return 0;
  #endif
 diff --git a/base/trace_event/malloc_dump_provider.cc b/base/trace_event/malloc_dump_provider.cc
-index 92bead5..be59350 100644
+index f4de6ee..9644716 100644
 --- a/base/trace_event/malloc_dump_provider.cc
 +++ b/base/trace_event/malloc_dump_provider.cc
 @@ -217,7 +217,7 @@ bool MallocDumpProvider::OnMemoryDump(const MemoryDumpArgs& args,

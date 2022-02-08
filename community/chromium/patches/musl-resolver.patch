@@ -1,8 +1,8 @@
 diff --git a/net/dns/BUILD.gn b/net/dns/BUILD.gn
-index 497d16a..f4cb48c 100644
+index 42b5d8a..ed30b83 100644
 --- a/net/dns/BUILD.gn
 +++ b/net/dns/BUILD.gn
-@@ -111,11 +111,6 @@ source_set("dns") {
+@@ -112,11 +112,6 @@ source_set("dns") {
        "dns_config_service_android.cc",
        "dns_config_service_android.h",
      ]
@@ -14,7 +14,7 @@ index 497d16a..f4cb48c 100644
    } else if (is_posix) {
      sources += [
        "dns_config_service_posix.cc",
-@@ -413,8 +408,6 @@ source_set("tests") {
+@@ -415,8 +410,6 @@ source_set("tests") {
  
    if (is_android) {
      sources += [ "dns_config_service_android_unittest.cc" ]
@@ -24,7 +24,7 @@ index 497d16a..f4cb48c 100644
      sources += [ "dns_config_service_posix_unittest.cc" ]
    }
 diff --git a/net/dns/dns_reloader.cc b/net/dns/dns_reloader.cc
-index 9ffff30..e957a4a 100644
+index a05ce45..4e0901a 100644
 --- a/net/dns/dns_reloader.cc
 +++ b/net/dns/dns_reloader.cc
 @@ -4,9 +4,8 @@
@@ -40,10 +40,10 @@ index 9ffff30..e957a4a 100644
  
  #include "base/lazy_instance.h"
 diff --git a/net/dns/host_resolver_manager.cc b/net/dns/host_resolver_manager.cc
-index f342444..91124a3 100644
+index 2930f88..804df20 100644
 --- a/net/dns/host_resolver_manager.cc
 +++ b/net/dns/host_resolver_manager.cc
-@@ -2906,8 +2906,7 @@ HostResolverManager::HostResolverManager(
+@@ -2932,8 +2932,7 @@ HostResolverManager::HostResolverManager(
    NetworkChangeNotifier::AddConnectionTypeObserver(this);
    if (system_dns_config_notifier_)
      system_dns_config_notifier_->AddObserver(this);
@@ -54,15 +54,15 @@ index f342444..91124a3 100644
  #endif
  
 diff --git a/net/dns/host_resolver_proc.cc b/net/dns/host_resolver_proc.cc
-index cee70a0..b77d496 100644
+index 9e3c9b6..b77d496 100644
 --- a/net/dns/host_resolver_proc.cc
 +++ b/net/dns/host_resolver_proc.cc
 @@ -176,8 +176,7 @@ int SystemHostResolverCall(const std::string& host,
    base::ScopedBlockingCall scoped_blocking_call(FROM_HERE,
                                                  base::BlockingType::WILL_BLOCK);
  
--#if defined(OS_POSIX) && !defined(OS_APPLE) && !defined(OS_OPENBSD) && \
--    !defined(OS_ANDROID) && !defined(OS_FUCHSIA)
+-#if defined(OS_POSIX) && \
+-    !(defined(OS_APPLE) || defined(OS_OPENBSD) || defined(OS_ANDROID))
 +#if defined(__GLIBC__)
    DnsReloaderMaybeReload();
  #endif

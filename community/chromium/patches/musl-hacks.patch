@@ -1,8 +1,8 @@
 diff --git a/mojo/public/c/system/thunks.cc b/mojo/public/c/system/thunks.cc
-index d7dc6e3..5cb40a2 100644
+index d3881e2..d82029f 100644
 --- a/mojo/public/c/system/thunks.cc
 +++ b/mojo/public/c/system/thunks.cc
-@@ -100,7 +100,8 @@ class CoreLibraryInitializer {
+@@ -99,7 +99,8 @@ class CoreLibraryInitializer {
      base::ScopedAllowBlocking allow_blocking;
      base::NativeLibraryOptions library_options;
  #if !defined(ADDRESS_SANITIZER) && !defined(THREAD_SANITIZER) && \
@@ -13,10 +13,10 @@ index d7dc6e3..5cb40a2 100644
      // allocator shims, so it's unnecessary there.
      library_options.prefer_own_symbols = true;
 diff --git a/net/socket/udp_socket_posix.cc b/net/socket/udp_socket_posix.cc
-index 89d261e..97a6382 100644
+index a70dc00..1c77d24 100644
 --- a/net/socket/udp_socket_posix.cc
 +++ b/net/socket/udp_socket_posix.cc
-@@ -1161,7 +1161,7 @@ SendResult UDPSocketPosixSender::InternalSendmmsgBuffers(
+@@ -1172,7 +1172,7 @@ SendResult UDPSocketPosixSender::InternalSendmmsgBuffers(
      msg_iov->push_back({const_cast<char*>(buffer->data()), buffer->length()});
    msgvec->reserve(buffers.size());
    for (size_t j = 0; j < buffers.size(); j++)

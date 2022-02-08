@@ -147,10 +147,10 @@ index 4f827ed..240de49 100644
    }
  
 diff --git a/sql/recover_module/cursor.h b/sql/recover_module/cursor.h
-index afcd690..b15c31d 100644
+index 845b785..cc4e85f 100644
 --- a/sql/recover_module/cursor.h
 +++ b/sql/recover_module/cursor.h
-@@ -129,7 +129,7 @@ class VirtualCursor {
+@@ -130,7 +130,7 @@ class VirtualCursor {
    std::vector<std::unique_ptr<InnerPageDecoder>> inner_decoders_;
  
    // Decodes the leaf page containing records.
@@ -185,7 +185,7 @@ index 58e75de..5fe9620 100644
    // |page_id_| needs to be set to kInvalidPageId if the read failed.
    // Otherwise, future ReadPage() calls with the previous |page_id_| value
 diff --git a/sql/recover_module/pager.h b/sql/recover_module/pager.h
-index 5976d21..8dcffa3 100644
+index 07cac3c..646e022 100644
 --- a/sql/recover_module/pager.h
 +++ b/sql/recover_module/pager.h
 @@ -5,6 +5,7 @@
@@ -196,7 +196,7 @@ index 5976d21..8dcffa3 100644
  #include <cstdint>
  #include <memory>
  #include <ostream>
-@@ -71,7 +72,7 @@ class DatabasePageReader {
+@@ -72,7 +73,7 @@ class DatabasePageReader {
      DCHECK_CALLED_ON_VALID_SEQUENCE(sequence_checker_);
      DCHECK_NE(page_id_, kInvalidPageId)
          << "Successful ReadPage() required before accessing pager state";
@@ -205,7 +205,7 @@ index 5976d21..8dcffa3 100644
    }
  
    // The number of bytes in the page read by the last ReadPage() call.
-@@ -138,7 +139,7 @@ class DatabasePageReader {
+@@ -139,7 +140,7 @@ class DatabasePageReader {
    int page_id_ = kInvalidPageId;
    // Stores the bytes of the last page successfully read by ReadPage().
    // The content is undefined if the last call to ReadPage() did not succeed.
@@ -213,4 +213,4 @@ index 5976d21..8dcffa3 100644
 +  const std::array<uint8_t, kMaxPageSize> page_data_;
    // Raw pointer usage is acceptable because this instance's owner is expected
    // to ensure that the VirtualTable outlives this.
-   VirtualTable* const table_;
+   const raw_ptr<VirtualTable> table_;

@@ -1,5 +1,5 @@
 diff --git a/base/debug/stack_trace_posix.cc b/base/debug/stack_trace_posix.cc
-index c1456bc..ebc1197 100644
+index d418728..16f6cfe 100644
 --- a/base/debug/stack_trace_posix.cc
 +++ b/base/debug/stack_trace_posix.cc
 @@ -27,7 +27,7 @@
@@ -11,7 +11,7 @@ index c1456bc..ebc1197 100644
  #include <execinfo.h>
  #endif
  
-@@ -94,7 +94,7 @@ void DemangleSymbols(std::string* text) {
+@@ -95,7 +95,7 @@ void DemangleSymbols(std::string* text) {
    // Note: code in this function is NOT async-signal safe (std::string uses
    // malloc internally).
  
@@ -20,7 +20,7 @@ index c1456bc..ebc1197 100644
    std::string::size_type search_from = 0;
    while (search_from < text->size()) {
      // Look for the start of a mangled symbol, from search_from.
-@@ -129,7 +129,7 @@ void DemangleSymbols(std::string* text) {
+@@ -130,7 +130,7 @@ void DemangleSymbols(std::string* text) {
        search_from = mangled_start + 2;
      }
    }
@@ -29,7 +29,7 @@ index c1456bc..ebc1197 100644
  }
  #endif  // !defined(USE_SYMBOLIZE)
  
-@@ -141,7 +141,7 @@ class BacktraceOutputHandler {
+@@ -142,7 +142,7 @@ class BacktraceOutputHandler {
    virtual ~BacktraceOutputHandler() = default;
  };
  
@@ -38,7 +38,7 @@ index c1456bc..ebc1197 100644
  void OutputPointer(void* pointer, BacktraceOutputHandler* handler) {
    // This should be more than enough to store a 64-bit number in hex:
    // 16 hex digits + 1 for null-terminator.
-@@ -241,7 +241,7 @@ void ProcessBacktrace(void* const* trace,
+@@ -242,7 +242,7 @@ void ProcessBacktrace(void* const* trace,
    }
  #endif  // defined(USE_SYMBOLIZE)
  }
@@ -47,7 +47,7 @@ index c1456bc..ebc1197 100644
  
  void PrintToStderr(const char* output) {
    // NOTE: This code MUST be async-signal safe (it's used by in-process
-@@ -865,7 +865,7 @@ size_t CollectStackTrace(void** trace, size_t count) {
+@@ -866,7 +866,7 @@ size_t CollectStackTrace(void** trace, size_t count) {
    // If we do not have unwind tables, then try tracing using frame pointers.
    return base::debug::TraceStackFramePointers(const_cast<const void**>(trace),
                                                count, 0);
@@ -56,7 +56,7 @@ index c1456bc..ebc1197 100644
    // Though the backtrace API man page does not list any possible negative
    // return values, we take no chance.
    return base::saturated_cast<size_t>(backtrace(trace, count));
-@@ -878,13 +878,13 @@ void StackTrace::PrintWithPrefix(const char* prefix_string) const {
+@@ -879,13 +879,13 @@ void StackTrace::PrintWithPrefix(const char* prefix_string) const {
  // NOTE: This code MUST be async-signal safe (it's used by in-process
  // stack dumping signal handler). NO malloc or stdio is allowed here.
  

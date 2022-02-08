@@ -22,10 +22,10 @@ index bd4763b..ed75ace 100644
  #endif
    return stream.str();
 diff --git a/base/logging.cc b/base/logging.cc
-index 8f7a438..a9a2d9f 100644
+index f4888b0..3c819c2 100644
 --- a/base/logging.cc
 +++ b/base/logging.cc
-@@ -579,8 +579,8 @@ LogMessage::LogMessage(const char* file, int line, const char* condition)
+@@ -580,8 +580,8 @@ LogMessage::LogMessage(const char* file, int line, const char* condition)
  
  LogMessage::~LogMessage() {
    size_t stack_start = stream_.tellp();

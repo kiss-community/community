@@ -58,20 +58,14 @@ sed '/<vector>/a #include <algorithm>' \
     ui/ozone/public/platform_gl_egl_utility.h > _
 mv -f _ ui/ozone/public/platform_gl_egl_utility.h
 
-# Useless internal glibc header include.
-# stdint.h is already included by stuff and is enough to define intN_t types.
-sed '/<bits\/stdint-intn.h>/d' \
-    ui/ozone/platform/wayland/host/wayland_window.cc > _
-mv -f _ ui/ozone/platform/wayland/host/wayland_window.cc
-
-# compile gn early, so it can be used to generate gni stuff.
+# Compile gn early, so it can be used to generate gni stuff.
 ./tools/gn/bootstrap/bootstrap.py --skip-generate-buildfiles
 
 # icu: Breakage on updates.
-# libevent: Random freezes with javascript.
+# libevent: Random freezes on pages that use js (Such as chrome://flags).
 # libpng: KISS builds with APNG patch (https://crbug.com/752403#c10).
 # libvpx: Broken ?
-# zlib: KISS build without 'minizip'.
+# zlib: KISS builds without 'minizip'.
 system="
     flac
     fontconfig
@@ -159,7 +153,6 @@ conf="
     enable_mdns=false
     enable_mse_mpeg2ts_stream_parser=true
     enable_nacl=false
-    enable_nacl_nonsfi=false
     enable_one_click_signin=false
     enable_reading_list=false
     enable_remoting=false
@@ -182,7 +175,10 @@ out/Release/gn gen out/Release --args="$conf"
 #
 # -n is non-POSIX hence we "attempt".
 # shellcheck disable=2039
-ulimit -n 4096 2>/dev/null || :
+ulimit -n 4096 2>/dev/null || {
+    printf "Failed to set ulimit, build will fail!\n"
+    exit 1
+}
 
 ninja -C out/Release chrome
 
