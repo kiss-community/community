@@ -6,14 +6,12 @@ done
 
 export DESTDIR="$1"
 
-kiss list libsndfile && sndfile=enabled
-
 meson \
     --prefix=/usr \
     --libexecdir=/usr/lib \
     -Ddbus=disabled \
     -Dtests=disabled \
-    -Dpw-cat="${sndfile:-disabled}" \
+    -Dudev=enabled \
     -Dudevrulesdir=/usr/lib/udev/rules.d \
     . output
 
