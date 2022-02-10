@@ -1,5 +1,10 @@
 #!/bin/sh -e
 
+# Missing includes...
+sed '/^#ifdef USE_JENT/a #include <fcntl.h>\n#include <limits.h>' \
+    random/rndjent.c > _
+mv -f _ random/rndjent.c
+
 ./configure \
     --prefix=/usr \
     --sysconfdir=/etc \
