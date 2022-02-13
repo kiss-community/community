@@ -1,7 +1,8 @@
 #!/bin/sh -e
 
 # enable building with netbsd-curses
-sed -i 's/tinfow tinfo/tinfow tinfo terminfo/g;/Unable to find xsltproc/d' \
+sed -i 's/tinfow tinfo/tinfow tinfo terminfo/g;/Unable to find xsltproc/d;
+    s@xmlcatalog@/bin/true@' \
     auto.def
 
 ./configure \
