@@ -1,0 +1,18 @@
+--- a/libnl/include/netlink/attr.h
++++ b/libnl/include/netlink/attr.h
+@@ -630,6 +630,15 @@
+  */
+ #define NLA_PUT_U16(msg, attrtype, value) \
+ 	NLA_PUT_TYPE(msg, uint16_t, attrtype, value)
++
++/**
++ * Add 32 bit signed integer attribute to netlink message.
++ * @arg msg		Netlink message.
++ * @arg attrtype	Attribute type.
++ * @arg value		Numeric value.
++ */
++#define NLA_PUT_S32(msg, attrtype, value) \
++	NLA_PUT_TYPE(msg, int32_t, attrtype, value)
+ 
+ /**
+  * Add 32 bit integer attribute to netlink message.
