@@ -1,7 +1,18 @@
 #!/bin/sh -e
 
-make SBINDIR=/usr/bin
-make SBINDIR=/usr/bin DESTDIR="$1" install
+patch -p1 < nl.patch
 
-pigz -d < "$1/usr/share/man/man8/iw.8.gz" > "$1/usr/share/man/man8/iw.8"
-rm "$1/usr/share/man/man8/iw.8.gz"
+make -C libnl ALL_LIBS=libnl-tiny.a
+
+# Don't bother compressing tiny man page.
+sed 's@\(iw\.8\)\.gz@\1@' Makefile > _
+mv -f _ Makefile
+
+export CFLAGS="$CFLAGS -I./libnl/include -DCONFIG_LIBNL20 -D_GNU_SOURCE"
+export LDFLAGS="$LDFLAGS -L./libnl -static"
+
+make \
+    SBINDIR=/usr/bin \
+    NO_PKG_CONFIG=Y \
+    LIBS=-lnl-tiny \
+    install
