@@ -1,0 +1,4 @@
+#!/bin/sh -e
+
+mkdir -p      "$1/usr/bin/"
+cp offpunk.py "$1/usr/bin/offpunk"
