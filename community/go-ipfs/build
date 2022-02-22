@@ -4,7 +4,7 @@ export CGO_LDFLAGS="$LDFLAGS"
 export CGO_CFLAGS="$CFLAGS"
 export CGO_CPPFLAGS="$CPPFLAGS"
 export CGO_CXXFLAGS="$CXXFLAGS"
-export GOFLAGS="$GOFLAGS -buildmode=pie -trimpath -modcacherw"
+export GOFLAGS="$GOFLAGS -buildmode=pie -trimpath -modcacherw -mod=vendor"
 
 make build
 
