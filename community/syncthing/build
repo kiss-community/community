@@ -1,4 +1,6 @@
 #!/bin/sh -e
 
+export GOFLAGS="-mod=vendor"
+
 go run build.go -no-upgrade install
 install -Dm755 bin/syncthing "$1/usr/bin/syncthing"
