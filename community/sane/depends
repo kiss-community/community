@@ -1,1 +1,2 @@
-libusb
+libusb	make
+python	make
