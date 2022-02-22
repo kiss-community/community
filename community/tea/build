@@ -1,5 +1,7 @@
 #!/bin/sh -e
 
+export GOFLAGS="-mod=vendor"
+
 make build
 
 install -Dm755 tea "$1/usr/bin/tea"
