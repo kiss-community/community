@@ -1,0 +1,24 @@
+From a96da6d1acf487dedaf3ceaa344b3cfbc2714be9 Mon Sep 17 00:00:00 2001
+From: phoebos <ben@bvnf.space>
+Date: Thu, 24 Feb 2022 18:35:17 +0000
+Subject: [PATCH] input.c: add kiss macro
+
+---
+ input.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/input.c b/input.c
+index f3813c4..a9cbb11 100644
+--- a/input.c
++++ b/input.c
+@@ -254,6 +254,7 @@ static const struct {
+ 	{ L"\\flip", L"(â•¯Â°â–¡Â°ï¼‰â•¯ï¸µ â”»â”â”»" },
+ 	{ L"\\gary", L"á••( á› )á•—" },
+ 	{ L"\\hug", L"ï¼ˆã£ãƒ»âˆ€ãƒ»ï¼‰ã£" },
++	{ L"\\kiss", L"( Ë˜ Â³Ë˜)â™¥"},
+ 	{ L"\\lenny", L"( Í¡Â° ÍœÊ– Í¡Â°)" },
+ 	{ L"\\look", L"à² _à² " },
+ 	{ L"\\shrug", L"Â¯\\_(ãƒ„)_/Â¯" },
+-- 
+2.34.1
+

@@ -1,1 +1,2 @@
 https://git.causal.agency/catgirl/snapshot/catgirl-2.1.tar.gz
+patches/0001-input.c-add-kiss-macro.patch
