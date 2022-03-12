@@ -1,5 +1,5 @@
 diff --git a/base/threading/platform_thread_linux.cc b/base/threading/platform_thread_linux.cc
-index a8c1d3f..085ebb7 100644
+index 9d7bf3a..01d4abd 100644
 --- a/base/threading/platform_thread_linux.cc
 +++ b/base/threading/platform_thread_linux.cc
 @@ -436,7 +436,8 @@ void TerminateOnThread() {}

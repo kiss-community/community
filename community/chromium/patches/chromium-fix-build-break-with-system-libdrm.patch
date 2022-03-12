@@ -1,5 +1,5 @@
 diff --git a/AUTHORS b/AUTHORS
-index daf447d..22c0c56 100644
+index 085702d..80e12ec 100644
 --- a/AUTHORS
 +++ b/AUTHORS
 @@ -93,6 +93,7 @@ Andreas Papacharalampous <andreas@apap04.com>
@@ -11,10 +11,10 @@ index daf447d..22c0c56 100644
  Andrew Boyarshin <andrew.boyarshin@gmail.com>
  Andrew Brampton <me@bramp.net>
 diff --git a/media/gpu/chromeos/BUILD.gn b/media/gpu/chromeos/BUILD.gn
-index a5c8945..1a9c549 100644
+index 7cb4c3e..6fe21c1 100644
 --- a/media/gpu/chromeos/BUILD.gn
 +++ b/media/gpu/chromeos/BUILD.gn
-@@ -24,6 +24,7 @@ source_set("chromeos") {
+@@ -25,6 +25,7 @@ source_set("chromeos") {
  
    deps = [
      "//base",
@@ -23,10 +23,10 @@ index a5c8945..1a9c549 100644
      "//media/gpu:buildflags",
      "//media/gpu:command_buffer_helper",
 diff --git a/media/gpu/chromeos/video_decoder_pipeline.cc b/media/gpu/chromeos/video_decoder_pipeline.cc
-index 33a7f5b..bf7254d 100644
+index d2f154e..416b943 100644
 --- a/media/gpu/chromeos/video_decoder_pipeline.cc
 +++ b/media/gpu/chromeos/video_decoder_pipeline.cc
-@@ -27,8 +27,8 @@
+@@ -28,8 +28,8 @@
  #include "third_party/abseil-cpp/absl/types/optional.h"
  
  #if BUILDFLAG(USE_VAAPI)

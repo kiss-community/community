@@ -1,21 +1,21 @@
-https://commondatastorage.googleapis.com/chromium-browser-official/chromium-98.0.4758.80.tar.xz
-https://github.com/stha09/chromium-patches/releases/download/chromium-98-patchset-5/chromium-98-patchset-5.tar.xz
-https://github.com/Eloston/ungoogled-chromium/archive/refs/tags/98.0.4758.80-1.tar.gz ungoogled-chromium
+https://commondatastorage.googleapis.com/chromium-browser-official/chromium-99.0.4844.51.tar.xz
+https://github.com/stha09/chromium-patches/releases/download/chromium-99-patchset-3/chromium-99-patchset-3.tar.xz
+https://github.com/Eloston/ungoogled-chromium/archive/refs/tags/99.0.4844.51-1.tar.gz ungoogled-chromium
 files/chromium.sh
 patches/chromium-InkDropHost-crash.patch
-patches/chromium-downgrade-duplicate-peer-error-to-dvlog.patch
 patches/chromium-fix-build-break-with-system-libdrm.patch
 patches/chromium-fix-narrowing-cast.patch
 patches/chromium-optional-atk-dbus.patch
 patches/chromium-sql-make-VirtualCursor-standard-layout-type.patch
 patches/chromium-use-FT_Done_MM_Var-in-CFX_Font-AdjustMMParams.patch
+patches/chromium-webcodecs-stop-using-AudioOpusEncoder.patch
 patches/glibc-malloc.patch
-patches/glibc-variable-stack-size.patch
+patches/glibc-sandbox-build-if-glibc-2.34-dynamic-stack-size-is-en.patch
 patches/musl-crashpad.patch
 patches/musl-default-pthread-stacksize.patch
 patches/musl-fixes.patch
 patches/musl-hacks.patch
-patches/musl-libc++.patch
+patches/musl-missing-unistd-include.patch
 patches/musl-no-execinfo.patch
 patches/musl-no-getcontext.patch
 patches/musl-no-mallinfo.patch
