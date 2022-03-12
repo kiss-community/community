@@ -1,5 +1,5 @@
 diff --git a/sandbox/linux/seccomp-bpf-helpers/syscall_parameters_restrictions.cc b/sandbox/linux/seccomp-bpf-helpers/syscall_parameters_restrictions.cc
-index 36221d2..e114a0a 100644
+index 33112b7..857a230 100644
 --- a/sandbox/linux/seccomp-bpf-helpers/syscall_parameters_restrictions.cc
 +++ b/sandbox/linux/seccomp-bpf-helpers/syscall_parameters_restrictions.cc
 @@ -133,21 +133,11 @@ namespace sandbox {

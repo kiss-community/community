@@ -1,26 +1,36 @@
 diff --git a/base/process/memory_linux.cc b/base/process/memory_linux.cc
-index 5c0a7aa..96e63c9 100644
+index ed39305..ca21505 100644
 --- a/base/process/memory_linux.cc
 +++ b/base/process/memory_linux.cc
-@@ -23,6 +23,12 @@
- #include "third_party/tcmalloc/chromium/src/gperftools/tcmalloc.h"
- #endif
+@@ -18,6 +18,13 @@
+ #include "base/threading/thread_restrictions.h"
+ #include "build/build_config.h"
  
 +#if defined(LIBC_GLIBC)
 +extern "C" {
 +extern void *__libc_malloc(size_t size);
++extern void *__libc_free(void *ptr);
 +}
 +#endif
 +
  namespace base {
  
  namespace {
-@@ -120,7 +126,7 @@ bool UncheckedMalloc(size_t size, void** result) {
-     (!defined(LIBC_GLIBC) && !BUILDFLAG(USE_TCMALLOC))
+@@ -111,7 +118,7 @@ bool UncheckedMalloc(size_t size, void** result) {
+ #elif defined(MEMORY_TOOL_REPLACES_ALLOCATOR) || !defined(LIBC_GLIBC)
    *result = malloc(size);
- #elif defined(LIBC_GLIBC) && !BUILDFLAG(USE_TCMALLOC)
+ #elif defined(LIBC_GLIBC)
 -  *result = __libc_malloc(size);
 +  *result = ::__libc_malloc(size);
- #elif BUILDFLAG(USE_TCMALLOC)
-   *result = tc_malloc_skip_new_handler(size);
  #endif
+   return *result != nullptr;
+ }
+@@ -122,7 +129,7 @@ void UncheckedFree(void* ptr) {
+ #elif defined(MEMORY_TOOL_REPLACES_ALLOCATOR) || !defined(LIBC_GLIBC)
+   free(ptr);
+ #elif defined(LIBC_GLIBC)
+-  __libc_free(ptr);
++  ::__libc_free(ptr);
+ #endif
+ }
+ 

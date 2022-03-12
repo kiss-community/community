@@ -1,39 +1,26 @@
 diff --git a/chrome/browser/metrics/chrome_browser_main_extra_parts_metrics.cc b/chrome/browser/metrics/chrome_browser_main_extra_parts_metrics.cc
-index 86f5d07..8086cdf 100644
+index 157782c..7f12ee1 100644
 --- a/chrome/browser/metrics/chrome_browser_main_extra_parts_metrics.cc
 +++ b/chrome/browser/metrics/chrome_browser_main_extra_parts_metrics.cc
-@@ -62,7 +62,9 @@
+@@ -59,7 +59,9 @@
  // TODO(crbug.com/1052397): Revisit the macro expression once build flag switch
  // of lacros-chrome is complete.
- #if defined(OS_LINUX) || BUILDFLAG(IS_CHROMEOS_LACROS)
+ #if BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_CHROMEOS_LACROS)
 +#if defined(__GLIBC__)
  #include <gnu/libc-version.h>
 +#endif
  
  #include "base/linux_util.h"
  #include "base/strings/string_split.h"
-@@ -331,7 +333,7 @@ void RecordLinuxDistro() {
+@@ -321,7 +323,7 @@ void RecordLinuxDistro() {
  void RecordLinuxGlibcVersion() {
  // TODO(crbug.com/1052397): Revisit the macro expression once build flag switch
  // of lacros-chrome is complete.
--#if defined(OS_LINUX) || BUILDFLAG(IS_CHROMEOS_LACROS)
-+#if (defined(OS_LINUX) && defined(__GLIBC__)) || BUILDFLAG(IS_CHROMEOS_LACROS)
+-#if BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_CHROMEOS_LACROS)
++#if (BUILDFLAG(IS_LINUX) && defined(__GLIBC__)) || BUILDFLAG(IS_CHROMEOS_LACROS)
    base::Version version(gnu_get_libc_version());
  
    UMALinuxGlibcVersion glibc_version_result = UMA_LINUX_GLIBC_NOT_PARSEABLE;
-diff --git a/net/dns/dns_config_service_posix.cc b/net/dns/dns_config_service_posix.cc
-index 3a541ac..c3af527 100644
---- a/net/dns/dns_config_service_posix.cc
-+++ b/net/dns/dns_config_service_posix.cc
-@@ -93,7 +93,7 @@ absl::optional<DnsConfig> ReadDnsConfig() {
- 
-   absl::optional<DnsConfig> dns_config;
- // TODO(fuchsia): Use res_ninit() when it's implemented on Fuchsia.
--#if defined(OS_OPENBSD) || defined(OS_FUCHSIA)
-+#if defined(OS_OPENBSD) || defined(OS_FUCHSIA) || defined(_GNU_SOURCE)
-   // Note: res_ninit in glibc always returns 0 and sets RES_INIT.
-   // res_init behaves the same way.
-   memset(&_res, 0, sizeof(_res));
 diff --git a/sandbox/linux/seccomp-bpf/trap.cc b/sandbox/linux/seccomp-bpf/trap.cc
 index cb71a9b..bcf19ea 100644
 --- a/sandbox/linux/seccomp-bpf/trap.cc
@@ -68,7 +55,7 @@ index 10071d3..0856910 100644
  // will prefer certain process types over others. The range for the
  // adjustment is [-1000, 1000], with [0, 1000] being user accessible.
 diff --git a/third_party/blink/renderer/platform/wtf/stack_util.cc b/third_party/blink/renderer/platform/wtf/stack_util.cc
-index c3646e6..99ac33e 100644
+index 8918302..5a5e70b 100644
 --- a/third_party/blink/renderer/platform/wtf/stack_util.cc
 +++ b/third_party/blink/renderer/platform/wtf/stack_util.cc
 @@ -29,7 +29,7 @@ size_t GetUnderestimatedStackSize() {

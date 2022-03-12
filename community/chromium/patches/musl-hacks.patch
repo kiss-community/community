@@ -1,5 +1,5 @@
 diff --git a/mojo/public/c/system/thunks.cc b/mojo/public/c/system/thunks.cc
-index d3881e2..d82029f 100644
+index 659a807..a4afae3 100644
 --- a/mojo/public/c/system/thunks.cc
 +++ b/mojo/public/c/system/thunks.cc
 @@ -99,7 +99,8 @@ class CoreLibraryInitializer {
@@ -13,7 +13,7 @@ index d3881e2..d82029f 100644
      // allocator shims, so it's unnecessary there.
      library_options.prefer_own_symbols = true;
 diff --git a/net/socket/udp_socket_posix.cc b/net/socket/udp_socket_posix.cc
-index a70dc00..1c77d24 100644
+index a826160..1ddf159 100644
 --- a/net/socket/udp_socket_posix.cc
 +++ b/net/socket/udp_socket_posix.cc
 @@ -1172,7 +1172,7 @@ SendResult UDPSocketPosixSender::InternalSendmmsgBuffers(

@@ -1,8 +1,8 @@
 diff --git a/base/debug/stack_trace.cc b/base/debug/stack_trace.cc
-index bd4763b..ed75ace 100644
+index 50abca1..732c747 100644
 --- a/base/debug/stack_trace.cc
 +++ b/base/debug/stack_trace.cc
-@@ -252,7 +252,9 @@ void StackTrace::Print() const {
+@@ -274,7 +274,9 @@ void StackTrace::Print() const {
  }
  
  void StackTrace::OutputToStream(std::ostream* os) const {
@@ -12,7 +12,7 @@ index bd4763b..ed75ace 100644
  }
  
  std::string StackTrace::ToString() const {
-@@ -260,7 +262,7 @@ std::string StackTrace::ToString() const {
+@@ -282,7 +284,7 @@ std::string StackTrace::ToString() const {
  }
  std::string StackTrace::ToStringWithPrefix(const char* prefix_string) const {
    std::stringstream stream;
@@ -22,17 +22,17 @@ index bd4763b..ed75ace 100644
  #endif
    return stream.str();
 diff --git a/base/logging.cc b/base/logging.cc
-index f4888b0..3c819c2 100644
+index 3ef5df9..0750b24 100644
 --- a/base/logging.cc
 +++ b/base/logging.cc
-@@ -580,8 +580,8 @@ LogMessage::LogMessage(const char* file, int line, const char* condition)
+@@ -592,8 +592,8 @@ LogMessage::LogMessage(const char* file, int line, const char* condition)
  
  LogMessage::~LogMessage() {
    size_t stack_start = stream_.tellp();
--#if !defined(OFFICIAL_BUILD) && !defined(OS_NACL) && !defined(__UCLIBC__) && \
--    !defined(OS_AIX)
-+#if !defined(OFFICIAL_BUILD) && !defined(OS_NACL) && defined(__GLIBC__) && \
-+    !defined(__UCLIBC__) && !defined(OS_AIX)
+-#if !defined(OFFICIAL_BUILD) && !BUILDFLAG(IS_NACL) && !defined(__UCLIBC__) && \
+-    !BUILDFLAG(IS_AIX)
++#if !defined(OFFICIAL_BUILD) && !BUILDFLAG(IS_NACL) && defined(__GLIBC__) && \
++    !defined(__UCLIBC__) && !BUILDFLAG(IS_AIX)
    if (severity_ == LOGGING_FATAL && !base::debug::BeingDebugged()) {
      // Include a stack trace on a fatal, unless a debugger is attached.
      base::debug::StackTrace stack_trace;

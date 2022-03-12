@@ -1,35 +1,35 @@
 diff --git a/base/process/process_metrics_posix.cc b/base/process/process_metrics_posix.cc
-index 49f1957..e631e8c 100644
+index ae6d3a6..a158af3 100644
 --- a/base/process/process_metrics_posix.cc
 +++ b/base/process/process_metrics_posix.cc
 @@ -105,7 +105,7 @@ void IncreaseFdLimitTo(unsigned int max_descriptors) {
  
- #endif  // !defined(OS_FUCHSIA)
+ #endif  // !BUILDFLAG(IS_FUCHSIA)
  
--#if defined(OS_LINUX) || defined(OS_CHROMEOS) || defined(OS_ANDROID)
-+#if defined(__GLIBC__) || defined(OS_CHROMEOS) || defined(OS_ANDROID)
+-#if BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_CHROMEOS) || BUILDFLAG(IS_ANDROID)
++#if defined(__GLIBC__) || BUILDFLAG(IS_CHROMEOS) || BUILDFLAG(IS_ANDROID)
  namespace {
  
  size_t GetMallocUsageMallinfo() {
-@@ -134,9 +134,9 @@ size_t ProcessMetrics::GetMallocUsage() {
+@@ -131,9 +131,9 @@ size_t ProcessMetrics::GetMallocUsage() {
    malloc_statistics_t stats = {0};
    malloc_zone_statistics(nullptr, &stats);
    return stats.size_in_use;
--#elif defined(OS_LINUX) || defined(OS_CHROMEOS) || defined(OS_ANDROID)
-+#elif defined(__GLIBC__) || defined(OS_CHROMEOS) || defined(OS_ANDROID)
+-#elif BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_CHROMEOS) || BUILDFLAG(IS_ANDROID)
++#elif defined(__GLIBC__) || BUILDFLAG(IS_CHROMEOS) || BUILDFLAG(IS_ANDROID)
    return GetMallocUsageMallinfo();
--#elif defined(OS_FUCHSIA)
+-#elif BUILDFLAG(IS_FUCHSIA)
 +#else
    // TODO(fuchsia): Not currently exposed. https://crbug.com/735087.
    return 0;
  #endif
 diff --git a/base/trace_event/malloc_dump_provider.cc b/base/trace_event/malloc_dump_provider.cc
-index f4de6ee..9644716 100644
+index 1c427e8..a5baaa0 100644
 --- a/base/trace_event/malloc_dump_provider.cc
 +++ b/base/trace_event/malloc_dump_provider.cc
-@@ -217,7 +217,7 @@ bool MallocDumpProvider::OnMemoryDump(const MemoryDumpArgs& args,
+@@ -220,7 +220,7 @@ bool MallocDumpProvider::OnMemoryDump(const MemoryDumpArgs& args,
                       &allocated_objects_count);
- #elif defined(OS_FUCHSIA)
+ #elif BUILDFLAG(IS_FUCHSIA)
  // TODO(fuchsia): Port, see https://crbug.com/706592.
 -#else
 +#elif defined(__GLIBC__)
