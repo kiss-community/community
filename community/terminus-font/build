@@ -3,5 +3,12 @@
 ./configure \
     --prefix=/usr
 
+# don't build X11 fonts
+sed '/BDF2PCF/d;/ter-x/d' Makefile > _
+mv _ Makefile
+
 make
 make DESTDIR="$1" install
+
+# remove unused X11 font directory
+rm -fr "$1/usr/share/fonts/"
