@@ -22,7 +22,7 @@ index 50abca1..732c747 100644
  #endif
    return stream.str();
 diff --git a/base/logging.cc b/base/logging.cc
-index 3ef5df9..0750b24 100644
+index afb0b87..507effe 100644
 --- a/base/logging.cc
 +++ b/base/logging.cc
 @@ -592,8 +592,8 @@ LogMessage::LogMessage(const char* file, int line, const char* condition)

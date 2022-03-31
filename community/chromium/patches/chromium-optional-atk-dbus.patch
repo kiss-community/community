@@ -119,7 +119,7 @@ index b0eac95..2037fb2 100644
  
  void OpenExternal(Profile* profile, const GURL& url) {
 diff --git a/device/bluetooth/bluetooth_adapter_factory.cc b/device/bluetooth/bluetooth_adapter_factory.cc
-index 3526f17..7191a3a 100644
+index 3526f17..ac4725a 100644
 --- a/device/bluetooth/bluetooth_adapter_factory.cc
 +++ b/device/bluetooth/bluetooth_adapter_factory.cc
 @@ -43,7 +43,7 @@ bool BluetoothAdapterFactory::IsBluetoothSupported() {
@@ -189,23 +189,6 @@ index 7d48f41..870a49f 100644
  }
  
  // registerService:
-diff --git a/services/device/battery/battery_status_manager_default.cc b/services/device/battery/battery_status_manager_default.cc
-index dd9709e..375e2f1 100644
---- a/services/device/battery/battery_status_manager_default.cc
-+++ b/services/device/battery/battery_status_manager_default.cc
-@@ -26,11 +26,10 @@ class BatteryStatusManagerDefault : public BatteryStatusManager {
-  private:
-   // BatteryStatusManager:
-   bool StartListeningBatteryChange() override {
--    NOTIMPLEMENTED();
-     return false;
-   }
- 
--  void StopListeningBatteryChange() override { NOTIMPLEMENTED(); }
-+  void StopListeningBatteryChange() override { }
- };
- 
- }  // namespace
 diff --git a/services/device/wake_lock/power_save_blocker/BUILD.gn b/services/device/wake_lock/power_save_blocker/BUILD.gn
 index 1637134..059e94a 100644
 --- a/services/device/wake_lock/power_save_blocker/BUILD.gn
@@ -220,75 +203,88 @@ index 1637134..059e94a 100644
  
    android_library("java") {
      # Conceptually, this should be visible only to //services/device:java.
-diff --git a/ui/gtk/BUILD.gn b/ui/gtk/BUILD.gn
-index 6ff9557..d58d9ce 100644
---- a/ui/gtk/BUILD.gn
-+++ b/ui/gtk/BUILD.gn
-@@ -99,8 +99,6 @@ component("gtk") {
-     "select_file_dialog_impl_gtk.cc",
-     "select_file_dialog_impl_gtk.h",
-     "select_file_dialog_impl_kde.cc",
--    "select_file_dialog_impl_portal.cc",
--    "select_file_dialog_impl_portal.h",
-     "settings_provider.h",
-     "settings_provider_gsettings.cc",
-     "settings_provider_gsettings.h",
-@@ -118,8 +116,6 @@ component("gtk") {
-   deps = [
-     ":gtk_stubs",
-     "//base",
--    "//components/dbus/thread_linux",
--    "//dbus",
-     "//skia",
+diff --git a/ui/shell_dialogs/BUILD.gn b/ui/shell_dialogs/BUILD.gn
+index e1b3041..762dcf6 100644
+--- a/ui/shell_dialogs/BUILD.gn
++++ b/ui/shell_dialogs/BUILD.gn
+@@ -49,15 +49,9 @@ component("shell_dialogs") {
+       "select_file_dialog_linux.h",
+       "select_file_dialog_linux_kde.cc",
+       "select_file_dialog_linux_kde.h",
+-      "select_file_dialog_linux_portal.cc",
+-      "select_file_dialog_linux_portal.h",
+       "shell_dialog_linux.cc",
+       "shell_dialog_linux.h",
+     ]
+-    deps += [
+-      "//components/dbus/thread_linux",
+-      "//dbus",
+-    ]
+   }
  
-     # GTK pulls pangoft2, which requires HarfBuzz symbols. When linking
-diff --git a/ui/gtk/select_file_dialog_impl.cc b/ui/gtk/select_file_dialog_impl.cc
-index 884edef..6e02e8f 100644
---- a/ui/gtk/select_file_dialog_impl.cc
-+++ b/ui/gtk/select_file_dialog_impl.cc
-@@ -12,7 +12,9 @@
- #include "base/no_destructor.h"
- #include "base/notreached.h"
- #include "base/threading/thread_restrictions.h"
+   if (is_mac) {
+diff --git a/ui/shell_dialogs/shell_dialog_linux.cc b/ui/shell_dialogs/shell_dialog_linux.cc
+index 0f5fa2e..a15ead1 100644
+--- a/ui/shell_dialogs/shell_dialog_linux.cc
++++ b/ui/shell_dialogs/shell_dialog_linux.cc
+@@ -10,14 +10,20 @@
+ #include "build/chromeos_buildflags.h"
+ #include "ui/shell_dialogs/select_file_dialog_linux.h"
+ #include "ui/shell_dialogs/select_file_dialog_linux_kde.h"
 +#if defined(USE_DBUS)
- #include "ui/gtk/select_file_dialog_impl_portal.h"
+ #include "ui/shell_dialogs/select_file_dialog_linux_portal.h"
 +#endif
+ #include "ui/shell_dialogs/select_file_policy.h"
  
  namespace {
  
-@@ -34,12 +36,16 @@ base::FilePath* SelectFileDialogImpl::last_opened_path_ = nullptr;
+ ui::ShellDialogLinux* g_shell_dialog_linux = nullptr;
  
- // static
- void SelectFileDialogImpl::Initialize() {
+-enum FileDialogChoice { kUnknown, kToolkit, kKde, kPortal };
++enum FileDialogChoice { kUnknown, kToolkit, kKde,
 +#if defined(USE_DBUS)
-   SelectFileDialogImplPortal::StartAvailabilityTestInBackground();
++  kPortal
++#endif
++};
+ 
+ FileDialogChoice dialog_choice_ = kUnknown;
+ 
+@@ -33,7 +39,9 @@ namespace ui {
+ ShellDialogLinux::ShellDialogLinux() = default;
+ 
+ ShellDialogLinux::~ShellDialogLinux() {
++#if defined(USE_DBUS)
+   SelectFileDialogLinuxPortal::DestroyPortalConnection();
 +#endif
  }
  
- // static
- void SelectFileDialogImpl::Shutdown() {
+ void ShellDialogLinux::SetInstance(ShellDialogLinux* instance) {
+@@ -45,7 +53,9 @@ const ShellDialogLinux* ShellDialogLinux::instance() {
+ }
+ 
+ void ShellDialogLinux::Initialize() {
 +#if defined(USE_DBUS)
-   SelectFileDialogImplPortal::DestroyPortalConnection();
+   SelectFileDialogLinuxPortal::StartAvailabilityTestInBackground();
 +#endif
  }
  
- // static
-@@ -50,12 +56,14 @@ ui::SelectFileDialog* SelectFileDialogImpl::Create(
-     // Start out assumimg we are going to use GTK.
-     dialog_choice_ = kGtk;
+ SelectFileDialog* CreateSelectFileDialog(
+@@ -55,12 +65,14 @@ SelectFileDialog* CreateSelectFileDialog(
+     // Start out assuming we are going to use dialogs from the toolkit.
+     dialog_choice_ = kToolkit;
  
 +#if defined(USE_DBUS)
      // Check to see if the portal is available.
-     if (SelectFileDialogImplPortal::IsPortalAvailable()) {
+     if (SelectFileDialogLinuxPortal::IsPortalAvailable()) {
        dialog_choice_ = kPortal;
      } else {
        // Make sure to kill the portal connection.
-       SelectFileDialogImplPortal::DestroyPortalConnection();
+       SelectFileDialogLinuxPortal::DestroyPortalConnection();
 +#endif
  
        // Check to see if KDE is the desktop environment.
        std::unique_ptr<base::Environment> env(base::Environment::Create());
-@@ -73,16 +81,20 @@ ui::SelectFileDialog* SelectFileDialogImpl::Create(
+@@ -78,7 +90,9 @@ SelectFileDialog* CreateSelectFileDialog(
            }
          }
        }
@@ -297,14 +293,14 @@ index 884edef..6e02e8f 100644
 +#endif
    }
  
-   switch (dialog_choice_) {
-     case kGtk:
-       return SelectFileDialogImpl::NewSelectFileDialogImplGTK(
-           listener, std::move(policy));
+   const ui::ShellDialogLinux* shell_dialogs = ui::ShellDialogLinux::instance();
+@@ -87,8 +101,10 @@ SelectFileDialog* CreateSelectFileDialog(
+       if (!shell_dialogs)
+         break;
+       return shell_dialogs->CreateSelectFileDialog(listener, std::move(policy));
 +#if defined(USE_DBUS)
      case kPortal:
-       return SelectFileDialogImpl::NewSelectFileDialogImplPortal(
-           listener, std::move(policy));
+       return new SelectFileDialogLinuxPortal(listener, std::move(policy));
 +#endif
      case kKde: {
        std::unique_ptr<base::Environment> env(base::Environment::Create());

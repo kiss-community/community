@@ -1,0 +1,32 @@
+diff --git a/third_party/swiftshader/src/Vulkan/BUILD.gn b/third_party/swiftshader/src/Vulkan/BUILD.gn
+index 13b19ca..a474c84 100644
+--- a/third_party/swiftshader/src/Vulkan/BUILD.gn
++++ b/third_party/swiftshader/src/Vulkan/BUILD.gn
+@@ -20,7 +20,6 @@ import("vulkan.gni")
+ config("swiftshader_libvulkan_private_config") {
+   if (is_linux) {
+     defines = [
+-      "VK_USE_PLATFORM_XCB_KHR",
+       "VK_EXPORT=__attribute__((visibility(\"default\")))",
+     ]
+   } else if (is_chromeos) {
+diff --git a/third_party/swiftshader/src/WSI/BUILD.gn b/third_party/swiftshader/src/WSI/BUILD.gn
+index 42239fb..8572f96 100644
+--- a/third_party/swiftshader/src/WSI/BUILD.gn
++++ b/third_party/swiftshader/src/WSI/BUILD.gn
+@@ -33,15 +33,6 @@ swiftshader_source_set("WSI") {
+     "VkSwapchainKHR.hpp",
+   ]
+ 
+-  if (is_linux) {
+-    sources += [
+-      "XcbSurfaceKHR.cpp",
+-      "XcbSurfaceKHR.hpp",
+-      "libXCB.cpp",
+-      "libXCB.hpp",
+-    ]
+-  }
+-
+   if (is_win) {
+     sources += [
+       "Win32SurfaceKHR.cpp",

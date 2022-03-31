@@ -1,16 +1,13 @@
-https://commondatastorage.googleapis.com/chromium-browser-official/chromium-99.0.4844.51.tar.xz
-https://github.com/stha09/chromium-patches/releases/download/chromium-99-patchset-3/chromium-99-patchset-3.tar.xz
-https://github.com/Eloston/ungoogled-chromium/archive/refs/tags/99.0.4844.51-1.tar.gz ungoogled-chromium
+https://commondatastorage.googleapis.com/chromium-browser-official/chromium-100.0.4896.60.tar.xz
+https://github.com/stha09/chromium-patches/releases/download/chromium-100-patchset-4/chromium-100-patchset-4.tar.xz
+https://github.com/Eloston/ungoogled-chromium/archive/a12522ef5e016bec5da2b967f14879981a701117.tar.gz ungoogled-chromium
 files/chromium.sh
 patches/chromium-InkDropHost-crash.patch
-patches/chromium-fix-build-break-with-system-libdrm.patch
 patches/chromium-fix-narrowing-cast.patch
+patches/chromium-no-x11.patch
 patches/chromium-optional-atk-dbus.patch
-patches/chromium-sql-make-VirtualCursor-standard-layout-type.patch
-patches/chromium-use-FT_Done_MM_Var-in-CFX_Font-AdjustMMParams.patch
 patches/chromium-webcodecs-stop-using-AudioOpusEncoder.patch
 patches/glibc-malloc.patch
-patches/glibc-sandbox-build-if-glibc-2.34-dynamic-stack-size-is-en.patch
 patches/musl-crashpad.patch
 patches/musl-default-pthread-stacksize.patch
 patches/musl-fixes.patch
@@ -26,4 +23,5 @@ patches/musl-scoped-file.patch
 patches/musl-stacktrace.patch
 patches/musl-stat.patch
 patches/musl-sync.patch
+patches/musl-tid-caching.patch
 patches/musl-v8-monotonic-pthread-cont_timedwait.patch

@@ -1,8 +1,8 @@
 diff --git a/base/debug/stack_trace_posix.cc b/base/debug/stack_trace_posix.cc
-index c03ad0a..fb25a78 100644
+index b558155..7dd0766 100644
 --- a/base/debug/stack_trace_posix.cc
 +++ b/base/debug/stack_trace_posix.cc
-@@ -29,7 +29,7 @@
+@@ -30,7 +30,7 @@
  #if !defined(USE_SYMBOLIZE)
  #include <cxxabi.h>
  #endif
