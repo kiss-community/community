@@ -65,10 +65,15 @@ mv -f _ ui/ozone/public/platform_gl_egl_utility.h
 # libevent: Random freezes on pages that use js (Such as chrome://flags).
 # libpng: KISS builds with APNG patch (https://crbug.com/752403#c10).
 # libvpx: Broken ?
+# libxml: Rarely used by other packages.
+# libxslt: Rarely used by other packages.
 # zlib: KISS builds without 'minizip'.
 system="
+    ffmpeg
     flac
     fontconfig
+    freetype
+    harfbuzz-ng
     libdrm
     libjpeg
     libwebp
@@ -175,7 +180,7 @@ out/Release/gn gen out/Release --args="$conf"
 # -n is non-POSIX hence we "attempt".
 # shellcheck disable=2039
 ulimit -n 4096 2>/dev/null || {
-    printf "Failed to set ulimit, build will fail!\n"
+    printf "Failed to set ulimit, build will fail!\n" >&2
     exit 1
 }
 

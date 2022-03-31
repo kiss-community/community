@@ -1,8 +1,8 @@
 diff --git a/chrome/browser/metrics/chrome_browser_main_extra_parts_metrics.cc b/chrome/browser/metrics/chrome_browser_main_extra_parts_metrics.cc
-index 157782c..7f12ee1 100644
+index edb4447..18fc383 100644
 --- a/chrome/browser/metrics/chrome_browser_main_extra_parts_metrics.cc
 +++ b/chrome/browser/metrics/chrome_browser_main_extra_parts_metrics.cc
-@@ -59,7 +59,9 @@
+@@ -58,7 +58,9 @@
  // TODO(crbug.com/1052397): Revisit the macro expression once build flag switch
  // of lacros-chrome is complete.
  #if BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_CHROMEOS_LACROS)
@@ -12,7 +12,7 @@ index 157782c..7f12ee1 100644
  
  #include "base/linux_util.h"
  #include "base/strings/string_split.h"
-@@ -321,7 +323,7 @@ void RecordLinuxDistro() {
+@@ -320,7 +322,7 @@ void RecordLinuxDistro() {
  void RecordLinuxGlibcVersion() {
  // TODO(crbug.com/1052397): Revisit the macro expression once build flag switch
  // of lacros-chrome is complete.
@@ -55,39 +55,27 @@ index 10071d3..0856910 100644
  // will prefer certain process types over others. The range for the
  // adjustment is [-1000, 1000], with [0, 1000] being user accessible.
 diff --git a/third_party/blink/renderer/platform/wtf/stack_util.cc b/third_party/blink/renderer/platform/wtf/stack_util.cc
-index 8918302..5a5e70b 100644
+index 2ea9916..b84bae4 100644
 --- a/third_party/blink/renderer/platform/wtf/stack_util.cc
 +++ b/third_party/blink/renderer/platform/wtf/stack_util.cc
 @@ -29,7 +29,7 @@ size_t GetUnderestimatedStackSize() {
  // FIXME: On Mac OSX and Linux, this method cannot estimate stack size
  // correctly for the main thread.
  
--#elif defined(__GLIBC__) || defined(OS_ANDROID) || defined(OS_FREEBSD) || \
-+#elif defined(OS_LINUX) || defined(OS_ANDROID) || defined(OS_FREEBSD) || \
-     defined(OS_FUCHSIA)
+-#elif defined(__GLIBC__) || BUILDFLAG(IS_ANDROID) || BUILDFLAG(IS_FREEBSD) || \
++#elif BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_ANDROID) || BUILDFLAG(IS_FREEBSD) || \
+     BUILDFLAG(IS_FUCHSIA)
    // pthread_getattr_np() can fail if the thread is not invoked by
    // pthread_create() (e.g., the main thread of blink_unittests).
-@@ -97,7 +97,7 @@ return Threading::ThreadStackSize();
+@@ -97,7 +97,7 @@ size_t GetUnderestimatedStackSize() {
  }
  
  void* GetStackStart() {
--#if defined(__GLIBC__) || defined(OS_ANDROID) || defined(OS_FREEBSD) || \
-+#if defined(OS_LINUX) || defined(OS_ANDROID) || defined(OS_FREEBSD) || \
-     defined(OS_FUCHSIA)
+-#if defined(__GLIBC__) || BUILDFLAG(IS_ANDROID) || BUILDFLAG(IS_FREEBSD) || \
++#if BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_ANDROID) || BUILDFLAG(IS_FREEBSD) || \
+     BUILDFLAG(IS_FUCHSIA)
    pthread_attr_t attr;
    int error;
-diff --git a/third_party/ffmpeg/libavutil/cpu.c b/third_party/ffmpeg/libavutil/cpu.c
-index 4627af4..0e62038 100644
---- a/third_party/ffmpeg/libavutil/cpu.c
-+++ b/third_party/ffmpeg/libavutil/cpu.c
-@@ -41,7 +41,6 @@
- #include <sys/param.h>
- #endif
- #include <sys/types.h>
--#include <sys/sysctl.h>
- #endif
- #if HAVE_UNISTD_H
- #include <unistd.h>
 diff --git a/third_party/lss/linux_syscall_support.h b/third_party/lss/linux_syscall_support.h
 index 8d4e4d2..45d589b 100644
 --- a/third_party/lss/linux_syscall_support.h

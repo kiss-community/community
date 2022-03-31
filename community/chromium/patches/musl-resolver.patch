@@ -1,8 +1,8 @@
 diff --git a/net/dns/BUILD.gn b/net/dns/BUILD.gn
-index 42b5d8a..ed30b83 100644
+index a69d9a5..18916e1 100644
 --- a/net/dns/BUILD.gn
 +++ b/net/dns/BUILD.gn
-@@ -112,11 +112,6 @@ source_set("dns") {
+@@ -114,11 +114,6 @@ source_set("dns") {
        "dns_config_service_android.cc",
        "dns_config_service_android.h",
      ]
@@ -14,7 +14,7 @@ index 42b5d8a..ed30b83 100644
    } else if (is_posix) {
      sources += [
        "dns_config_service_posix.cc",
-@@ -415,8 +410,6 @@ source_set("tests") {
+@@ -416,8 +411,6 @@ source_set("tests") {
  
    if (is_android) {
      sources += [ "dns_config_service_android_unittest.cc" ]
@@ -38,10 +38,10 @@ index 43cc164..0cdbe89 100644
  #include <resolv.h>
  
 diff --git a/net/dns/host_resolver_manager.cc b/net/dns/host_resolver_manager.cc
-index 169fcba..9be5c56 100644
+index 931706c..faabaca 100644
 --- a/net/dns/host_resolver_manager.cc
 +++ b/net/dns/host_resolver_manager.cc
-@@ -3010,7 +3010,7 @@ HostResolverManager::HostResolverManager(
+@@ -2980,7 +2980,7 @@ HostResolverManager::HostResolverManager(
    if (system_dns_config_notifier_)
      system_dns_config_notifier_->AddObserver(this);
  #if BUILDFLAG(IS_POSIX) && !BUILDFLAG(IS_APPLE) && !BUILDFLAG(IS_OPENBSD) && \
@@ -51,10 +51,10 @@ index 169fcba..9be5c56 100644
  #endif
  
 diff --git a/net/dns/host_resolver_proc.cc b/net/dns/host_resolver_proc.cc
-index b6418e4..925d6a8 100644
+index a205f62..6dd72cf 100644
 --- a/net/dns/host_resolver_proc.cc
 +++ b/net/dns/host_resolver_proc.cc
-@@ -177,7 +177,8 @@ int SystemHostResolverCall(const std::string& host,
+@@ -192,7 +192,8 @@ int SystemHostResolverCall(const std::string& host,
                                                  base::BlockingType::WILL_BLOCK);
  
  #if BUILDFLAG(IS_POSIX) && \
@@ -63,7 +63,7 @@ index b6418e4..925d6a8 100644
 +    (BUILDFLAG(IS_LINUX) && !defined(__GLIBC__)))
    DnsReloaderMaybeReload();
  #endif
-   absl::optional<AddressInfo> ai;
+   auto [ai, err, os_error] = AddressInfo::Get(host, hints, nullptr, network);
 diff --git a/net/dns/public/scoped_res_state.cc b/net/dns/public/scoped_res_state.cc
 index 9706d18..2d98d2f 100644
 --- a/net/dns/public/scoped_res_state.cc

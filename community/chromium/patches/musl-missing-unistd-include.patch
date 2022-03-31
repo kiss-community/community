@@ -1,3 +1,5 @@
+diff --git a/sandbox/linux/services/credentials.h b/sandbox/linux/services/credentials.h
+index 17ff667..e0ad3c5 100644
 --- a/sandbox/linux/services/credentials.h
 +++ b/sandbox/linux/services/credentials.h
 @@ -13,6 +13,7 @@
