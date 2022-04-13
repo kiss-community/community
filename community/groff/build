@@ -6,8 +6,7 @@ patch -p0 < musl.patch
     --prefix=/usr \
     --without-x \
     --disable-rpath \
-    --with-doc=no \
-    --enable-nls=auto
+    --with-doc=no
 
 make
 make DESTDIR="$1" install
