@@ -1,8 +1,0 @@
-#!/bin/sh -e
-
-cat <<EOF
-
-NOTE: libzen can be removed, because mediainfo 
-      is statically linked now.
-
-EOF
