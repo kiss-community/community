@@ -1,0 +1,17 @@
+#!/bin/sh -e
+
+mv config.example.mk config.mk
+
+(
+    cd harec
+
+    ./configure \
+        --prefix=/usr
+
+    make
+    make install
+)
+
+# Parallel build is broken. Force -j1 to disable it.
+make -j1 LOCALSRCDIR=/usr/src/hare HAREC="$PWD/harec/harec"
+make LOCALSRCDIR=/usr/src/hare HAREC="$PWD/harec/harec" install
