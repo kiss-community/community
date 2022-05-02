@@ -4,7 +4,8 @@
     --prefix=/usr \
     --sysconfdir=/etc \
     --with-xz \
-    --with-zlib
+    --with-zlib \
+    --with-zstd
 
 make
 make DESTDIR="$1" install

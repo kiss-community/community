@@ -1,3 +1,4 @@
 pkgconf make
 xz
 zlib
+zstd
