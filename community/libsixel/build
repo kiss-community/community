@@ -1,7 +1,15 @@
 #!/bin/sh -e
 
-./configure \
-    --prefix=/usr
+export DESTDIR="$1"
 
-make
-make DESTDIR="$1" install
+export C_INCLUDE_PATH="$C_INCLUDE_PATH:$PWD/include"
+
+mkdir include/sys
+echo "#include <unistd.h>" > include/sys/unistd.h
+
+meson \
+    --prefix=/usr \
+    . output
+
+ninja -C output
+ninja -C output install
