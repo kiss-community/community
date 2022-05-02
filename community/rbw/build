@@ -1,7 +1,0 @@
-#!/bin/sh -e
-
-cargo build --release
-
-mkdir -p "$1/usr/bin"
-
-cp target/release/rbw target/release/rbw-agent "$1/usr/bin/"
