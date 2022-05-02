@@ -8,10 +8,7 @@ EOF
 chmod +x makeinfo
 export PATH="$PATH:$PWD"
 
-mkdir -p _build
-cd _build
-
-../configure \
+./configure \
     --prefix=/usr \
     --without-installed-readline \
     --disable-nls
