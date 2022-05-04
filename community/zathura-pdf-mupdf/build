@@ -4,7 +4,6 @@ export DESTDIR="$1"
 
 meson \
     --prefix=/usr \
-    -Dlink-external=true \
     . output
 
 ninja -C output
