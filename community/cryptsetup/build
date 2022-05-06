@@ -1,0 +1,38 @@
+#!/bin/sh -e
+
+# We only need the static library of popt.
+(
+    cd popt
+    ./configure \
+        --disable-shared \
+        --disable-nls
+    make
+)
+
+# Point to the popt libraries we just built
+export CFLAGS="-I$PWD/popt/src -L$PWD/popt/src/.libs -lpopt"
+export LDFLAGS="$LDFLAGS -L$PWD/popt/src"
+
+./configure \
+    --sbindir=/usr/bin \
+    --disable-shared \
+    --disable-ssh-token \
+    --disable-nls \
+    --disable-udev \
+    --disable-external-tokens \
+    --enable-static-cryptsetup \
+    --with-crypto_backend=openssl
+
+# Make fails when tests are enabled
+sed '/^SUBDIRS = /s/tests//' Makefile > _
+mv _ Makefile
+
+make
+make DESTDIR="$1" install
+
+for f in "$1/usr/bin/"*.static; do
+    mv "$f" "$(echo "$f" | sed 's/.static$//')"
+done
+
+rm -r "$1/usr/lib"
+rm -r "$1/usr/include"

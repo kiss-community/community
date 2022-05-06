@@ -1,0 +1,3 @@
+json-c make
+lvm2 make
+openssl make
