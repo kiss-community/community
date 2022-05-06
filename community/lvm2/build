@@ -37,6 +37,7 @@ udev=disable
     --enable-fsadm \
     --enable-dmeventd \
     --enable-cmdlib \
+    --enable-static_link \
     --disable-symvers \
     --with-default-dm-run-dir=/run \
     --with-default-locking-dir=/run/lock/lvm \
@@ -51,3 +52,6 @@ make DESTDIR="$1" install
 chmod u+w "$1/usr/lib/"* \
           "$1/usr/include/"* \
           "$1/usr/bin/"*
+
+# Remove *.static binaries
+rm -rf "$1/usr/sbin"
