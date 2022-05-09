@@ -1,6 +1,8 @@
 #!/bin/sh -e
 
 ./configure \
+    --disable-video-opengl \
+    --enable-video-opengles \
     --prefix=/usr
 
 make
