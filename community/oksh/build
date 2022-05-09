@@ -1,7 +1,5 @@
 #!/bin/sh -e
 
-export CFLAGS="$CFLAGS -DSMALL"
-
 ./configure \
     --prefix=/usr \
     --disable-curses \
