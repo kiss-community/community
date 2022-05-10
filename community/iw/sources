@@ -1,3 +1,2 @@
 https://mirrors.edge.kernel.org/pub/software/network/iw/iw-VERSION.tar.xz
-https://github.com/sabotage-linux/libnl-tiny/archive/4225e93bec5304abee3386213213718367e54a93.tar.gz libnl
-patches/nl.patch
+https://git.openwrt.org/?p=project/libnl-tiny.git;a=snapshot;h=8e0555fb39f51a5d6436b4f1370850caa03611ea;sf=tgz
