@@ -1,0 +1,11 @@
+#!/bin/sh -e
+
+: > completions/meson.build
+
+meson \
+    --prefix=/usr \
+    --buildtype=release \
+    . output
+
+ninja -C output
+ninja -C output install
