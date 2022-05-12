@@ -2,7 +2,6 @@
 
 ./configure \
     --prefix=/usr \
-    --disable-curses \
     --enable-ksh \
     --enable-static
 
