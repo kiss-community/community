@@ -1,0 +1,14 @@
+#!/bin/sh -e
+
+mkdir build
+cd build
+
+cmake \
+    -DBUILD_MTPZ=0 \
+    -DBUILD_PYTHON=0 \
+    -DBUILD_QT_UI=0 \
+    ..
+
+make
+# We don't need the libraries, only the executable.
+install -Dm755 cli/aft-mtp-cli "$1/usr/bin/aft-mtp-cli"
