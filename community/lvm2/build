@@ -18,14 +18,13 @@ export MKDIR_P="install -d"
 # Bashism banished.
 export CONFIG_SHELL=/bin/sh
 
-# Always disable udev support since libudev-zero is broken. See below.
+# Disable udev support by default since libudev-zero doesn't support it.
 udev=disable
 
-# libudev-zero trips (correctly) the udev auto detection, but is broken with
-# lvm (see https://github.com/illiliti/libudev-zero/issues/4). As such, it's
-# commented out and always disabled. In order to turn it back on, uncomment the
-# line below.
-#pkg-config --exists libudev && udev=disable
+# libudev-zero trips (correctly) on the udev auto detection, but is broken with
+# LVM2 (see https://github.com/illiliti/libudev-zero/issues/4). In order to
+# turn it back on, uncomment the line below.
+#pkg-config --exists libudev && udev=enable
 
 ./configure \
     --prefix=/usr \
