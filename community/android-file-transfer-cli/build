@@ -1,0 +1,16 @@
+#!/bin/sh -e
+
+export DESTDIR="$1"
+
+cmake -B build \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DBUILD_MTPZ=False \
+    -DBUILD_QT_UI=False \
+    -DBUILD_PYTHON=False
+
+cmake --build   build
+cmake --install build
+
+# remove useless static library
+rm -f "$1/usr/lib/libmtp-ng-static.a"
