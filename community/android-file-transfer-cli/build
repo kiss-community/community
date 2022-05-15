@@ -1,14 +1,16 @@
 #!/bin/sh -e
 
-mkdir build
-cd build
+export DESTDIR="$1"
 
-cmake \
-    -DBUILD_MTPZ=0 \
-    -DBUILD_PYTHON=0 \
-    -DBUILD_QT_UI=0 \
-    ..
+cmake -B build \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DBUILD_MTPZ=False \
+    -DBUILD_QT_UI=False \
+    -DBUILD_PYTHON=False
 
-make
-# We don't need the libraries, only the executable.
-install -Dm755 cli/aft-mtp-cli "$1/usr/bin/aft-mtp-cli"
+cmake --build   build
+cmake --install build
+
+# remove useless static library
+rm -f "$1/usr/lib/libmtp-ng-static.a"
