@@ -6,8 +6,5 @@
     --disable-rpath \
     --with-openssl-dir=/usr
 
-sed 's/} > $@/} | tee $@/g' Makefile > _
-mv -f _ Makefile
-
 make
 make DESTDIR="$1" install
