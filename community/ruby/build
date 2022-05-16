@@ -3,12 +3,8 @@
 ./configure \
     --prefix=/usr \
     --enable-shared \
-    --disable-rpath
-
-# Work around a bug in busybox's sh that causes an infinite loop when
-# redirecting. Use tee for redirection instead.
-sed 's/} > $@/} | tee $@/g' Makefile > _
-mv -f _ Makefile
+    --disable-rpath \
+    --with-openssl-dir=/usr
 
 make
 make DESTDIR="$1" install
