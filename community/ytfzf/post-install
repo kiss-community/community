@@ -19,6 +19,9 @@ thumbnail viewer. A list is available at
 
 https://github.com/pystardust/ytfzf#alternative-thumbnail-viewers
 
+You also have to install addons if you want some. 
+Addons are not installed with the package.
+
 NOTE: if mpv fails to play the video, it needs to be
 rebuilt. 
 
