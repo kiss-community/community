@@ -1,0 +1,9 @@
+#!/bin/sh
+
+cat <<EOF
+
+You will need to export RUSTC_WRAPPER in order for kiss to take advantage of
+sccache in builds.  See the package README or the upstream README for
+documentation.
+
+EOF
