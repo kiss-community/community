@@ -1,8 +1,0 @@
-#!/bin/sh -e
-
-./configure \
-    --sysconfdir=/etc
-
-make
-make DESTDIR="$1" install
-
