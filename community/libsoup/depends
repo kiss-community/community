@@ -1,9 +1,0 @@
-glib
-glib-networking
-libnghttp2
-libpsl
-libxml2
-meson make
-pkgconf make
-sqlite
-zlib
