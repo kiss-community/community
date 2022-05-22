@@ -1,6 +1,0 @@
-#!/bin/sh -e
-
-sed -i 's/775/755/g' Makefile
-
-make
-make DESTDIR="$1" PREFIX=/usr install
