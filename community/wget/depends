@@ -1,0 +1,4 @@
+make
+openssl
+pkgconf
+zlib
