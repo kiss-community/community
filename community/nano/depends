@@ -1,0 +1,4 @@
+linux-headers make
+ncurses
+xz
+zlib
