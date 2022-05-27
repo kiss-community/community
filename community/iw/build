@@ -10,8 +10,8 @@ mv libnl-tiny*/ libnl
 (
     cd libnl
 
-    echo $CC $CFLAGS -I./include $CPPFLAGS -c -- *.c
-    $CC $CFLAGS -I./include $CPPFLAGS -c -- *.c
+    echo $CC $CFLAGS -I./include $CPPFLAGS -c ./*.c
+    $CC $CFLAGS -I./include $CPPFLAGS -c ./*.c
     echo $AR rc libnl-tiny.a -- *.o
     $AR rc libnl-tiny.a -- *.o
 )
