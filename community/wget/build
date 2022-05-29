@@ -8,3 +8,5 @@
 make
 make DESTDIR="$1" install
 
+# Wget2 doesn't provided wget softlink by default
+ln -sf "/usr/bin/wget2" "/usr/bin/wget"

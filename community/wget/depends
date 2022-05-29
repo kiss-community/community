@@ -1,4 +1,11 @@
+brotli
+bzip2
+flex
+libnghttp2
+libpsl
 make
 openssl
+pcre
 pkgconf
 zlib
+zstd
