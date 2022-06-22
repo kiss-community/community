@@ -1,0 +1,49 @@
+sccache
+________________________________________________________________________________
+
+sccache is like ccache, but works with Rust.  It also can store to cloud
+storage, but the cloud features are disabled in this package.
+
+Upstream: https://github.com/mozilla/sccache
+
+
+[000] Index
+________________________________________________________________________________
+
+* Installation ........................................................... [001]
+* Usage .................................................................. [002]
+* References ............................................................. [003]
+
+
+[001] Installation
+________________________________________________________________________________
+
++------------------------------------------------------------------------------+
+|                                                                              |
+|  $ kiss b sccache                                                            |
+|                                                                              |
++------------------------------------------------------------------------------+
+
+
+[002] Usage
+________________________________________________________________________________
+
+To enable sccache, export RUSTC_WRAPPER=ccache .  This can be done at the same
+place that KISS_PATH is exported to take effect in kiss package builds.
+
+The default max cache size is 10 gigabytes.  To change this from the default,
+export SCCACHE_CACHE_SIZE to the desired max cache size.  For example:
+
++------------------------------------------------------------------------------+
+|                                                                              |
+|  $ export SCCACHE_CACHE_SIZE="4G"                                            |
+|                                                                              |
++------------------------------------------------------------------------------+
+
+For additional documentation, see the README at [0].
+
+
+[003] References
+________________________________________________________________________________
+
+[0] https://github.com/mozilla/sccache

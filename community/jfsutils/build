@@ -4,8 +4,6 @@ for patch in *.patch; do
     patch -p1 < "$patch"
 done
 
-export LDFLAGS="$LDFLAGS -static"
-
 ./configure \
     --prefix=/usr \
     --sbindir=/usr/bin \
