@@ -1,1 +1,2 @@
 https://github.com/mawww/kakoune/archive/v2021.11.08.tar.gz
+patches/fix-constexpr-usage.patch

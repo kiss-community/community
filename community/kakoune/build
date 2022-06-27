@@ -1,5 +1,7 @@
 #!/bin/sh -e
 
+patch -p1 < ./fix-constexpr-usage.patch
+
 cd src/
 make \
     DESTDIR="$1" \
