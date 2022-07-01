@@ -1,0 +1,8 @@
+#!/bin/sh -e
+
+./configure \
+	--prefix=/usr \
+	gtk3 lcms2 tiff jpeg webp man release
+	
+make
+make DESTDIR="$1" install
