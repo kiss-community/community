@@ -8,7 +8,7 @@
 make
 make DESTDIR="$1" install
 
-# without this directory, dropbear won't create the necessary
+# Without this directory, dropbear won't create the necessary
 # hostkeys and you won't be able to connect to the SSH server.
 mkdir -p "$1/etc/dropbear"
 
