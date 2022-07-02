@@ -1,6 +1,8 @@
 #!/bin/sh -e
 
+export FREEBL_NO_DEPEND=0
 export NSS_USE_SYSTEM_SQLITE=1
+export NSS_DISABLE_GTESTS=1
 export NSS_ENABLE_WERROR=0
 export USE_64=1
 export BUILD_OPT=1

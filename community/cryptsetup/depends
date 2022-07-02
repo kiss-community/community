@@ -1,3 +1,5 @@
-json-c make
-lvm2 make
-openssl make
+json-c
+lvm2
+openssl
+popt make
+util-linux

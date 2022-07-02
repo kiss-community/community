@@ -1,0 +1,7 @@
+#!/bin/sh -e
+
+./configure \
+    --prefix=/usr \
+    --otbdir=/usr/share/fonts/misc
+
+make DESTDIR="$1" install-otb
