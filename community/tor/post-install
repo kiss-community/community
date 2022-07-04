@@ -1,0 +1,12 @@
+#!/bin/sh
+
+# Add tor daemon group & user.
+# This allows tor to automatically lower it's privileges.
+addgroup -S tor
+adduser -SD \
+	-G tor \
+    -h /var/lib/tor \
+    -s /bin/false \
+    -g 'Tor Daemon User' \
+    tor
+

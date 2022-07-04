@@ -7,5 +7,5 @@
 make
 make DESTDIR="$1" install
 
-# Install runit service.
 install -Dm755 tor.run "$1/etc/sv/tor/run"
+install -D torrc "$1/etc/tor/torrc"
