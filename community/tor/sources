@@ -1,2 +1,3 @@
 https://dist.torproject.org/tor-VERSION.tar.gz
 files/tor.run
+files/torrc

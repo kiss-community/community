@@ -1,0 +1,23 @@
+#!/bin/sh
+
+cat << EOF
+
+Creating system user, and group 'tor'.
+
+It's not a good idea to run tor as root, so with this tor can automatically
+lower its priviledges on startup.
+
+EOF
+
+# Add tor daemon group & user.  This allows tor to automatically lower it's
+# privileges.  I'm piping stderr to /dev/null, because in the case that tor is
+# being reinstalled, we don't want to see an error.
+{
+    addgroup -S tor
+    adduser -SD \
+        -G tor \
+        -h /var/lib/tor \
+        -s /bin/false \
+        -g 'Tor Daemon User' \
+        tor
+} 2>/dev/null
