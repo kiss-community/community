@@ -1,0 +1,15 @@
+#!/bin/sh -e
+
+./configure \
+    --prefix=/usr \
+    --sbindir=/usr/bin \
+    --enable-static
+
+make
+make DESTDIR="$1" install
+
+# Without this directory, dropbear won't create the necessary
+# hostkeys and you won't be able to connect to the SSH server.
+mkdir -p "$1/etc/dropbear"
+
+install -Dm775 dropbear.run "$1/etc/sv/dropbear/run"
