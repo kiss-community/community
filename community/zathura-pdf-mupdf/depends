@@ -1,10 +1,6 @@
 cairo
-gumbo-parser
 jbig2dec
-libjpeg-turbo
-libmupdf make
-openssl
+libmupdf
 meson make
-openjpeg2
 pkgconf make
 zathura
