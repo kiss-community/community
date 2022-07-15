@@ -1,3 +1,4 @@
 https://www.mupdf.com/downloads/archive/mupdf-VERSION-source.tar.gz
 patches/no-gumbo.patch
 patches/no-openjpeg.patch
+patches/objcopy.patch
