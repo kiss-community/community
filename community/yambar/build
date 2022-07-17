@@ -1,0 +1,17 @@
+#!/bin/sh -e
+
+meson \
+	--prefix=/usr \
+	-Dbackend-x11=disabled \
+	-Dbackend-wayland=enabled \
+	-Dplugin-mpd=disabled \
+	build
+DESTDIR="$1" ninja -C build install
+
+# remove zsh shit
+rm -rf "$1/usr/share/zsh"
+
+# remove man doc if mandoc not installed
+if ! kiss search mandoc 2>/dev/null 1>/dev/null; then
+	rm -rf "$1/usr/share/man"
+fi
