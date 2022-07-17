@@ -1,0 +1,5 @@
+#!/bin/sh -e
+
+DESTDIR="$1/usr/share/fonts/TTF/NotoEmoji"
+mkdir -p "$DESTDIR"
+cp fonts/NotoColorEmoji.ttf "$DESTDIR"
