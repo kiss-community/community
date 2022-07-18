@@ -1,0 +1,10 @@
+alsa-lib
+fontconfig
+freetype-harfbuzz
+json-c
+libudev-zero
+libyaml
+meson make
+pixman
+scdoc make
+wayland
