@@ -1,10 +1,12 @@
 #!/bin/sh -e
 
+patch -p1 < update-to-pcre2.patch
+
 autoreconf
 
 ./configure \
     --prefix=/usr \
-    --enable-pcre
+    --enable-pcre2
 
 make
 make DESTDIR="$1" install
