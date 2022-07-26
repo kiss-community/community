@@ -1,0 +1,53 @@
+diff --git a/configure b/configure
+index 47df8b3..b762404 100755
+--- a/configure
++++ b/configure
+@@ -12849,6 +12849,17 @@ _ACEOF
+ fi
+ done
+ 
++for ac_func in closefrom
++do :
++  ac_fn_c_check_func "$LINENO" "closefrom" "ac_cv_func_closefrom"
++if test "x$ac_cv_func_closefrom" = xyes; then :
++  cat >>confdefs.h <<_ACEOF
++#define HAVE_CLOSEFROM 1
++_ACEOF
++
++fi
++done
++
+ ac_fn_c_check_member "$LINENO" "struct stat" "st_atim" "ac_cv_member_struct_stat_st_atim" "$ac_includes_default"
+ if test "x$ac_cv_member_struct_stat_st_atim" = xyes; then :
+ 
+diff --git a/util/ulockmgr_server.c b/util/ulockmgr_server.c
+index 273c7d923..a04dac5c6 100644
+--- a/util/ulockmgr_server.c
++++ b/util/ulockmgr_server.c
+@@ -22,6 +22,10 @@
+ #include <sys/socket.h>
+ #include <sys/wait.h>
+ 
++#ifdef HAVE_CONFIG_H
++	#include "config.h"
++#endif
++
+ struct message {
+ 	unsigned intr : 1;
+ 	unsigned nofd : 1;
+@@ -124,6 +128,7 @@ static int receive_message(int sock, void *buf, size_t buflen, int *fdp,
+ 	return res;
+ }
+ 
++#if !defined(HAVE_CLOSEFROM)
+ static int closefrom(int minfd)
+ {
+ 	DIR *dir = opendir("/proc/self/fd");
+@@ -141,6 +146,7 @@ static int closefrom(int minfd)
+ 	}
+ 	return 0;
+ }
++#endif
+ 
+ static void send_reply(int cfd, struct message *msg)
+ {
