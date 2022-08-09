@@ -1,6 +1,3 @@
 #!/bin/sh -e
 
-## Set correct release version
-sed -i 's/2\.4\.0\.rc-3/2.4.0/' ytfzf
-
 make PREFIX=/usr DESTDIR="$1" install doc
