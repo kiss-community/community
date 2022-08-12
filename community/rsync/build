@@ -1,10 +1,5 @@
 #!/bin/sh -e
 
-# Swap to awk script instead of perl script
-# for building rsync. See files/mkproto.awk.
-sed 's/perl/awk -f/;s/mkproto.pl/mkproto.awk/' Makefile.in > _
-mv -f _ Makefile.in
-
 ./configure \
     --prefix=/usr \
     --with-included-popt \
