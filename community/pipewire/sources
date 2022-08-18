@@ -1,5 +1,5 @@
-https://gitlab.freedesktop.org/pipewire/pipewire/-/archive/VERSION/pipewire-VERSION.tar.gz
-https://gitlab.freedesktop.org/pipewire/media-session/-/archive/0.4.1/media-session-0.4.1.tar.gz subprojects/media-session
-patches/autostart-media-session.patch
+https://gitlab.freedesktop.org/pipewire/pipewire/-/archive/MAJOR.MINOR.PATCH/pipewire-MAJOR.MINOR.PATCH.tar.gz
+https://gitlab.freedesktop.org/pipewire/wireplumber/-/archive/IDENT/wireplumber-IDENT.tar.gz subprojects/wireplumber
+patches/autostart-session-manager.patch
 patches/libudev-zero.patch
 patches/no-dbus.patch
