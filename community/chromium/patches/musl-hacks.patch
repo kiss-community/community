@@ -1,22 +1,31 @@
-diff --git a/mojo/public/c/system/thunks.cc b/mojo/public/c/system/thunks.cc
-index b8f8ff4..4a5914c 100644
---- a/mojo/public/c/system/thunks.cc
-+++ b/mojo/public/c/system/thunks.cc
-@@ -104,7 +104,8 @@ class CoreLibraryInitializer {
-     base::ScopedAllowBlocking allow_blocking;
-     base::NativeLibraryOptions library_options;
- #if !defined(ADDRESS_SANITIZER) && !defined(THREAD_SANITIZER) && \
--    !defined(MEMORY_SANITIZER) && !defined(LEAK_SANITIZER)
-+    !defined(MEMORY_SANITIZER) && !defined(LEAK_SANITIZER) && \
-+    defined(RTLD_DEEPBIND)
-     // Sanitizer builds cannnot support RTLD_DEEPBIND, but they also disable
-     // allocator shims, so it's unnecessary there.
-     library_options.prefer_own_symbols = true;
+diff --git a/base/debug/stack_trace.cc b/base/debug/stack_trace.cc
+index 730fada..3679ca5 100644
+--- a/base/debug/stack_trace.cc
++++ b/base/debug/stack_trace.cc
+@@ -273,7 +273,9 @@ void StackTrace::Print() const {
+ }
+ 
+ void StackTrace::OutputToStream(std::ostream* os) const {
++#if defined(__GLIBC__)
+   OutputToStreamWithPrefix(os, nullptr);
++#endif
+ }
+ 
+ std::string StackTrace::ToString() const {
+@@ -281,7 +283,7 @@ std::string StackTrace::ToString() const {
+ }
+ std::string StackTrace::ToStringWithPrefix(const char* prefix_string) const {
+   std::stringstream stream;
+-#if !defined(__UCLIBC__) && !defined(_AIX)
++#if defined(__GLIBC__) && !defined(_AIX)
+   OutputToStreamWithPrefix(&stream, prefix_string);
+ #endif
+   return stream.str();
 diff --git a/net/socket/udp_socket_posix.cc b/net/socket/udp_socket_posix.cc
-index d64824e..79e7849 100644
+index 01fe429..35c6ce9 100644
 --- a/net/socket/udp_socket_posix.cc
 +++ b/net/socket/udp_socket_posix.cc
-@@ -1110,7 +1110,7 @@ SendResult UDPSocketPosixSender::InternalSendmmsgBuffers(
+@@ -1099,7 +1099,7 @@ SendResult UDPSocketPosixSender::InternalSendmmsgBuffers(
      msg_iov->push_back({const_cast<char*>(buffer->data()), buffer->length()});
    msgvec->reserve(buffers.size());
    for (size_t j = 0; j < buffers.size(); j++)
