@@ -2,17 +2,16 @@ name: Mirroring
 
 on: [push, delete]
 
-env:
-  SSH_KEY: ${{ secrets.CODEBERG_DEPLOY_KEY }}
-
 jobs:
-  mirror:
+  to_codeberg:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0
-      - name: Mirror
-      run: |
-        echo "$SSH_KEY" | install -Dm644 /dev/stdin "$HOME/.ssh/id_rsa"
-        yes | git push --force --mirror git@codeberg.org:kiss-community/community
+      - uses: pixta-dev/repository-mirroring-action@v1
+        with:
+          target_repo_url:
+              git@codeberg.org:kiss-community/community
+          ssh_private_key:
+                ${{ secrets.CODEBERG_DEPLOY_KEY }}
