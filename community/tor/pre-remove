@@ -1,4 +1,0 @@
-#!/bin/sh
-
-delgroup tor
-deluser tor
