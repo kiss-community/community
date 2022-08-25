@@ -1,6 +1,6 @@
 #!/bin/sh -e
 
-export CFLAGS="$CFLAGS -static"
+export LDFLAGS="$LDFLAGS -static"
 
 patch -p1 < bash-5.1-parallel_make.patch
 
