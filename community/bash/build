@@ -1,7 +1,5 @@
 #!/bin/sh -e
 
-export LDFLAGS="$LDFLAGS -static"
-
 patch -p1 < bash-5.1-parallel_make.patch
 
 for patch in bash51-0??; do
