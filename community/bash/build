@@ -1,5 +1,7 @@
 #!/bin/sh -e
 
+export CFLAGS="$CFLAGS -DSYS_BASHRC='\"/etc/bash/bashrc\"'"
+
 patch -p1 < bash-5.1-parallel_make.patch
 
 for patch in bash51-0??; do
