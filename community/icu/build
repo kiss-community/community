@@ -7,7 +7,7 @@ mv -f _ icu4c/source/configure
 sed 's/clang++ g++ c++/c++ clang++ g++/g' icu4c/source/configure > _
 mv -f _ icu4c/source/configure
 
-icu4c/source/configure \
+sh icu4c/source/configure \
     --prefix=/usr \
     --sbindir=/usr/bin
 
