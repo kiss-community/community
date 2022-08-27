@@ -1,0 +1,1872 @@
+From 88159451c304ab45e0429b15a7a8a54a4cf560bd Mon Sep 17 00:00:00 2001
+From: leo-arch <leonardoabramovich2@gmail.com>
+Date: Sun, 17 Apr 2022 04:04:05 -0300
+Subject: [PATCH] Add multi-select and list padding
+
+---
+ config.h            |  50 ++++
+ fzy.1               | 105 +++++++--
+ src/choices.c       | 113 ++++++---
+ src/config.def.h    |  31 +++
+ src/fzy.c           |   4 +-
+ src/match.c         |  32 ++-
+ src/options.c       | 178 ++++++++------
+ src/options.h       |  10 +
+ src/tty.c           |  94 ++++++--
+ src/tty_interface.c | 558 ++++++++++++++++++++++++++++++++++++++------
+ 11 files changed, 964 insertions(+), 272 deletions(-)
+ create mode 100644 config.h
+
+diff --git a/config.h b/config.h
+new file mode 100644
+index 0000000..f6bb662
+--- /dev/null
++++ b/config.h
+@@ -0,0 +1,50 @@
++#define TTY_COLOR_HIGHLIGHT TTY_COLOR_YELLOW
++
++#define VERSION "1.0"
++
++#define SCORE_GAP_LEADING -0.005
++#define SCORE_GAP_TRAILING -0.005
++#define SCORE_GAP_INNER -0.01
++#define SCORE_MATCH_CONSECUTIVE 1.0
++#define SCORE_MATCH_SLASH 0.9
++#define SCORE_MATCH_WORD 0.8
++#define SCORE_MATCH_CAPITAL 0.7
++#define SCORE_MATCH_DOT 0.6
++
++/* Time (in ms) to wait for additional bytes of an escape sequence */
++#define KEYTIMEOUT 25
++
++#define DEFAULT_TTY "/dev/tty"
++#define DEFAULT_PROMPT "> "
++#define DEFAULT_NUM_LINES 10
++#define DEFAULT_WORKERS 0
++#define DEFAULT_SHOW_INFO 0
++#define DEFAULT_DELIMITER '\n'
++#define DEFAULT_BENCHMARK 0
++#define DEFAULT_SCORES 0
++#define DEFAULT_SCROLLOFF 0
++#define DEFAULT_FILTER NULL
++#define DEFAULT_INIT_SEARCH NULL
++#define DEFAULT_MARKER '*'
++#define DEFAULT_POINTER '>'
++#define DEFAULT_PAD 0
++#define DEFAULT_MULTI 0
++#define DEFAULT_CYCLE 0
++#define DEFAULT_TAB_ACCEPTS 0
++#define DEFAULT_RIGHT_ACCEPTS 0
++#define DEFAULT_LEFT_ABORTS 0
++#define DEFAULT_NO_COLOR 0
++#define DEFAULT_REVERSE 0
++
++#define DEFAULT_COLORS "b6b1b2b40"
++#define NC "\x1b[0m" /* Reset attributes */
++
++/* Color indices: colors (from FZY_COLORS env var) will be parsed
++ * exactly in this order. See tty_interface.c */
++#define PROMPT_COLOR 0
++#define POINTER_COLOR 1
++#define MARKER_COLOR 2
++#define SEL_FG_COLOR 3
++#define SEL_BG_COLOR 4
++#define COLOR_ITEMS_NUM 5
++#define MAX_COLOR_LEN 48
+diff --git a/fzy.1 b/fzy.1
+index 9c34a21..ac7dc65 100644
+--- a/fzy.1
++++ b/fzy.1
+@@ -1,4 +1,4 @@
+-.TH FZY 1 "2018-09-23" "fzy 1.0"
++.TH FZY 1 "Jul 9, 2022" "fzy 1.0"
+ .SH NAME
+ fzy \- A fuzzy text selector menu for the terminal.
+ .SH SYNOPSIS
+@@ -25,6 +25,14 @@ How many lines of items to display. If unspecified, defaults to 10 lines.
+ Input prompt (default: '> ')
+ .
+ .TP
++.BR \-P ", " \-\-pad =\fINUM\fR
++Left pad the list of matches NUM places (default: 0)
++.
++.TP
++.BR \-m ", " \-\-multi
++Enable multi-selection
++.
++.TP
+ .BR \-s ", " \-\-show-scores
+ Show the scores for each item.
+ .
+@@ -52,32 +60,99 @@ Usage help.
+ .BR \-v ", " \-\-version
+ Usage help.
+ .
++.TP
++.BR \-\-pointer =\fICHAR\fR
++Pointer to highlightled match (default '>')
++.
++.TP
++.BR \-\-marker =\fICHAR\fR
++Multi-select marker (default '*')
++.
++.TP
++.BR \-\-cyclic
++Enable cyclic scrolling
++.
++.TP
++.BR \-\-tab-accetps
++TAB accepts: print selection and exit
++.
++.TP
++.BR \-\-right-accepts
++Right arrow key accepts: print selection and exit
++.
++.TP
++.BR \-\-left-aborts
++Left arrow key aborts: cancel selection and exit
++.
++.TP
++.BR \-\-reverse
++List from top, prompt at bottom
++.
++.TP
++.BR \-\-no\-color
++Run colorless
++.
+ .SH KEYS
+ .
+ .TP
+ .BR "ENTER"
+-Print the selected item to stdout and exit
++Print the selected items to stdout and exit. If \fI\-\-right\-accepts\fR is set, the Right arrow key performs the same function. Equally, if \fI\-\-tab\-accepts\fR is set, the TAB key performs the same function.
++.TP
++.BR "ESC"
++Exit without printing any result. If \fI\-\-left\-aborts\fR is set, the Left arrow key performs the same function.
+ .TP
+ .BR "Ctrl+c, Ctrl+g, Esc"
+ Exit with status 1, without making a selection.
+ .TP
+ .BR "Up Arrow, Ctrl+p, Ctrl+k"
+-Select the previous item
++Select the previous item.
+ .TP
+ .BR "Down Arrow, Ctrl+n, Ctrl+j"
+-Select the next item
++Select the next item.
+ .TP
+-Tab
+-Replace the current search string with the selected item
++.BR "TAB"
++Replace the current search string with the selected item. If the multi-selection mode (\fI-m, --multi\fR) is enabled, TAB is used to (un)mark the selected entry instead.
+ .TP
+ .BR "Backspace, Ctrl+h"
+-Delete the character before the cursor
++Delete the character before the cursor.
+ .TP
+ .BR Ctrl+w
+-Delete the word before the cursor
++Delete the word before the cursor.
+ .TP
+ .BR Ctrl+u
+-Delete the entire line
++Delete the entire line.
++.
++.SH COLORS
++Interface colors are read from the environment variable \fBFZY_COLORS\fR using a simple pattern: the \fIorder\fR of the color code specifies which \fIinterface element\fR the color must be applied to, while the \fIcontent\fR of this code defines the \fIcolor\fR of this element.
++.sp
++\fBA\fR. The order is this:
++ 1) Prompt
++ 2) Pointer
++ 3) Marker
++ 4) Current entry foreground
++ 5) Current entry background
++.sp
++\fBB\fR. Possible content (available colors):
++ 0 = black
++ 1 = red
++ 2 = green
++ 3 = yellow
++ 4 = blue
++ 5 = magenta
++ 6 = cyan
++ 7 = white
++.sp
++Use a \fBb\fR before the color to make it bold/bright. A dash (\-) means that the color for the interface element in that position must be skipped.
++.sp
++For example, \fBFZF_COLORS="\-b1b2\-4"\fR is to be read as follows:
++.sp
++ \fB\-\fR: no prompt color
++ \fBb1\fR: bold red pointer color
++ \fBb2\fR: bold green marker color
++ \fB\-\fR: no color for the current entry foreground
++ \fB4\fR: blue current entry background
++.sp
++Default colors are: \fBb6b1b2b40\fR
+ .
+ .SH USAGE EXAMPLES
+ .
+@@ -85,19 +160,21 @@ Delete the entire line
+ .BR "ls | fzy"
+ Present a menu of items in the current directory
+ .TP
+-.BR "ls | fzy -l 25"
++.BR "ls | fzy \-l 25"
+ Same as above, but show 25 lines of items
+ .TP
+-.BR "vi $(find -type f | fzy)"
++.BR "vi $(find \-type f | fzy)"
+ List files under the current directory and open the one selected in vi.
+ .TP
+-.BR "cd $(find -type d | fzy)"
++.BR "cd $(find \-type d | fzy)"
+ Present all directories under current path, and change to the one selected.
+ .TP
+ .BR "ps aux | fzy | awk '{ print $2 }' | xargs kill"
+ List running processes, kill the selected process
+ .TP
+-.BR "git checkout $(git branch | cut -c 3- | fzy)"
++.BR "git checkout $(git branch | cut \-c 3\- | fzy)"
+ Same as above, but switching git branches.
+-.SH AUTHOR
++.SH AUTHORS
+ John Hawthorn <john.hawthorn@gmail.com>
++
++L. Abramovich <johndoe.arch@outlook.com>
+diff --git a/src/choices.c b/src/choices.c
+index fe2f80b..6f1b012 100644
+--- a/src/choices.c
++++ b/src/choices.c
+@@ -15,7 +15,9 @@
+ /* Initial size of choices array */
+ #define INITIAL_CHOICE_CAPACITY 128
+ 
+-static int cmpchoice(const void *_idx1, const void *_idx2) {
++static int
++cmpchoice(const void *_idx1, const void *_idx2)
++{
+ 	const struct scored_result *a = _idx1;
+ 	const struct scored_result *b = _idx2;
+ 
+@@ -36,7 +38,9 @@ static int cmpchoice(const void *_idx1, const void *_idx2) {
+ 	}
+ }
+ 
+-static void *safe_realloc(void *buffer, size_t size) {
++static void *
++safe_realloc(void *buffer, size_t size)
++{
+ 	buffer = realloc(buffer, size);
+ 	if (!buffer) {
+ 		fprintf(stderr, "Error: Can't allocate memory (%zu bytes)\n", size);
+@@ -46,7 +50,9 @@ static void *safe_realloc(void *buffer, size_t size) {
+ 	return buffer;
+ }
+ 
+-void choices_fread(choices_t *c, FILE *file, char input_delimiter) {
++void
++choices_fread(choices_t *c, FILE *file, char input_delimiter)
++{
+ 	/* Save current position for parsing later */
+ 	size_t buffer_start = c->buffer_size;
+ 
+@@ -87,18 +93,24 @@ void choices_fread(choices_t *c, FILE *file, char input_delimiter) {
+ 	} while (line && line < line_end);
+ }
+ 
+-static void choices_resize(choices_t *c, size_t new_capacity) {
++static void
++choices_resize(choices_t *c, size_t new_capacity)
++{
+ 	c->strings = safe_realloc(c->strings, new_capacity * sizeof(const char *));
+ 	c->capacity = new_capacity;
+ }
+ 
+-static void choices_reset_search(choices_t *c) {
++static void
++choices_reset_search(choices_t *c)
++{
+ 	free(c->results);
+ 	c->selection = c->available = 0;
+ 	c->results = NULL;
+ }
+ 
+-void choices_init(choices_t *c, options_t *options) {
++void
++choices_init(choices_t *c, options_t *options)
++{
+ 	c->strings = NULL;
+ 	c->results = NULL;
+ 
+@@ -108,16 +120,17 @@ void choices_init(choices_t *c, options_t *options) {
+ 	c->capacity = c->size = 0;
+ 	choices_resize(c, INITIAL_CHOICE_CAPACITY);
+ 
+-	if (options->workers) {
++	if (options->workers)
+ 		c->worker_count = options->workers;
+-	} else {
++	else
+ 		c->worker_count = (int)sysconf(_SC_NPROCESSORS_ONLN);
+-	}
+ 
+ 	choices_reset_search(c);
+ }
+ 
+-void choices_destroy(choices_t *c) {
++void
++choices_destroy(choices_t *c)
++{
+ 	free(c->buffer);
+ 	c->buffer = NULL;
+ 	c->buffer_size = 0;
+@@ -131,17 +144,21 @@ void choices_destroy(choices_t *c) {
+ 	c->available = c->selection = 0;
+ }
+ 
+-void choices_add(choices_t *c, const char *choice) {
++void
++choices_add(choices_t *c, const char *choice)
++{
+ 	/* Previous search is now invalid */
+ 	choices_reset_search(c);
+ 
+-	if (c->size == c->capacity) {
++	if (c->size == c->capacity)
+ 		choices_resize(c, c->capacity * 2);
+-	}
++
+ 	c->strings[c->size++] = choice;
+ }
+ 
+-size_t choices_available(choices_t *c) {
++size_t
++choices_available(choices_t *c)
++{
+ 	return c->available;
+ }
+ 
+@@ -167,22 +184,24 @@ struct worker {
+ 	struct result_list result;
+ };
+ 
+-static void worker_get_next_batch(struct search_job *job, size_t *start, size_t *end) {
++static void
++worker_get_next_batch(struct search_job *job, size_t *start, size_t *end)
++{
+ 	pthread_mutex_lock(&job->lock);
+ 
+ 	*start = job->processed;
+ 
+ 	job->processed += BATCH_SIZE;
+-	if (job->processed > job->choices->size) {
++	if (job->processed > job->choices->size)
+ 		job->processed = job->choices->size;
+-	}
+ 
+ 	*end = job->processed;
+ 
+ 	pthread_mutex_unlock(&job->lock);
+ }
+ 
+-static struct result_list merge2(struct result_list list1, struct result_list list2) {
++static struct result_list merge2(struct result_list list1, struct result_list list2)
++{
+ 	size_t result_index = 0, index1 = 0, index2 = 0;
+ 
+ 	struct result_list result;
+@@ -194,19 +213,17 @@ static struct result_list merge2(struct result_list list1, struct result_list li
+ 	}
+ 
+ 	while(index1 < list1.size && index2 < list2.size) {
+-		if (cmpchoice(&list1.list[index1], &list2.list[index2]) < 0) {
++		if (cmpchoice(&list1.list[index1], &list2.list[index2]) < 0)
+ 			result.list[result_index++] = list1.list[index1++];
+-		} else {
++		else
+ 			result.list[result_index++] = list2.list[index2++];
+-		}
+ 	}
+ 
+-	while(index1 < list1.size) {
++	while(index1 < list1.size)
+ 		result.list[result_index++] = list1.list[index1++];
+-	}
+-	while(index2 < list2.size) {
++
++	while(index2 < list2.size)
+ 		result.list[result_index++] = list2.list[index2++];
+-	}
+ 
+ 	free(list1.list);
+ 	free(list2.list);
+@@ -214,7 +231,9 @@ static struct result_list merge2(struct result_list list1, struct result_list li
+ 	return result;
+ }
+ 
+-static void *choices_search_worker(void *data) {
++static void *
++choices_search_worker(void *data)
++{
+ 	struct worker *w = (struct worker *)data;
+ 	struct search_job *job = w->job;
+ 	const choices_t *c = job->choices;
+@@ -225,9 +244,8 @@ static void *choices_search_worker(void *data) {
+ 	for(;;) {
+ 		worker_get_next_batch(job, &start, &end);
+ 
+-		if(start == end) {
++		if(start == end)
+ 			break;
+-		}
+ 
+ 		for(size_t i = start; i < end; i++) {
+ 			if (has_match(job->search, c->strings[i])) {
+@@ -258,20 +276,32 @@ static void *choices_search_worker(void *data) {
+ 		w->result = merge2(w->result, job->workers[next_worker].result);
+ 	}
+ 
+-	return NULL;
++	return (char *)NULL;
+ }
+ 
+-void choices_search(choices_t *c, const char *search) {
++void
++choices_search(choices_t *c, const char *search)
++{
+ 	choices_reset_search(c);
+ 
+ 	struct search_job *job = calloc(1, sizeof(struct search_job));
++	if (!job) {
++		fprintf(stderr, "Error: Can't allocate memory\n");
++		abort();
++	}
++
+ 	job->search = search;
+ 	job->choices = c;
+ 	if (pthread_mutex_init(&job->lock, NULL) != 0) {
+ 		fprintf(stderr, "Error: pthread_mutex_init failed\n");
+ 		abort();
+ 	}
++
+ 	job->workers = calloc(c->worker_count, sizeof(struct worker));
++	if (!job->workers) {
++		fprintf(stderr, "Error: Can't allocate memory\n");
++		abort();
++	}
+ 
+ 	struct worker *workers = job->workers;
+ 	for (int i = c->worker_count - 1; i >= 0; i--) {
+@@ -300,24 +330,31 @@ void choices_search(choices_t *c, const char *search) {
+ 	free(job);
+ }
+ 
+-const char *choices_get(choices_t *c, size_t n) {
+-	if (n < c->available) {
++const char *
++choices_get(choices_t *c, size_t n)
++{
++	if (n < c->available)
+ 		return c->results[n].str;
+-	} else {
+-		return NULL;
+-	}
++	else
++		return (char *)NULL;
+ }
+ 
+-score_t choices_getscore(choices_t *c, size_t n) {
++score_t
++choices_getscore(choices_t *c, size_t n)
++{
+ 	return c->results[n].score;
+ }
+ 
+-void choices_prev(choices_t *c) {
++void
++choices_prev(choices_t *c)
++{
+ 	if (c->available)
+ 		c->selection = (c->selection + c->available - 1) % c->available;
+ }
+ 
+-void choices_next(choices_t *c) {
++void
++choices_next(choices_t *c)
++{
+ 	if (c->available)
+ 		c->selection = (c->selection + 1) % c->available;
+ }
+diff --git a/src/config.def.h b/src/config.def.h
+index fcdcc03..393a148 100644
+--- a/src/config.def.h
++++ b/src/config.def.h
+@@ -17,3 +17,34 @@
+ #define DEFAULT_NUM_LINES 10
+ #define DEFAULT_WORKERS 0
+ #define DEFAULT_SHOW_INFO 0
++#define DEFAULT_DELIMITER '\n'
++#define DEFAULT_BENCHMARK 0
++#define DEFAULT_SCORES 0
++#define DEFAULT_SCROLLOFF 0
++#define DEFAULT_FILTER NULL
++#define DEFAULT_INIT_SEARCH NULL
++#define DEFAULT_MARKER '*'
++#define DEFAULT_POINTER '>'
++#define DEFAULT_PAD 0
++#define DEFAULT_MULTI 0
++#define DEFAULT_CYCLE 0
++#define DEFAULT_TAB_ACCEPTS 0
++#define DEFAULT_RIGHT_ACCEPTS 0
++#define DEFAULT_LEFT_ABORTS 0
++#define DEFAULT_NO_COLOR 0
++#define DEFAULT_REVERSE 0
++
++#define DEFAULT_COLORS "b6b1b2b40"
++#define NC "\x1b[0m" /* Reset attributes */
++
++/* Color indices: colors (from FZY_COLORS env var) will be parsed
++ * exactly in this order. See tty_interface.c */
++#define PROMPT_COLOR 0
++#define POINTER_COLOR 1
++#define MARKER_COLOR 2
++#define SEL_FG_COLOR 3
++#define SEL_BG_COLOR 4
++#define COLOR_ITEMS_NUM 5
++#define MAX_COLOR_LEN 48
++
++#define VERSION 1.0
+diff --git a/src/fzy.c b/src/fzy.c
+index 967a1fc..2a0d4fe 100644
+--- a/src/fzy.c
++++ b/src/fzy.c
+@@ -13,7 +13,9 @@
+ 
+ #include "../config.h"
+ 
+-int main(int argc, char *argv[]) {
++int
++main(int argc, char *argv[])
++{
+ 	int ret = 0;
+ 
+ 	options_t options;
+diff --git a/src/match.c b/src/match.c
+index d618f0a..0709bb9 100644
+--- a/src/match.c
++++ b/src/match.c
+@@ -11,12 +11,16 @@
+ 
+ #include "../config.h"
+ 
+-char *strcasechr(const char *s, char c) {
++char *
++strcasechr(const char *s, char c)
++{
+ 	const char accept[3] = {c, toupper(c), 0};
+ 	return strpbrk(s, accept);
+ }
+ 
+-int has_match(const char *needle, const char *haystack) {
++int
++has_match(const char *needle, const char *haystack)
++{
+ 	while (*needle) {
+ 		char nch = *needle++;
+ 
+@@ -42,7 +46,9 @@ struct match_struct {
+ 	score_t match_bonus[MATCH_MAX_LEN];
+ };
+ 
+-static void precompute_bonus(const char *haystack, score_t *match_bonus) {
++static void
++precompute_bonus(const char *haystack, score_t *match_bonus)
++{
+ 	/* Which positions are beginning of words */
+ 	char last_ch = '/';
+ 	for (int i = 0; haystack[i]; i++) {
+@@ -52,13 +58,14 @@ static void precompute_bonus(const char *haystack, score_t *match_bonus) {
+ 	}
+ }
+ 
+-static void setup_match_struct(struct match_struct *match, const char *needle, const char *haystack) {
++static void
++setup_match_struct(struct match_struct *match, const char *needle, const char *haystack)
++{
+ 	match->needle_len = strlen(needle);
+ 	match->haystack_len = strlen(haystack);
+ 
+-	if (match->haystack_len > MATCH_MAX_LEN || match->needle_len > match->haystack_len) {
++	if (match->haystack_len > MATCH_MAX_LEN || match->needle_len > match->haystack_len)
+ 		return;
+-	}
+ 
+ 	for (int i = 0; i < match->needle_len; i++)
+ 		match->lower_needle[i] = tolower(needle[i]);
+@@ -69,7 +76,10 @@ static void setup_match_struct(struct match_struct *match, const char *needle, c
+ 	precompute_bonus(haystack, match->match_bonus);
+ }
+ 
+-static inline void match_row(const struct match_struct *match, int row, score_t *curr_D, score_t *curr_M, const score_t *last_D, const score_t *last_M) {
++static inline void
++match_row(const struct match_struct *match, int row, score_t *curr_D, score_t *curr_M,
++const score_t *last_D, const score_t *last_M)
++{
+ 	int n = match->needle_len;
+ 	int m = match->haystack_len;
+ 	int i = row;
+@@ -102,7 +112,9 @@ static inline void match_row(const struct match_struct *match, int row, score_t
+ 	}
+ }
+ 
+-score_t match(const char *needle, const char *haystack) {
++score_t
++match(const char *needle, const char *haystack)
++{
+ 	if (!*needle)
+ 		return SCORE_MIN;
+ 
+@@ -151,7 +163,9 @@ score_t match(const char *needle, const char *haystack) {
+ 	return last_M[m - 1];
+ }
+ 
+-score_t match_positions(const char *needle, const char *haystack, size_t *positions) {
++score_t
++match_positions(const char *needle, const char *haystack, size_t *positions)
++{
+ 	if (!*needle)
+ 		return SCORE_MIN;
+ 
+diff --git a/src/options.c b/src/options.c
+index e35402f..9858bcf 100644
+--- a/src/options.c
++++ b/src/options.c
+@@ -12,7 +12,9 @@ static const char *usage_str =
+     ""
+     "Usage: fzy [OPTION]...\n"
+     " -l, --lines=LINES        Specify how many lines of results to show (default 10)\n"
++    " -m, --multi              Enable multi-selection\n"
+     " -p, --prompt=PROMPT      Input prompt (default '> ')\n"
++    " -P, --pad=NUM            Left pad the list of matches NUM places (default 0)\n"
+     " -q, --query=QUERY        Use QUERY as the initial search string\n"
+     " -e, --show-matches=QUERY Output the sorted matches of QUERY\n"
+     " -t, --tty=TTY            Specify file to use as TTY device (default /dev/tty)\n"
+@@ -20,14 +22,25 @@ static const char *usage_str =
+     " -0, --read-null          Read input delimited by ASCII NUL characters\n"
+     " -j, --workers NUM        Use NUM workers for searching. (default is # of CPUs)\n"
+     " -i, --show-info          Show selection info line\n"
+-    " -h, --help     Display this help and exit\n"
+-    " -v, --version  Output version information and exit\n";
++    " -h, --help               Display this help and exit\n"
++    " -v, --version            Output version information and exit\n"
++    "     --pointer            Pointer to highlighted match (default '>')\n"
++    "     --marker             Multi-select marker (default '*')\n"
++    "     --cycle              Enable cyclic scrolling\n"
++    "     --tab-accepts        TAB accepts\n"
++    "     --right-accepts      Right arrow key accepts\n"
++    "     --left-aborts        Left arrow key aborts\n"
++    "     --reverse            Display from top, prompt at bottom\n"
++    "     --no-color           Run colorless\n";
+ 
+-static void usage(const char *argv0) {
++static void
++usage(const char *argv0)
++{
+ 	fprintf(stderr, usage_str, argv0);
+ }
+ 
+-static struct option longopts[] = {{"show-matches", required_argument, NULL, 'e'},
++static struct option longopts[] = {
++                   {"show-matches", required_argument, NULL, 'e'},
+ 				   {"query", required_argument, NULL, 'q'},
+ 				   {"lines", required_argument, NULL, 'l'},
+ 				   {"tty", required_argument, NULL, 't'},
+@@ -39,85 +52,118 @@ static struct option longopts[] = {{"show-matches", required_argument, NULL, 'e'
+ 				   {"workers", required_argument, NULL, 'j'},
+ 				   {"show-info", no_argument, NULL, 'i'},
+ 				   {"help", no_argument, NULL, 'h'},
+-				   {NULL, 0, NULL, 0}};
++				   {"pad", required_argument, NULL, 'P'},
++				   {"multi", no_argument, NULL, 'm'},
++				   {"pointer", required_argument, NULL, 1},
++				   {"marker", required_argument, NULL, 2},
++				   {"cycle", no_argument, NULL, 3},
++				   {"tab-accepts", no_argument, NULL, 4},
++				   {"right-accepts", no_argument, NULL, 5},
++				   {"left-aborts", no_argument, NULL, 6},
++				   {"no-color", no_argument, NULL, 7},
++				   {"reverse", no_argument, NULL, 8},
++				   {NULL, 0, NULL, 0}
++};
+ 
+-void options_init(options_t *options) {
+-	/* set defaults */
+-	options->benchmark       = 0;
+-	options->filter          = NULL;
+-	options->init_search     = NULL;
+-	options->show_scores     = 0;
+-	options->scrolloff       = 1;
++void
++options_init(options_t *options)
++{
++	/* Set defaults */
++	options->benchmark       = DEFAULT_BENCHMARK;
++	options->filter          = DEFAULT_FILTER;
++	options->init_search     = DEFAULT_INIT_SEARCH;
++	options->show_scores     = DEFAULT_SCORES;
++	options->scrolloff       = DEFAULT_SCROLLOFF;
+ 	options->tty_filename    = DEFAULT_TTY;
+ 	options->num_lines       = DEFAULT_NUM_LINES;
+ 	options->prompt          = DEFAULT_PROMPT;
+ 	options->workers         = DEFAULT_WORKERS;
+-	options->input_delimiter = '\n';
++	options->input_delimiter = DEFAULT_DELIMITER;
+ 	options->show_info       = DEFAULT_SHOW_INFO;
++	options->pad             = DEFAULT_PAD;
++	options->multi           = DEFAULT_MULTI;
++	options->pointer         = DEFAULT_POINTER;
++	options->marker          = DEFAULT_MARKER;
++	options->cycle           = DEFAULT_CYCLE;
++	options->tab_accepts     = DEFAULT_TAB_ACCEPTS;
++	options->right_accepts   = DEFAULT_RIGHT_ACCEPTS;
++	options->left_aborts     = DEFAULT_LEFT_ABORTS;
++	options->no_color        = DEFAULT_NO_COLOR;
++	options->reverse         = DEFAULT_REVERSE;
+ }
+ 
+-void options_parse(options_t *options, int argc, char *argv[]) {
++void
++options_parse(options_t *options, int argc, char *argv[])
++{
+ 	options_init(options);
+ 
+ 	int c;
+-	while ((c = getopt_long(argc, argv, "vhs0e:q:l:t:p:j:i", longopts, NULL)) != -1) {
++	while ((c = getopt_long(argc, argv, "mvhs0e:q:l:t:p:P:j:i", longopts, NULL)) != -1) {
+ 		switch (c) {
+-			case 'v':
+-				printf("%s " VERSION " © 2014-2018 John Hawthorn\n", argv[0]);
+-				exit(EXIT_SUCCESS);
+-			case 's':
+-				options->show_scores = 1;
+-				break;
+-			case '0':
+-				options->input_delimiter = '\0';
+-				break;
+-			case 'q':
+-				options->init_search = optarg;
+-				break;
+-			case 'e':
+-				options->filter = optarg;
+-				break;
+-			case 'b':
+-				if (optarg) {
+-					if (sscanf(optarg, "%d", &options->benchmark) != 1) {
+-						usage(argv[0]);
+-						exit(EXIT_FAILURE);
+-					}
+-				} else {
+-					options->benchmark = 100;
+-				}
+-				break;
+-			case 't':
+-				options->tty_filename = optarg;
+-				break;
+-			case 'p':
+-				options->prompt = optarg;
+-				break;
+-			case 'j':
+-				if (sscanf(optarg, "%u", &options->workers) != 1) {
++		case 'v':
++			printf("%s %s © 2014-2018 John Hawthorn\n", argv[0], VERSION);
++			exit(EXIT_SUCCESS);
++		case 's': options->show_scores = 1;	break;
++		case '0': options->input_delimiter = '\0'; break;
++		case 'm': options->multi = 1; break;
++		case 'q': options->init_search = optarg; break;
++		case 'e': options->filter = optarg; break;
++		case 'b':
++			if (optarg) {
++				if (sscanf(optarg, "%d", &options->benchmark) != 1) {
+ 					usage(argv[0]);
+ 					exit(EXIT_FAILURE);
+ 				}
++			} else {
++				options->benchmark = 100;
++			}
++			break;
++		case 't': options->tty_filename = optarg; break;
++		case 'p': options->prompt = optarg; break;
++		case 'P':
++			if (optarg && *optarg && *optarg >= '0' && *optarg <= '9')
++				options->pad = atoi(optarg);
++			break;
++		case 'j':
++			if (sscanf(optarg, "%u", &options->workers) != 1) {
++				usage(argv[0]);
++				exit(EXIT_FAILURE);
++			}
++			break;
++		case 'l': {
++			if (!optarg)
+ 				break;
+-			case 'l': {
+-				int l;
+-				if (!strcmp(optarg, "max")) {
+-					l = INT_MAX;
+-				} else if (sscanf(optarg, "%d", &l) != 1 || l < 3) {
+-					fprintf(stderr, "Invalid format for --lines: %s\n", optarg);
+-					fprintf(stderr, "Must be integer in range 3..\n");
+-					usage(argv[0]);
+-					exit(EXIT_FAILURE);
+-				}
+-				options->num_lines = l;
+-			} break;
+-			case 'i':
+-				options->show_info = 1;
+-				break;
+-			case 'h':
+-			default:
++			int l;
++			if (!strcmp(optarg, "max")) {
++				l = INT_MAX;
++			} else if (sscanf(optarg, "%d", &l) != 1 || l < 3) {
++				fprintf(stderr, "Invalid format for --lines: %s\n", optarg);
++				fprintf(stderr, "Must be integer in range 3..\n");
+ 				usage(argv[0]);
+-				exit(EXIT_SUCCESS);
++				exit(EXIT_FAILURE);
++			}
++			options->num_lines = l;
++		} break;
++		case 'i': options->show_info = 1; break;
++		case 1:
++			if (optarg && *optarg)
++				options->pointer = *optarg;
++			break;
++		case 2:
++			if (optarg && *optarg)
++				options->marker = *optarg;
++			break;
++		case 3: options->cycle = 1;	break;
++		case 4:	options->tab_accepts = 1; break;
++		case 5: options->right_accepts = 1; break;
++		case 6:	options->left_aborts = 1; break;
++		case 7:	options->no_color = 1; break;
++		case 8:	options->reverse = 1; break;
++
++		case 'h': /* fallthrough */
++		default:
++			usage(argv[0]);
++			exit(EXIT_SUCCESS);
+ 		}
+ 	}
+ 	if (optind != argc) {
+diff --git a/src/options.h b/src/options.h
+index 4be4cb6..10799c6 100644
+--- a/src/options.h
++++ b/src/options.h
+@@ -13,6 +13,16 @@ typedef struct {
+ 	unsigned int workers;
+ 	char input_delimiter;
+ 	int show_info;
++	int pad;
++	int multi;
++	char pointer;
++	char marker;
++	int cycle;
++	int tab_accepts;
++	int right_accepts;
++	int left_aborts;
++	int no_color;
++	int reverse;
+ } options_t;
+ 
+ void options_init(options_t *options);
+diff --git a/src/tty.c b/src/tty.c
+index 733477e..7450ffe 100644
+--- a/src/tty.c
++++ b/src/tty.c
+@@ -13,21 +13,29 @@
+ 
+ #include "../config.h"
+ 
+-void tty_reset(tty_t *tty) {
++void
++tty_reset(tty_t *tty)
++{
+ 	tcsetattr(tty->fdin, TCSANOW, &tty->original_termios);
+ }
+ 
+-void tty_close(tty_t *tty) {
++void
++tty_close(tty_t *tty)
++{
+ 	tty_reset(tty);
+ 	fclose(tty->fout);
+ 	close(tty->fdin);
+ }
+ 
+-static void handle_sigwinch(int sig){
++static void
++handle_sigwinch(int sig)
++{
+ 	(void)sig;
+ }
+ 
+-void tty_init(tty_t *tty, const char *tty_filename) {
++void
++tty_init(tty_t *tty, const char *tty_filename)
++{
+ 	tty->fdin = open(tty_filename, O_RDONLY);
+ 	if (tty->fdin < 0) {
+ 		perror("Failed to open tty");
+@@ -66,13 +74,13 @@ void tty_init(tty_t *tty, const char *tty_filename) {
+ 		perror("tcsetattr");
+ 
+ 	tty_getwinsz(tty);
+-
+ 	tty_setnormal(tty);
+-
+ 	signal(SIGWINCH, handle_sigwinch);
+ }
+ 
+-void tty_getwinsz(tty_t *tty) {
++void
++tty_getwinsz(tty_t *tty)
++{
+ 	struct winsize ws;
+ 	if (ioctl(fileno(tty->fout), TIOCGWINSZ, &ws) == -1) {
+ 		tty->maxwidth = 80;
+@@ -83,7 +91,9 @@ void tty_getwinsz(tty_t *tty) {
+ 	}
+ }
+ 
+-char tty_getchar(tty_t *tty) {
++char
++tty_getchar(tty_t *tty)
++{
+ 	char ch;
+ 	int size = read(tty->fdin, &ch, 1);
+ 	if (size < 0) {
+@@ -97,7 +107,9 @@ char tty_getchar(tty_t *tty) {
+ 	}
+ }
+ 
+-int tty_input_ready(tty_t *tty, long int timeout, int return_on_signal) {
++int
++tty_input_ready(tty_t *tty, long int timeout, int return_on_signal)
++{
+ 	fd_set readfs;
+ 	FD_ZERO(&readfs);
+ 	FD_SET(tty->fdin, &readfs);
+@@ -129,73 +141,105 @@ int tty_input_ready(tty_t *tty, long int timeout, int return_on_signal) {
+ 	}
+ }
+ 
+-static void tty_sgr(tty_t *tty, int code) {
++static void
++tty_sgr(tty_t *tty, int code)
++{
+ 	tty_printf(tty, "%c%c%im", 0x1b, '[', code);
+ }
+ 
+-void tty_setfg(tty_t *tty, int fg) {
++void
++tty_setfg(tty_t *tty, int fg)
++{
+ 	if (tty->fgcolor != fg) {
+ 		tty_sgr(tty, 30 + fg);
+ 		tty->fgcolor = fg;
+ 	}
+ }
+ 
+-void tty_setinvert(tty_t *tty) {
++void
++tty_setinvert(tty_t *tty)
++{
+ 	tty_sgr(tty, 7);
+ }
+ 
+-void tty_setunderline(tty_t *tty) {
++void
++tty_setunderline(tty_t *tty)
++{
+ 	tty_sgr(tty, 4);
+ }
+ 
+-void tty_setnormal(tty_t *tty) {
++void
++tty_setnormal(tty_t *tty)
++{
+ 	tty_sgr(tty, 0);
+ 	tty->fgcolor = 9;
+ }
+ 
+-void tty_setnowrap(tty_t *tty) {
++void
++tty_setnowrap(tty_t *tty)
++{
+ 	tty_printf(tty, "%c%c?7l", 0x1b, '[');
+ }
+ 
+-void tty_setwrap(tty_t *tty) {
++void
++tty_setwrap(tty_t *tty)
++{
+ 	tty_printf(tty, "%c%c?7h", 0x1b, '[');
+ }
+ 
+-void tty_newline(tty_t *tty) {
++void
++tty_newline(tty_t *tty)
++{
+ 	tty_printf(tty, "%c%cK\n", 0x1b, '[');
+ }
+ 
+-void tty_clearline(tty_t *tty) {
++void
++tty_clearline(tty_t *tty)
++{
+ 	tty_printf(tty, "%c%cK", 0x1b, '[');
+ }
+ 
+-void tty_setcol(tty_t *tty, int col) {
++void
++tty_setcol(tty_t *tty, int col)
++{
+ 	tty_printf(tty, "%c%c%iG", 0x1b, '[', col + 1);
+ }
+ 
+-void tty_moveup(tty_t *tty, int i) {
++void
++tty_moveup(tty_t *tty, int i)
++{
+ 	tty_printf(tty, "%c%c%iA", 0x1b, '[', i);
+ }
+ 
+-void tty_printf(tty_t *tty, const char *fmt, ...) {
++void
++tty_printf(tty_t *tty, const char *fmt, ...)
++{
+ 	va_list args;
+ 	va_start(args, fmt);
+ 	vfprintf(tty->fout, fmt, args);
+ 	va_end(args);
+ }
+ 
+-void tty_putc(tty_t *tty, char c) {
++void
++tty_putc(tty_t *tty, char c)
++{
+ 	fputc(c, tty->fout);
+ }
+ 
+-void tty_flush(tty_t *tty) {
++void
++tty_flush(tty_t *tty)
++{
+ 	fflush(tty->fout);
+ }
+ 
+-size_t tty_getwidth(tty_t *tty) {
++size_t
++tty_getwidth(tty_t *tty)
++{
+ 	return tty->maxwidth;
+ }
+ 
+-size_t tty_getheight(tty_t *tty) {
++size_t
++tty_getheight(tty_t *tty)
++{
+ 	return tty->maxheight;
+ }
+diff --git a/src/tty_interface.c b/src/tty_interface.c
+index 343dde8..26b32ce 100644
+--- a/src/tty_interface.c
++++ b/src/tty_interface.c
+@@ -7,30 +7,234 @@
+ #include "tty_interface.h"
+ #include "../config.h"
+ 
+-static int isprint_unicode(char c) {
++#ifndef PATH_MAX
++# ifdef __linux__
++#  define PATH_MAX 4096
++# else
++#  define PATH_MAX 1024
++# endif /* __linux */
++#endif /* PATH_MAX */
++
++#define _ESC 27
++
++/* Array to store selected/marked entries */
++static char **selections = (char **)NULL;
++/* A buffer big enough to hold decolored entries */
++static char buf[PATH_MAX];
++
++/* SEL_N is the current size of the selections array, while SEL_COUNTER
++ * is the current amount of actually selected entries */
++static size_t seln = 0, sel_counter = 0;
++
++static char colors[COLOR_ITEMS_NUM][MAX_COLOR_LEN];
++/* Parse colors taken from FZY_COLORS environment variable
++ * Colors are parsed in strict order (see config.h)
++ * Colors could be: 0-7 for normal colors, and b0-b7 for bold colors
++ * Specific colors could be skipped using a dash ('-').
++ * Colors are stored in the COLORS array using the same order defined in
++ * config.h
++ * These colors are applied in draw() and draw_match() functions in this file
++ *
++ * For example, "-b1b2-4" is read as follows:
++ * -: no PROMPT color
++ * b1: bold red POINTER color
++ * b2: bold green MARKER color
++ * -: no SELECTED ENTRY FOREGROUND color
++ * 4: blue SELECTED ENTRY BACKGROUND color
++ * */
++static void
++set_colors(void)
++{
++	char *p = getenv("NO_COLOR");
++	if (p)
++		return;
++
++	p = getenv("FZY_COLORS");
++	if (!p || !*p)
++		p = DEFAULT_COLORS;
++
++	size_t i, b = 0, c = 0;
++	for (i = 0; p[i] && c < COLOR_ITEMS_NUM; i++) {
++		if (p[i] == 'b') {
++			b = 1;
++			continue;
++		}
++		if ((p[i] < '0' || p[i] > '7') || p[i] == '-') {
++			*colors[c] = '\0';
++			b = 0;
++			c++;
++			continue;
++		}
++		/* 16 colors: 0-7 normal; b0-b7 bright */
++		snprintf(colors[c], MAX_COLOR_LEN, "\x1b[%s%c%cm",
++			b == 1 ? "1;" : "",
++			c == SEL_BG_COLOR ? '4' : '3',
++			p[i]);
++		b = 0;
++		c++;
++	}
++}
++
++/* Search for the string P in the selections array. If found, return 1,
++ * otherwise zero */
++static int
++is_selected(const char *p)
++{
++	if (!p || !*p || sel_counter == 0)
++		return 0;
++
++	size_t i;
++	for (i = 0; selections[i]; i++) {
++		if (*selections[i] == *p && strcmp(selections[i], p) == 0)
++			return 1;
++	}
++
++	return 0;
++}
++
++/* Remote the entry NAME from the selections array by setting the first
++ * byte of the corresponding array entry to NUL */
++static void
++deselect_entry(char *name)
++{
++	if (!name || !*name || sel_counter == 0)
++		return;
++
++	size_t i;
++	for (i = 0; selections[i]; i++) {
++		if (*selections[i] != *name || strcmp(selections[i], name) != 0)
++			continue;
++		*selections[i] = '\0';
++		sel_counter--;
++		break;
++	}
++}
++
++static char *
++decolor_name(const char *name)
++{
++	if (!name)
++		return (char *)NULL;
++
++	char *p = buf, *q = buf;
++
++	size_t i, j = 0;
++	size_t name_len = strlen(name);
++	for (i = 0; name[i] && i < name_len; i++) {
++		if (name[i] == _ESC && name[i + 1] == '[') {
++			for (j = i + 1; name[j]; j++) {
++				if (name[j] != 'm')
++					continue;
++				i = j + (name[j + 1] == _ESC ? 0 : 1);
++				break;
++			}
++		}
++
++		if (i == j) /* We have another escape code */
++			continue;
++		*p = name[i];
++		p++;
++	}
++
++	*p = '\0';
++	return *q ? q : (char *)NULL;
++}
++
++/* Save the string P into the selections array */
++static void
++save_selection(const char *p)
++{
++	selections = (char **)realloc(selections, (seln + 2) * sizeof(char *));
++	selections[seln] = (char *)malloc((strlen(p) + 1) * sizeof(char));
++	strcpy(selections[seln], p);
++	seln++;
++	sel_counter++;
++	selections[seln] = (char *)NULL;
++}
++
++/* Select the currently highighted/hovered entry if not already selected.
++ * Otherwise, remove it from the selections list */
++static int
++action_select(tty_interface_t *state)
++{
++	const char *p = choices_get(state->choices, state->choices->selection);
++	if (!p)
++		return EXIT_FAILURE;
++
++	if (is_selected(p) == 1) {
++		deselect_entry((char *)p);
++		return EXIT_FAILURE;
++	}
++
++	save_selection(p);
++	return EXIT_SUCCESS;
++}
++
++/* Print the list of selected/marked entries to STDOUT */
++static void
++print_selections(tty_interface_t *state)
++{
++	if (sel_counter == 0 || state->options->multi == 0)
++		return;
++
++	size_t i;
++	for (i = 0; selections[i]; i++) {
++		if (!*selections[i])
++			continue;
++		char *p = (char *)NULL;
++		if (strchr(selections[i], _ESC))
++			p = decolor_name(selections[i]);
++		printf("%s\n", p ? p : selections[i]);
++	}
++
++}
++
++/* Free the selections array */
++static void
++free_selections(tty_interface_t *state)
++{
++	if (state->options->multi == 0 || seln == 0 || !selections)
++		return;
++
++	size_t i;
++	for (i = 0; selections[i]; i++)
++		free(selections[i]);
++	free(selections);
++	selections = (char **)NULL;
++}
++
++static int
++isprint_unicode(char c)
++{
+ 	return isprint(c) || c & (1 << 7);
+ }
+ 
+-static int is_boundary(char c) {
++static int
++is_boundary(char c)
++{
+ 	return ~c & (1 << 7) || c & (1 << 6);
+ }
+ 
+-static void clear(tty_interface_t *state) {
++static void
++clear(tty_interface_t *state)
++{
+ 	tty_t *tty = state->tty;
+ 
+-	tty_setcol(tty, 0);
++	tty_setcol(tty, state->options->pad);
+ 	size_t line = 0;
+-	while (line++ < state->options->num_lines + (state->options->show_info ? 1 : 0)) {
++	while (line++ < state->options->num_lines + (state->options->show_info ? 1 : 0))
+ 		tty_newline(tty);
+-	}
++
+ 	tty_clearline(tty);
+-	if (state->options->num_lines > 0) {
++	if (state->options->num_lines > 0)
+ 		tty_moveup(tty, line - 1);
+-	}
++
+ 	tty_flush(tty);
+ }
+ 
+-static void draw_match(tty_interface_t *state, const char *choice, int selected) {
++static void
++draw_match(tty_interface_t *state, const char *choice, int selected)
++{
+ 	tty_t *tty = state->tty;
+ 	options_t *options = state->options;
+ 	char *search = state->last_search;
+@@ -50,12 +254,21 @@ static void draw_match(tty_interface_t *state, const char *choice, int selected)
+ 		}
+ 	}
+ 
+-	if (selected)
++	if (selected) {
+ #ifdef TTY_SELECTION_UNDERLINE
+ 		tty_setunderline(tty);
+ #else
+-		tty_setinvert(tty);
++		/* Let's colorize the selected entry */
++		if (*colors[SEL_FG_COLOR] || *colors[SEL_BG_COLOR]) {
++			if (*colors[SEL_FG_COLOR])
++				tty_printf(tty, "%s", colors[SEL_FG_COLOR]);
++			if (*colors[SEL_BG_COLOR])
++				tty_printf(tty, "%s", colors[SEL_BG_COLOR]);
++		} else {
++			tty_setinvert(tty);
++		}
+ #endif
++	}
+ 
+ 	tty_setnowrap(tty);
+ 	for (size_t i = 0, p = 0; choice[i] != '\0'; i++) {
+@@ -65,17 +278,18 @@ static void draw_match(tty_interface_t *state, const char *choice, int selected)
+ 		} else {
+ 			tty_setfg(tty, TTY_COLOR_NORMAL);
+ 		}
+-		if (choice[i] == '\n') {
++		if (choice[i] == '\n')
+ 			tty_putc(tty, ' ');
+-		} else {
++		else
+ 			tty_printf(tty, "%c", choice[i]);
+-		}
+ 	}
+ 	tty_setwrap(tty);
+ 	tty_setnormal(tty);
+ }
+ 
+-static void draw(tty_interface_t *state) {
++static void
++draw(tty_interface_t *state)
++{
+ 	tty_t *tty = state->tty;
+ 	choices_t *choices = state->choices;
+ 	options_t *options = state->options;
+@@ -91,7 +305,49 @@ static void draw(tty_interface_t *state) {
+ 		}
+ 	}
+ 
+-	tty_setcol(tty, 0);
++	if (options->reverse == 0) {
++		tty_setcol(tty, options->pad);
++		tty_printf(tty, "%s%s", options->prompt, state->search);
++		tty_clearline(tty);
++
++		if (options->show_info) {
++			tty_printf(tty, "\n[%lu/%lu]", choices->available, choices->size);
++			tty_clearline(tty);
++		}
++	}
++
++	for (size_t i = start; i < start + num_lines; i++) {
++		if (options->reverse == 0)
++			tty_printf(tty, "\n");
++		tty_clearline(tty);
++		const char *choice = choices_get(choices, i);
++		if (choice) {
++			int multi_sel = options->multi == 1 && is_selected((char *)choice);
++			tty_printf(tty, "%*s%s%c%s%c%s",
++				options->pad, "", colors[POINTER_COLOR],
++				i == choices->selection ? options->pointer : ' ',
++				colors[MARKER_COLOR],
++				multi_sel == 1 ? options->marker : ' ', NC);
++			draw_match(state, choice, i == choices->selection);
++		}
++		if (options->reverse == 1)
++			tty_printf(tty, "\n");
++	}
++
++	if (options->reverse == 0 && num_lines + options->show_info)
++		tty_moveup(tty, num_lines + options->show_info);
++
++	tty_setcol(tty, options->pad);
++	tty_printf(tty, "%s%s%s", colors[PROMPT_COLOR], options->prompt, NC);
++	for (size_t i = 0; i < state->cursor; i++)
++		fputc(state->search[i], tty->fout);
++
++	if (options->reverse == 0) {
++		tty_flush(tty);
++		return;
++	}
++
++	tty_setcol(tty, options->pad);
+ 	tty_printf(tty, "%s%s", options->prompt, state->search);
+ 	tty_clearline(tty);
+ 
+@@ -99,41 +355,107 @@ static void draw(tty_interface_t *state) {
+ 		tty_printf(tty, "\n[%lu/%lu]", choices->available, choices->size);
+ 		tty_clearline(tty);
+ 	}
++	tty_flush(tty);
++}
++
++/*
++static void
++draw(tty_interface_t *state)
++{
++	tty_t *tty = state->tty;
++	choices_t *choices = state->choices;
++	options_t *options = state->options;
++
++	unsigned int num_lines = options->num_lines;
++	size_t start = 0;
++	size_t current_selection = choices->selection;
++	if (current_selection + options->scrolloff >= num_lines) {
++		start = current_selection + options->scrolloff - num_lines + 1;
++		size_t available = choices_available(choices);
++		if (start + num_lines >= available && available > 0) {
++			start = available - num_lines;
++		}
++	}
++
++	if (options->reverse == 1) // Move to the bottom and print the prompt
++		tty_printf(tty, "\x1b[%dB", num_lines);
++
++	tty_setcol(tty, options->pad);
++	tty_printf(tty, "%s%s", options->prompt, state->search);
++	tty_clearline(tty);
++
++	if (options->show_info) {
++		tty_printf(tty, "\n[%lu/%lu]", choices->available, choices->size);
++		tty_clearline(tty);
++	}
++
++	if (options->reverse == 1) // Go back to the top to print the files list
++		tty_printf(tty, "\x1b[M\x1b[%dA", num_lines + 1);
+ 
+ 	for (size_t i = start; i < start + num_lines; i++) {
+ 		tty_printf(tty, "\n");
+ 		tty_clearline(tty);
+ 		const char *choice = choices_get(choices, i);
+ 		if (choice) {
++			int multi_sel = options->multi == 1 && is_selected((char *)choice);
++			tty_printf(tty, "%*s%s%c%s%c%s",
++				options->pad, "", colors[POINTER_COLOR],
++				i == choices->selection ? options->pointer : ' ',
++				colors[MARKER_COLOR],
++				multi_sel == 1 ? options->marker : ' ', NC);
+ 			draw_match(state, choice, i == choices->selection);
+ 		}
+ 	}
+ 
+-	if (num_lines + options->show_info)
++	if (options->reverse == 0 && num_lines + options->show_info)
+ 		tty_moveup(tty, num_lines + options->show_info);
+ 
+-	tty_setcol(tty, 0);
+-	fputs(options->prompt, tty->fout);
++	if (options->reverse == 1)
++		tty_printf(tty, "%c", '\n');
++
++	tty_setcol(tty, options->pad);
++	tty_printf(tty, "%s%s%s", colors[PROMPT_COLOR], options->prompt, NC);
+ 	for (size_t i = 0; i < state->cursor; i++)
+ 		fputc(state->search[i], tty->fout);
+ 	tty_flush(tty);
+-}
++} */
+ 
+-static void update_search(tty_interface_t *state) {
++static void
++update_search(tty_interface_t *state)
++{
+ 	choices_search(state->choices, state->search);
+ 	strcpy(state->last_search, state->search);
+ }
+ 
+-static void update_state(tty_interface_t *state) {
++static void
++update_state(tty_interface_t *state)
++{
+ 	if (strcmp(state->last_search, state->search)) {
+ 		update_search(state);
++		if (state->options->reverse == 1)
++			tty_printf(state->tty, "\x1b[%dA\n", state->options->num_lines + 1);
+ 		draw(state);
+ 	}
+ }
+ 
+-static void action_emit(tty_interface_t *state) {
++static void
++action_emit(tty_interface_t *state)
++{
+ 	update_state(state);
+ 
++	if (state->options->reverse == 1)
++		tty_printf(state->tty, "\x1b[%dA\x1b[J", state->options->num_lines);
++
++	if (state->options->multi == 1 && seln > 0) {
++		clear(state);
++		tty_close(state->tty);
++
++		print_selections(state);
++		free_selections(state);
++		state->exit = EXIT_SUCCESS;
++		return;
++	}
++
+ 	/* Reset the tty as close as possible to the previous state */
+ 	clear(state);
+ 
+@@ -141,32 +463,37 @@ static void action_emit(tty_interface_t *state) {
+ 	tty_close(state->tty);
+ 
+ 	const char *selection = choices_get(state->choices, state->choices->selection);
+-	if (selection) {
+-		/* output the selected result */
+-		printf("%s\n", selection);
+-	} else {
+-		/* No match, output the query instead */
++	if (selection) { /* output the selected result */
++		char *p = (char *)NULL;
++		if (strchr(selection, _ESC))
++			p = decolor_name(selection);
++		printf("%s\n", p ? p : selection);
++	} else { /* No match, output the query instead */
+ 		printf("%s\n", state->search);
+ 	}
+ 
+ 	state->exit = EXIT_SUCCESS;
+ }
+ 
+-static void action_del_char(tty_interface_t *state) {
+-	size_t length = strlen(state->search);
+-	if (state->cursor == 0) {
++static void
++action_del_char(tty_interface_t *state)
++{
++	if (state->cursor == 0)
+ 		return;
+-	}
++	size_t length = strlen(state->search);
+ 	size_t original_cursor = state->cursor;
+ 
+ 	do {
+ 		state->cursor--;
+ 	} while (!is_boundary(state->search[state->cursor]) && state->cursor);
+ 
+-	memmove(&state->search[state->cursor], &state->search[original_cursor], length - original_cursor + 1);
++	memmove(&state->search[state->cursor], &state->search[original_cursor],
++		length - original_cursor + 1);
+ }
+ 
+-static void action_del_word(tty_interface_t *state) {
++static void
++action_del_word(tty_interface_t *state)
++{
+ 	size_t original_cursor = state->cursor;
+ 	size_t cursor = state->cursor;
+ 
+@@ -176,30 +503,64 @@ static void action_del_word(tty_interface_t *state) {
+ 	while (cursor && !isspace(state->search[cursor - 1]))
+ 		cursor--;
+ 
+-	memmove(&state->search[cursor], &state->search[original_cursor], strlen(state->search) - original_cursor + 1);
++	memmove(&state->search[cursor], &state->search[original_cursor],
++		strlen(state->search) - original_cursor + 1);
+ 	state->cursor = cursor;
+ }
+ 
+-static void action_del_all(tty_interface_t *state) {
+-	memmove(state->search, &state->search[state->cursor], strlen(state->search) - state->cursor + 1);
++static void
++action_del_all(tty_interface_t *state)
++{
++	memmove(state->search, &state->search[state->cursor],
++		strlen(state->search) - state->cursor + 1);
+ 	state->cursor = 0;
+ }
+ 
+-static void action_prev(tty_interface_t *state) {
++static void
++action_prev(tty_interface_t *state)
++{
++	if (state->options->cycle == 0 && state->choices->selection == 0)
++		return;
+ 	update_state(state);
+ 	choices_prev(state->choices);
+ }
+ 
+-static void action_ignore(tty_interface_t *state) {
++static void
++action_ignore(tty_interface_t *state)
++{
+ 	(void)state;
+ }
+ 
+-static void action_next(tty_interface_t *state) {
++static void
++action_next(tty_interface_t *state)
++{
++	if (state->options->cycle == 0
++	&& state->choices->selection + 1 >= state->choices->available)
++		return;
+ 	update_state(state);
+ 	choices_next(state->choices);
+ }
+ 
+-static void action_left(tty_interface_t *state) {
++static void
++action_exit(tty_interface_t *state)
++{
++	if (state->options->reverse == 1)
++		tty_printf(state->tty, "\x1b[%dA\x1b[J", state->options->num_lines);
++
++	clear(state);
++	tty_close(state->tty);
++
++	state->exit = EXIT_FAILURE;
++}
++
++static void
++action_left(tty_interface_t *state)
++{
++	if (state->options->left_aborts == 1) {
++		action_exit(state);
++		return;
++	}
++
+ 	if (state->cursor > 0) {
+ 		state->cursor--;
+ 		while (!is_boundary(state->search[state->cursor]) && state->cursor)
+@@ -207,7 +568,14 @@ static void action_left(tty_interface_t *state) {
+ 	}
+ }
+ 
+-static void action_right(tty_interface_t *state) {
++static void
++action_right(tty_interface_t *state)
++{
++	if (state->options->right_accepts == 1) {
++		action_emit(state);
++		return;
++	}
++
+ 	if (state->cursor < strlen(state->search)) {
+ 		state->cursor++;
+ 		while (!is_boundary(state->search[state->cursor]))
+@@ -215,54 +583,78 @@ static void action_right(tty_interface_t *state) {
+ 	}
+ }
+ 
+-static void action_beginning(tty_interface_t *state) {
++static void
++action_beginning(tty_interface_t *state)
++{
+ 	state->cursor = 0;
+ }
+ 
+-static void action_end(tty_interface_t *state) {
++static void
++action_end(tty_interface_t *state)
++{
+ 	state->cursor = strlen(state->search);
+ }
+ 
+-static void action_pageup(tty_interface_t *state) {
++static void
++action_pageup(tty_interface_t *state)
++{
+ 	update_state(state);
+-	for (size_t i = 0; i < state->options->num_lines && state->choices->selection > 0; i++)
++	for (size_t i = 0; i < state->options->num_lines
++	&& state->choices->selection > 0; i++)
+ 		choices_prev(state->choices);
+ }
+ 
+-static void action_pagedown(tty_interface_t *state) {
++static void
++action_pagedown(tty_interface_t *state)
++{
+ 	update_state(state);
+-	for (size_t i = 0; i < state->options->num_lines && state->choices->selection < state->choices->available - 1; i++)
++	for (size_t i = 0; i < state->options->num_lines
++	&& state->choices->selection < state->choices->available - 1; i++)
+ 		choices_next(state->choices);
+ }
+ 
+-static void action_autocomplete(tty_interface_t *state) {
++static void
++action_tab(tty_interface_t *state)
++{
++	if (state->options->multi == 1) {
++		action_select(state);
++		action_next(state);
++		return;
++	}
++
++	if (state->options->tab_accepts == 1) {
++		action_emit(state);
++		return;
++	}
++
++	/* Autocomplete */
+ 	update_state(state);
+-	const char *current_selection = choices_get(state->choices, state->choices->selection);
++	const char *current_selection = choices_get(state->choices,
++		state->choices->selection);
+ 	if (current_selection) {
+-		strncpy(state->search, choices_get(state->choices, state->choices->selection), SEARCH_SIZE_MAX);
++		strncpy(state->search, choices_get(state->choices,
++			state->choices->selection), SEARCH_SIZE_MAX);
+ 		state->cursor = strlen(state->search);
+ 	}
+ }
+ 
+-static void action_exit(tty_interface_t *state) {
+-	clear(state);
+-	tty_close(state->tty);
+-
+-	state->exit = EXIT_FAILURE;
+-}
+-
+-static void append_search(tty_interface_t *state, char ch) {
++static void
++append_search(tty_interface_t *state, char ch)
++{
+ 	char *search = state->search;
+ 	size_t search_size = strlen(search);
+ 	if (search_size < SEARCH_SIZE_MAX) {
+-		memmove(&search[state->cursor+1], &search[state->cursor], search_size - state->cursor + 1);
++		memmove(&search[state->cursor+1], &search[state->cursor],
++			search_size - state->cursor + 1);
+ 		search[state->cursor] = ch;
+ 
+ 		state->cursor++;
+ 	}
+ }
+ 
+-void tty_interface_init(tty_interface_t *state, tty_t *tty, choices_t *choices, options_t *options) {
++void
++tty_interface_init(tty_interface_t *state, tty_t *tty, choices_t *choices, options_t *options)
++{
+ 	state->tty = tty;
+ 	state->choices = choices;
+ 	state->options = options;
+@@ -289,13 +681,13 @@ typedef struct {
+ 
+ #define KEY_CTRL(key) ((const char[]){((key) - ('@')), '\0'})
+ 
+-static const keybinding_t keybindings[] = {{"\x1b", action_exit},       /* ESC */
+-					   {"\x7f", action_del_char},	/* DEL */
+-
++static const keybinding_t keybindings[] = {
++					   {"\x1b", action_exit},             /* ESC */
++					   {"\x7f", action_del_char},	      /* DEL */
+ 					   {KEY_CTRL('H'), action_del_char}, /* Backspace (C-H) */
+ 					   {KEY_CTRL('W'), action_del_word}, /* C-W */
+ 					   {KEY_CTRL('U'), action_del_all},  /* C-U */
+-					   {KEY_CTRL('I'), action_autocomplete}, /* TAB (C-I ) */
++					   {KEY_CTRL('I'), action_tab},      /* TAB (C-I ) */
+ 					   {KEY_CTRL('C'), action_exit},	 /* C-C */
+ 					   {KEY_CTRL('D'), action_exit},	 /* C-D */
+ 					   {KEY_CTRL('G'), action_exit},	 /* C-G */
+@@ -327,7 +719,9 @@ static const keybinding_t keybindings[] = {{"\x1b", action_exit},       /* ESC *
+ 
+ #undef KEY_CTRL
+ 
+-static void handle_input(tty_interface_t *state, const char *s, int handle_ambiguous_key) {
++static void
++handle_input(tty_interface_t *state, const char *s, int handle_ambiguous_key)
++{
+ 	state->ambiguous_key_pending = 0;
+ 
+ 	char *input = state->input;
+@@ -362,16 +756,25 @@ static void handle_input(tty_interface_t *state, const char *s, int handle_ambig
+ 	if (in_middle)
+ 		return;
+ 
+-	/* No matching keybinding, add to search */
+-	for (int i = 0; input[i]; i++)
+-		if (isprint_unicode(input[i]))
+-			append_search(state, input[i]);
++	/* No matching keybinding, decolorize and add to search */
++	char *p = input, *q = (char *)NULL;
++	if (strchr(input, _ESC) && (q = decolor_name(input)))
++		p = q;
++
++	for (int i = 0; p[i]; i++) {
++		if (isprint_unicode(p[i]))
++			append_search(state, p[i]);
++	}
+ 
+ 	/* We have processed the input, so clear it */
+ 	strcpy(input, "");
+ }
+ 
+-int tty_interface_run(tty_interface_t *state) {
++int
++tty_interface_run(tty_interface_t *state)
++{
++	if (state->options->no_color == 0)
++		set_colors();
+ 	draw(state);
+ 
+ 	for (;;) {
+@@ -384,18 +787,25 @@ int tty_interface_run(tty_interface_t *state) {
+ 			char s[2] = {tty_getchar(state->tty), '\0'};
+ 			handle_input(state, s, 0);
+ 
+-			if (state->exit >= 0)
++			if (state->exit >= 0) {
++				free_selections(state);
+ 				return state->exit;
++			}
+ 
++			if (state->options->reverse == 1)
++				tty_printf(state->tty, "\x1b[%dA\n", state->options->num_lines + 1);
+ 			draw(state);
+-		} while (tty_input_ready(state->tty, state->ambiguous_key_pending ? KEYTIMEOUT : 0, 0));
++		} while (tty_input_ready(state->tty,
++			state->ambiguous_key_pending ? KEYTIMEOUT : 0, 0));
+ 
+ 		if (state->ambiguous_key_pending) {
+ 			char s[1] = "";
+ 			handle_input(state, s, 1);
+ 
+-			if (state->exit >= 0)
++			if (state->exit >= 0) {
++				free_selections(state);
+ 				return state->exit;
++			}
+ 		}
+ 
+ 		update_state(state);
+-- 
+2.37.2
+
