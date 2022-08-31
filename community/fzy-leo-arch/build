@@ -1,6 +1,4 @@
 #!/bin/sh -e
 
-patch -p1 < multiselect.patch
-
 make 
 make PREFIX=/usr install
