@@ -33,20 +33,20 @@ index ae6d3a6..ab00639 100644
    return 0;
  #endif
 diff --git a/base/trace_event/malloc_dump_provider.cc b/base/trace_event/malloc_dump_provider.cc
-index fe40c57..80437ff 100644
+index 1e36f87..c35ccc0 100644
 --- a/base/trace_event/malloc_dump_provider.cc
 +++ b/base/trace_event/malloc_dump_provider.cc
-@@ -176,7 +176,8 @@ void ReportAppleAllocStats(size_t* total_virtual_size,
+@@ -185,7 +185,8 @@ void ReportAppleAllocStats(size_t* total_virtual_size,
  
  #if (BUILDFLAG(USE_PARTITION_ALLOC_AS_MALLOC) && BUILDFLAG(IS_ANDROID)) || \
      (!BUILDFLAG(USE_PARTITION_ALLOC_AS_MALLOC) && !BUILDFLAG(IS_WIN) &&    \
--     !BUILDFLAG(IS_APPLE) && !BUILDFLAG(IS_WIN) && !BUILDFLAG(IS_FUCHSIA))
-+     !BUILDFLAG(IS_APPLE) && !BUILDFLAG(IS_WIN) && !BUILDFLAG(IS_FUCHSIA) && \
+-     !BUILDFLAG(IS_APPLE) && !BUILDFLAG(IS_FUCHSIA))
++     !BUILDFLAG(IS_APPLE) && !BUILDFLAG(IS_FUCHSIA) && \
 +     !(BUILDFLAG(IS_LINUX) && !defined(__GLIBC__)))
  void ReportMallinfoStats(ProcessMemoryDump* pmd,
                           size_t* total_virtual_size,
                           size_t* resident_size,
-@@ -341,7 +342,7 @@ bool MallocDumpProvider::OnMemoryDump(const MemoryDumpArgs& args,
+@@ -356,7 +357,7 @@ bool MallocDumpProvider::OnMemoryDump(const MemoryDumpArgs& args,
                       &allocated_objects_count);
  #elif BUILDFLAG(IS_FUCHSIA)
  // TODO(fuchsia): Port, see https://crbug.com/706592.

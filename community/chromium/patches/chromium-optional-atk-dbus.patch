@@ -1,16 +1,14 @@
 diff --git a/build/config/ui.gni b/build/config/ui.gni
-index 83ec3d7..1e880ad 100644
+index 247c80e..0cc1d74 100644
 --- a/build/config/ui.gni
 +++ b/build/config/ui.gni
-@@ -41,8 +41,10 @@ declare_args() {
+@@ -41,7 +41,9 @@ declare_args() {
  
- assert(!use_glib || (is_linux && !is_chromecast))
+ assert(!use_glib || (is_linux && !is_castos))
  
--use_atk = is_linux && !is_chromecast && use_glib &&
--          current_toolchain == default_toolchain
+-use_atk = use_glib && current_toolchain == default_toolchain
 +declare_args() {
-+  use_atk = is_linux && !is_chromecast && use_glib &&
-+            current_toolchain == default_toolchain
++  use_atk = use_glib && current_toolchain == default_toolchain
 +}
  
  # Whether using Xvfb to provide a display server for a test might be
@@ -43,7 +41,7 @@ index 4f2791c..57502f8 100644
    bluez::BluezDBusThreadManager::Shutdown();
  #endif  // BUILDFLAG(IS_CHROMEOS)
 diff --git a/chrome/browser/metrics/bluetooth_metrics_provider.cc b/chrome/browser/metrics/bluetooth_metrics_provider.cc
-index 273f4a6..82a87a3 100644
+index a398390..5b3d544 100644
 --- a/chrome/browser/metrics/bluetooth_metrics_provider.cc
 +++ b/chrome/browser/metrics/bluetooth_metrics_provider.cc
 @@ -10,11 +10,11 @@
@@ -60,7 +58,22 @@ index 273f4a6..82a87a3 100644
  
  namespace metrics {
  
-@@ -74,7 +74,7 @@ void BluetoothMetricsProvider::GetBluetoothAvailability() {
+@@ -31,12 +31,12 @@ void BluetoothMetricsProvider::ProvideCurrentSessionData(
+   base::UmaHistogramEnumeration("Bluetooth.Availability.v2",
+                                 bluetooth_availability_);
+ 
+-#if BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_CHROMEOS)
++#if (BUILDFLAG(IS_LINUX) && defined(USE_DBUS)) || BUILDFLAG(IS_CHROMEOS)
+   base::UmaHistogramEnumeration("Bluetooth.StackName",
+                                 floss::features::IsFlossEnabled()
+                                     ? BluetoothStackName::kFloss
+                                     : BluetoothStackName::kBlueZ);
+-#endif  // BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_CHROMEOS)
++#endif  // (BUILDFLAG(IS_LINUX) && defined(USE_DBUS)) || BUILDFLAG(IS_CHROMEOS)
+ #endif  // BUILDFLAG(IS_CHROMEOS) || BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_MAC) ||
+         // BUILDFLAG(IS_WIN)
+ }
+@@ -77,7 +77,7 @@ void BluetoothMetricsProvider::GetBluetoothAvailability() {
      return;
    }
  
@@ -68,8 +81,8 @@ index 273f4a6..82a87a3 100644
 +#if BUILDFLAG(IS_CHROMEOS) || (BUILDFLAG(IS_LINUX) && defined(USE_DBUS))
    bool is_initialized;
  
-   if (base::FeatureList::IsEnabled(floss::features::kFlossEnabled)) {
-@@ -90,7 +90,7 @@ void BluetoothMetricsProvider::GetBluetoothAvailability() {
+   if (floss::features::IsFlossEnabled()) {
+@@ -91,7 +91,7 @@ void BluetoothMetricsProvider::GetBluetoothAvailability() {
    // startup.
    if (!is_initialized)
      return;
@@ -126,7 +139,7 @@ index a17fd8e..d783e15 100644
  
  void OpenExternal(Profile* profile, const GURL& url) {
 diff --git a/device/bluetooth/adapter.cc b/device/bluetooth/adapter.cc
-index 37664c1..df91b1c 100644
+index f028473..98db098 100644
 --- a/device/bluetooth/adapter.cc
 +++ b/device/bluetooth/adapter.cc
 @@ -107,7 +107,7 @@ void Adapter::GetInfo(GetInfoCallback callback) {
@@ -136,8 +149,8 @@ index 37664c1..df91b1c 100644
 -#if BUILDFLAG(IS_CHROMEOS) || BUILDFLAG(IS_LINUX)
 +#if BUILDFLAG(IS_CHROMEOS) || (BUILDFLAG(IS_LINUX) && defined(USE_DBUS))
    adapter_info->system_name = adapter_->GetSystemName();
-   adapter_info->floss =
-       base::FeatureList::IsEnabled(floss::features::kFlossEnabled);
+   adapter_info->floss = floss::features::IsFlossEnabled();
+ #endif
 diff --git a/device/bluetooth/bluetooth_adapter_factory.cc b/device/bluetooth/bluetooth_adapter_factory.cc
 index 3526f17..ac4725a 100644
 --- a/device/bluetooth/bluetooth_adapter_factory.cc
@@ -224,17 +237,18 @@ index 1637134..059e94a 100644
    android_library("java") {
      # Conceptually, this should be visible only to //services/device:java.
 diff --git a/ui/shell_dialogs/BUILD.gn b/ui/shell_dialogs/BUILD.gn
-index 192251b..8aa0ef7 100644
+index 3c75b8f..fbc55db 100644
 --- a/ui/shell_dialogs/BUILD.gn
 +++ b/ui/shell_dialogs/BUILD.gn
-@@ -54,14 +54,16 @@ component("shell_dialogs") {
-       "shell_dialog_linux.cc",
+@@ -55,7 +55,6 @@ component("shell_dialogs") {
        "shell_dialog_linux.h",
      ]
--    deps += [ "//components/dbus/thread_linux" ]
+     deps += [
+-      "//components/dbus/thread_linux",
+       "//ui/linux:linux_ui",
+     ]
      if (use_dbus) {
-       defines += [ "USE_DBUS" ]
-       sources += [
+@@ -64,7 +63,10 @@ component("shell_dialogs") {
          "select_file_dialog_linux_portal.cc",
          "select_file_dialog_linux_portal.h",
        ]

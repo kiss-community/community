@@ -1,9 +1,10 @@
 https://commondatastorage.googleapis.com/chromium-browser-official/chromium-VERSION.tar.xz
-https://github.com/stha09/chromium-patches/releases/download/chromium-MAJOR-patchset-2/chromium-MAJOR-patchset-2.tar.xz
+https://github.com/stha09/chromium-patches/releases/download/chromium-MAJOR-patchset-1/chromium-MAJOR-patchset-1.tar.xz
 https://github.com/ungoogled-software/ungoogled-chromium/archive/VERSION-1.tar.gz ungoogled-chromium
 files/chromium.sh
 patches/chromium-EnumTable-crash.patch
 patches/chromium-InkDropHost-crash.patch
+patches/chromium-angle-wayland-include.patch
 patches/chromium-fix-missing-cstdint-include.patch
 patches/chromium-fix-missing-unistd_h-include.patch
 patches/chromium-fix-narrowing-cast.patch

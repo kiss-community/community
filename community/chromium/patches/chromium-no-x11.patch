@@ -1,29 +1,30 @@
 diff --git a/third_party/swiftshader/src/Vulkan/BUILD.gn b/third_party/swiftshader/src/Vulkan/BUILD.gn
-index 959aa45..89d83f9 100644
+index e782a3f..a39ddbf 100644
 --- a/third_party/swiftshader/src/Vulkan/BUILD.gn
 +++ b/third_party/swiftshader/src/Vulkan/BUILD.gn
-@@ -20,7 +20,6 @@ import("vulkan.gni")
+@@ -21,7 +21,6 @@ import("vulkan.gni")
  config("swiftshader_libvulkan_private_config") {
    if (is_linux) {
      defines = [
 -      "VK_USE_PLATFORM_XCB_KHR",
-       "VK_USE_PLATFORM_WAYLAND_KHR",
        "VK_EXPORT=__attribute__((visibility(\"default\")))",
      ]
+     if (ozone_platform_wayland) {
 diff --git a/third_party/swiftshader/src/WSI/BUILD.gn b/third_party/swiftshader/src/WSI/BUILD.gn
-index 243729b..0992f36 100644
+index 3910345..63aa5a7 100644
 --- a/third_party/swiftshader/src/WSI/BUILD.gn
 +++ b/third_party/swiftshader/src/WSI/BUILD.gn
-@@ -44,12 +44,8 @@ swiftshader_source_set("WSI") {
-     sources += [
-       "WaylandSurfaceKHR.cpp",
-       "WaylandSurfaceKHR.hpp",
+@@ -35,13 +35,6 @@ swiftshader_source_set("WSI") {
+   ]
+ 
+   if (is_linux) {
+-    sources += [
 -      "XcbSurfaceKHR.cpp",
 -      "XcbSurfaceKHR.hpp",
-       "libWaylandClient.cpp",
-       "libWaylandClient.hpp",
 -      "libXCB.cpp",
 -      "libXCB.hpp",
-     ]
-   }
- 
+-    ]
+-
+     if (ozone_platform_wayland) {
+       sources += [
+         "WaylandSurfaceKHR.cpp",

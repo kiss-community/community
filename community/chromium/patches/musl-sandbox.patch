@@ -79,20 +79,26 @@ index b3cf6fc..20422da 100644
      case __NR_munlockall:
      case __NR_readahead:
 diff --git a/sandbox/policy/linux/bpf_renderer_policy_linux.cc b/sandbox/policy/linux/bpf_renderer_policy_linux.cc
-index f789e92..1a84c2c 100644
+index 7ec6410..ff6f794 100644
 --- a/sandbox/policy/linux/bpf_renderer_policy_linux.cc
 +++ b/sandbox/policy/linux/bpf_renderer_policy_linux.cc
-@@ -97,11 +97,11 @@ ResultExpr RendererProcessPolicy::EvaluateSyscall(int sysno) const {
+@@ -97,6 +97,9 @@ ResultExpr RendererProcessPolicy::EvaluateSyscall(int sysno) const {
      case __NR_sysinfo:
      case __NR_times:
      case __NR_uname:
--      return Allow();
--    case __NR_sched_getaffinity:
-     case __NR_sched_getparam:
-     case __NR_sched_getscheduler:
-     case __NR_sched_setscheduler:
-+      return Allow();
-+    case __NR_sched_getaffinity:
++    case __NR_sched_getparam:
++    case __NR_sched_getscheduler:
++    case __NR_sched_setscheduler:
+       // getcpu() is allowed on ARM chips because it is used in
+       // //third_party/cpuinfo/ on those chips.
+ #if defined(__arm__) || defined(__aarch64__)
+@@ -104,9 +107,6 @@ ResultExpr RendererProcessPolicy::EvaluateSyscall(int sysno) const {
+ #endif
+       return Allow();
+     case __NR_sched_getaffinity:
+-    case __NR_sched_getparam:
+-    case __NR_sched_getscheduler:
+-    case __NR_sched_setscheduler:
        return RestrictSchedTarget(GetPolicyPid(), sysno);
      case __NR_prlimit64:
        // See crbug.com/662450 and setrlimit comment above.

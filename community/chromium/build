@@ -89,9 +89,7 @@ case $("$CC" --version) in (*clang*)
     clang=true
 esac
 
-kiss list libva && vaapi=true
-# Requires libepoxy
-# kiss list pipewire && pipewire=true
+kiss list pipewire && pipewire=true
 
 conf="
     blink_enable_generated_code_formatting=false
@@ -131,7 +129,7 @@ conf="
     use_system_wayland_scanner=true
     use_thin_lto=false
     use_cfi_icall=false
-    use_vaapi=${vaapi:-false}
+    use_vaapi=true
     build_with_tflite_lib=false
     chrome_pgo_phase=0
     disable_fieldtrial_testing_config=true

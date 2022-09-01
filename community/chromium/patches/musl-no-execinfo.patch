@@ -1,6 +1,8 @@
+diff --git a/base/debug/stack_trace_posix.cc b/base/debug/stack_trace_posix.cc
+index 0e1b808..c88b437 100644
 --- a/base/debug/stack_trace_posix.cc
 +++ b/base/debug/stack_trace_posix.cc
-@@ -27,7 +27,7 @@
+@@ -31,7 +31,7 @@
  #if !defined(USE_SYMBOLIZE)
  #include <cxxabi.h>
  #endif
@@ -9,7 +11,7 @@
  #include <execinfo.h>
  #endif
  
-@@ -89,7 +89,7 @@
+@@ -98,7 +98,7 @@ void DemangleSymbols(std::string* text) {
    // Note: code in this function is NOT async-signal safe (std::string uses
    // malloc internally).
  
@@ -18,7 +20,16 @@
    std::string::size_type search_from = 0;
    while (search_from < text->size()) {
      // Look for the start of a mangled symbol, from search_from.
-@@ -136,7 +136,7 @@
+@@ -133,7 +133,7 @@ void DemangleSymbols(std::string* text) {
+       search_from = mangled_start + 2;
+     }
+   }
+-#endif  // !defined(__UCLIBC__) && !defined(_AIX)
++#endif  // defined(__GLIBC__) && !defined(_AIX)
+ }
+ #endif  // !defined(USE_SYMBOLIZE)
+ 
+@@ -145,7 +145,7 @@ class BacktraceOutputHandler {
    virtual ~BacktraceOutputHandler() = default;
  };
  
@@ -27,7 +38,16 @@
  void OutputPointer(void* pointer, BacktraceOutputHandler* handler) {
    // This should be more than enough to store a 64-bit number in hex:
    // 16 hex digits + 1 for null-terminator.
-@@ -839,7 +839,7 @@
+@@ -245,7 +245,7 @@ void ProcessBacktrace(void* const* trace,
+   }
+ #endif  // defined(USE_SYMBOLIZE)
+ }
+-#endif  // !defined(__UCLIBC__) && !defined(_AIX)
++#endif  // defined(__GLIBC__) && !defined(_AIX)
+ 
+ void PrintToStderr(const char* output) {
+   // NOTE: This code MUST be async-signal safe (it's used by in-process
+@@ -871,7 +871,7 @@ size_t CollectStackTrace(void** trace, size_t count) {
    // If we do not have unwind tables, then try tracing using frame pointers.
    return base::debug::TraceStackFramePointers(const_cast<const void**>(trace),
                                                count, 0);
@@ -35,8 +55,8 @@
 +#elif defined(__GLIBC__) && !defined(_AIX)
    // Though the backtrace API man page does not list any possible negative
    // return values, we take no chance.
-   return base::saturated_cast<size_t>(backtrace(trace, count));
-@@ -852,13 +852,13 @@
+   return base::saturated_cast<size_t>(
+@@ -885,13 +885,13 @@ void StackTrace::PrintWithPrefix(const char* prefix_string) const {
  // NOTE: This code MUST be async-signal safe (it's used by in-process
  // stack dumping signal handler). NO malloc or stdio is allowed here.
  
