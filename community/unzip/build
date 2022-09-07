@@ -1,9 +1,18 @@
 #!/bin/sh -e
 
+while read -r p; do
+    patch -p1 < "$p"
+done < series
+
+CFLAGS="$CFLAGS -D_FILE_OFFSET_BITS=64 -DWILD_STOP_AT_DIR -DLARGE_FILE_SUPPORT \
+        -DUNICODE_SUPPORT -DUNICODE_WCHAR -DUTF8_MAYBE_NATIVE \
+        -DNO_LCHMOD -LDDATE_FORMAT=DF_YMD -DUSE_BZIP2 -DNATIVE"
+
 make \
+    D_USE_BZ2=-DUSE_BZIP2 L_BZ2=-lbz2 \
+    LF2="$LDFLAGS" CF="$CFLAGS $CPPFLAGS -I." \
     prefix=/usr \
-    CC="$CC $CFLAGS $CXXFLAGS" \
-    -f unix/Makefile generic
+    -f unix/Makefile unzips
 
 make \
     prefix="$1/usr" \
