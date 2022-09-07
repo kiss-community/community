@@ -2,7 +2,8 @@
 
 ./configure \
     --prefix=/usr \
-    --sbindir=/usr/bin
+    --sbindir=/usr/bin \
+    --disable-nls
 
 # Fix includes for w.c
 sed -i 's|HAVE_UTMPX_H|NO|g' w.c

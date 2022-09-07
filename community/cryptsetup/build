@@ -2,11 +2,12 @@
 
 ./configure \
     --sbindir=/usr/bin \
-    --disable-ssh-token \
-    --disable-nls \
-    --disable-udev \
-    --disable-external-tokens \
     --enable-static-cryptsetup \
+    --disable-asciidoc \
+    --disable-external-tokens \
+    --disable-nls \
+    --disable-ssh-token \
+    --disable-udev \
     --with-crypto_backend=openssl
 
 # Tests require additional dependencies, so we'll skip them.

@@ -1,0 +1,68 @@
+diff --git a/Makefile b/Makefile
+index 0f28384..11c3e04 100644
+--- a/Makefile
++++ b/Makefile
+@@ -155,7 +155,6 @@ MUPDF_SRC += $(sort $(wildcard source/fitz/*.cpp))
+ MUPDF_SRC += $(sort $(wildcard source/pdf/*.c))
+ MUPDF_SRC += $(sort $(wildcard source/xps/*.c))
+ MUPDF_SRC += $(sort $(wildcard source/svg/*.c))
+-MUPDF_SRC += $(sort $(wildcard source/html/*.c))
+ MUPDF_SRC += $(sort $(wildcard source/reflow/*.c))
+ MUPDF_SRC += $(sort $(wildcard source/cbz/*.c))
+ 
+diff --git a/Makelists b/Makelists
+index e37b3ed..dbcf577 100644
+--- a/Makelists
++++ b/Makelists
+@@ -31,24 +31,6 @@ FREETYPE_SRC += thirdparty/freetype/src/smooth/smooth.c
+ FREETYPE_SRC += thirdparty/freetype/src/truetype/truetype.c
+ FREETYPE_SRC += thirdparty/freetype/src/type1/type1.c
+ 
+-# --- GUMBO ---
+-
+-GUMBO_CFLAGS += -Ithirdparty/gumbo-parser/src
+-
+-GUMBO_BUILD_CFLAGS += -std=c99
+-
+-GUMBO_SRC += thirdparty/gumbo-parser/src/attribute.c
+-GUMBO_SRC += thirdparty/gumbo-parser/src/char_ref.c
+-GUMBO_SRC += thirdparty/gumbo-parser/src/error.c
+-GUMBO_SRC += thirdparty/gumbo-parser/src/parser.c
+-GUMBO_SRC += thirdparty/gumbo-parser/src/string_buffer.c
+-GUMBO_SRC += thirdparty/gumbo-parser/src/string_piece.c
+-GUMBO_SRC += thirdparty/gumbo-parser/src/tag.c
+-GUMBO_SRC += thirdparty/gumbo-parser/src/tokenizer.c
+-GUMBO_SRC += thirdparty/gumbo-parser/src/utf8.c
+-GUMBO_SRC += thirdparty/gumbo-parser/src/util.c
+-GUMBO_SRC += thirdparty/gumbo-parser/src/vector.c
+-
+ # --- HARFBUZZ ---
+ 
+ HARFBUZZ_CFLAGS += -Ithirdparty/harfbuzz/src
+diff --git a/source/fitz/xml.c b/source/fitz/xml.c
+index d334beb..2d811bd 100644
+--- a/source/fitz/xml.c
++++ b/source/fitz/xml.c
+@@ -26,7 +26,9 @@
+ #include <stdlib.h>
+ #include <stdio.h>
+ 
++#if FZ_ENABLE_HTML
+ #include <gumbo.h>
++#endif
+ 
+ /* #define FZ_XML_SEQ */
+ 
+@@ -867,6 +869,7 @@ fz_parse_xml(fz_context *ctx, fz_buffer *buf, int preserve_white)
+ 	return xml;
+ }
+ 
++#if FZ_ENABLE_HTML
+ /*
+ 	Parse the contents of buffer into a tree of XML nodes, using the HTML5 syntax.
+ 
+@@ -1021,3 +1024,4 @@ fz_parse_xml_from_html5(fz_context *ctx, fz_buffer *buf)
+ 
+ 	return xml;
+ }
++#endif

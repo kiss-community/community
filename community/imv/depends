@@ -1,0 +1,10 @@
+cairo
+glib
+icu
+libglvnd
+libjpeg-turbo
+libpng
+libxkbcommon
+meson build
+pango
+wayland

@@ -1,9 +1,15 @@
 #!/bin/sh
 cat <<EOF
-NOTE: OpenNTPD needs its own user and group for privilege separation.
-      Please create the needed users by using these commands in
-      succession:
+OpenNTPD needs its own user and group for privilege separation.
+Please create the needed users by using these commands in
+succession:
 
-  # addgroup -S openntpd
-  # adduser -S -h /var/empty -G openntpd openntpd
+  # addgroup -S ntpd
+  # adduser -S -h /var/empty -G ntpd ntpd
+
+Please also add the following lines to /etc/services:
+
+ntp		123/tcp
+ntp		123/udp
+
 EOF

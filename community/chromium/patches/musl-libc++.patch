@@ -1,0 +1,56 @@
+diff --git a/buildtools/third_party/libc++/trunk/include/locale b/buildtools/third_party/libc++/trunk/include/locale
+index 067c146..9141f31 100644
+--- a/buildtools/third_party/libc++/trunk/include/locale
++++ b/buildtools/third_party/libc++/trunk/include/locale
+@@ -10,6 +10,15 @@
+ #ifndef _LIBCPP_LOCALE
+ #define _LIBCPP_LOCALE
+ 
++// musl doesn't define _l (with locale) variants of functions, as it only supports UTF-8.
++// we can simply make macros that will call the non-localated ones if we're using musl, or rather not-using something that has the _l ones.
++// couldn't find anything glibc #defines when it creates strtoull_l (that it doesn't undefine a few lines later), so let's test against glibc and glibc-likes.
++// almost all glibc-likes define __GNU_LIBRARY__ for compatibility
++#ifndef __GNU_LIBRARY__
++#define strtoull_l(A, B, C, LOC) strtoull(A,B,C)
++#define strtoll_l(A, B, C, LOC) strtoll(A,B,C)
++#endif
++
+ /*
+     locale synopsis
+ 
+diff --git a/buildtools/third_party/libc++/trunk/src/locale.cpp b/buildtools/third_party/libc++/trunk/src/locale.cpp
+index fd0e17a..94d2367 100644
+--- a/buildtools/third_party/libc++/trunk/src/locale.cpp
++++ b/buildtools/third_party/libc++/trunk/src/locale.cpp
+@@ -1100,11 +1100,11 @@ ctype<char>::do_narrow(const char_type* low, const char_type* high, char dfault,
+     return low;
+ }
+ 
+-#if defined(__EMSCRIPTEN__)
++//#if defined(__EMSCRIPTEN__)
+ extern "C" const unsigned short ** __ctype_b_loc();
+ extern "C" const int ** __ctype_tolower_loc();
+ extern "C" const int ** __ctype_toupper_loc();
+-#endif
++//#endif
+ 
+ #ifdef _LIBCPP_PROVIDES_DEFAULT_RUNE_TABLE
+ const ctype<char>::mask*
+@@ -1214,12 +1214,11 @@ ctype<char>::classic_table() noexcept
+     return const_cast<const ctype<char>::mask*> (__ctypec);
+ # endif
+ #else
+-    // Platform not supported: abort so the person doing the port knows what to
+-    // fix
+-# warning  ctype<char>::classic_table() is not implemented
+-    printf("ctype<char>::classic_table() is not implemented\n");
+-    abort();
+-    return NULL;
++    // not sure any other libc like this exists, but there is no way to
++    // differentiate musl as of right now.
++    // to be fair, with the change above, this should always work
++    // also, #warning is a gcc extension
++    return (const unsigned long *)*__ctype_b_loc();
+ #endif
+ }
+ #endif

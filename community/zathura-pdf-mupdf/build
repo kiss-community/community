@@ -1,6 +1,6 @@
 #!/bin/sh -e
 
-export DESTDIR="$1"
+patch -p1 < meson.patch
 
 meson \
     --prefix=/usr \

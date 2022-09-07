@@ -1,0 +1,49 @@
+#!/bin/sh -e
+
+export BUILD_ZLIB=0
+export BUILD_BZIP2=0
+export LDFLAGS="$LDFLAGS -pthread"
+export CFLAGS="$CFLAGS -DNO_POSIX_2008_LOCALE -D_GNU_SOURCE"
+
+./Configure \
+    -des \
+    -Dprefix=/usr \
+    -Dvendorprefix=/usr \
+    -Dusevendorprefix \
+    -Duseshrplib \
+    -Dusesoname \
+    -Dusethreads \
+    -Dinc_version_list=none \
+    -Dd_sockaddr_in6=define \
+    -Dcccdlflags=-fPIC \
+    -Dccflags="$CFLAGS" \
+    -Dlddlflags="-shared $LDFLAGS" \
+    -Dldflags="$LDFLAGS" \
+    -Doptimize="-Wall $CFLAGS" \
+    -Dcc="$CC" \
+    -Dar="$AR" \
+    -Dnm="$NM" \
+    -Dranlib="$RANLIB" \
+    -Dman1dir=/usr/share/man/man1 \
+    -Dman3dir=/usr/share/man/man3 \
+    -Dinstallman1dir=/usr/share/man/man1 \
+    -Dinstallman3dir=/usr/share/man/man3 \
+    -Dman1ext=1 \
+    -Dman3ext=3pm \
+    -Dperl_static_inline="static __inline__" \
+    -Dd_static_inline
+
+make
+make install
+
+# Remove all unneeded files.
+find "$1" -name \*.pod       -exec rm -f {} +
+find "$1" -name .packlist    -exec rm -f {} +
+find "$1" -name README\*     -exec rm -f {} +
+find "$1" -name TODO\*       -exec rm -f {} +
+find "$1" -name Change\*     -exec rm -f {} +
+find "$1" -name \*.bs        -exec rm -f {} +
+find "$1" -name \*.0 -type f -exec rm -f {} +
+
+# Fix permissions.
+find "$1/usr/lib" -type f -exec chmod 644 {} \;

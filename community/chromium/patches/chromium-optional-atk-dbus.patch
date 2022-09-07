@@ -1,78 +1,101 @@
 diff --git a/build/config/ui.gni b/build/config/ui.gni
-index 83ec3d7..1e880ad 100644
+index 247c80e..0cc1d74 100644
 --- a/build/config/ui.gni
 +++ b/build/config/ui.gni
-@@ -41,8 +41,10 @@ declare_args() {
+@@ -41,7 +41,9 @@ declare_args() {
  
- assert(!use_glib || (is_linux && !is_chromecast))
+ assert(!use_glib || (is_linux && !is_castos))
  
--use_atk = is_linux && !is_chromecast && use_glib &&
--          current_toolchain == default_toolchain
+-use_atk = use_glib && current_toolchain == default_toolchain
 +declare_args() {
-+  use_atk = is_linux && !is_chromecast && use_glib &&
-+            current_toolchain == default_toolchain
++  use_atk = use_glib && current_toolchain == default_toolchain
 +}
  
  # Whether using Xvfb to provide a display server for a test might be
  # necessary.
 diff --git a/chrome/browser/chrome_browser_main_linux.cc b/chrome/browser/chrome_browser_main_linux.cc
-index 0503b43..83c7aa8 100644
+index 4f2791c..57502f8 100644
 --- a/chrome/browser/chrome_browser_main_linux.cc
 +++ b/chrome/browser/chrome_browser_main_linux.cc
-@@ -60,7 +60,7 @@ void ChromeBrowserMainPartsLinux::PostCreateMainMessageLoop() {
- #if BUILDFLAG(IS_CHROMEOS_ASH) || BUILDFLAG(IS_CHROMEOS_LACROS)
+@@ -60,11 +60,11 @@ void ChromeBrowserMainPartsLinux::PostCreateMainMessageLoop() {
+ #if BUILDFLAG(IS_CHROMEOS)
    // No-op: Ash and Lacros Bluetooth DBusManager initialization depend on
    // FeatureList, and is done elsewhere.
--#else
 +#elif defined(USE_DBUS)
-   bluez::BluezDBusManager::Initialize(nullptr /* system_bus */);
- #endif  // BUILDFLAG(IS_CHROMEOS_ASH) || BUILDFLAG(IS_CHROMEOS_LACROS)
++  bluez::BluezDBusManager::Initialize(nullptr /* system_bus */);
+ #endif  // BUILDFLAG(IS_CHROMEOS)
  
-@@ -124,7 +124,7 @@ void ChromeBrowserMainPartsLinux::PostBrowserStart() {
+ #if !BUILDFLAG(IS_CHROMEOS)
+-  bluez::BluezDBusManager::Initialize(nullptr /* system_bus */);
+-
+   // Set up crypt config. This needs to be done before anything starts the
+   // network service, as the raw encryption key needs to be shared with the
+   // network service for encrypted cookie storage.
+@@ -125,7 +125,7 @@ void ChromeBrowserMainPartsLinux::PostBrowserStart() {
  void ChromeBrowserMainPartsLinux::PostDestroyThreads() {
- #if BUILDFLAG(IS_CHROMEOS_ASH) || BUILDFLAG(IS_CHROMEOS_LACROS)
+ #if BUILDFLAG(IS_CHROMEOS)
    // No-op; per PostBrowserStart() comment, this is done elsewhere.
 -#else
 +#elif defined(USE_DBUS)
    bluez::BluezDBusManager::Shutdown();
    bluez::BluezDBusThreadManager::Shutdown();
- #endif  // BUILDFLAG(IS_CHROMEOS_ASH) || BUILDFLAG(IS_CHROMEOS_LACROS)
-diff --git a/chrome/browser/metrics/bluetooth_available_utility.cc b/chrome/browser/metrics/bluetooth_available_utility.cc
-index bfad3b5..43cfe6c 100644
---- a/chrome/browser/metrics/bluetooth_available_utility.cc
-+++ b/chrome/browser/metrics/bluetooth_available_utility.cc
-@@ -13,9 +13,9 @@
- #include "device/bluetooth/bluetooth_adapter.h"
+ #endif  // BUILDFLAG(IS_CHROMEOS)
+diff --git a/chrome/browser/metrics/bluetooth_metrics_provider.cc b/chrome/browser/metrics/bluetooth_metrics_provider.cc
+index a398390..5b3d544 100644
+--- a/chrome/browser/metrics/bluetooth_metrics_provider.cc
++++ b/chrome/browser/metrics/bluetooth_metrics_provider.cc
+@@ -10,11 +10,11 @@
+ #include "content/public/browser/browser_thread.h"
  #include "device/bluetooth/bluetooth_adapter_factory.h"
  
 -#if BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_CHROMEOS)
 +#if (BUILDFLAG(IS_LINUX) && defined(USE_DBUS)) || BUILDFLAG(IS_CHROMEOS)
  #include "device/bluetooth/dbus/bluez_dbus_manager.h"
+ #include "device/bluetooth/floss/floss_dbus_manager.h"
+ #include "device/bluetooth/floss/floss_features.h"
 -#endif  // BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_CHROMEOS)
 +#endif  // (BUILDFLAG(IS_LINUX) && defined(USE_DBUS)) || BUILDFLAG(IS_CHROMEOS)
  
- namespace bluetooth_utility {
+ namespace metrics {
  
-@@ -55,12 +55,12 @@ void ReportBluetoothAvailability() {
-     return;
-   }
+@@ -31,12 +31,12 @@ void BluetoothMetricsProvider::ProvideCurrentSessionData(
+   base::UmaHistogramEnumeration("Bluetooth.Availability.v2",
+                                 bluetooth_availability_);
  
 -#if BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_CHROMEOS)
 +#if (BUILDFLAG(IS_LINUX) && defined(USE_DBUS)) || BUILDFLAG(IS_CHROMEOS)
-   // This is for tests that have not initialized bluez or dbus thread manager.
-   // Outside of tests these are initialized earlier during browser startup.
-   if (!bluez::BluezDBusManager::IsInitialized())
-     return;
+   base::UmaHistogramEnumeration("Bluetooth.StackName",
+                                 floss::features::IsFlossEnabled()
+                                     ? BluetoothStackName::kFloss
+                                     : BluetoothStackName::kBlueZ);
 -#endif  // BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_CHROMEOS)
 +#endif  // (BUILDFLAG(IS_LINUX) && defined(USE_DBUS)) || BUILDFLAG(IS_CHROMEOS)
+ #endif  // BUILDFLAG(IS_CHROMEOS) || BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_MAC) ||
+         // BUILDFLAG(IS_WIN)
+ }
+@@ -77,7 +77,7 @@ void BluetoothMetricsProvider::GetBluetoothAvailability() {
+     return;
+   }
+ 
+-#if BUILDFLAG(IS_CHROMEOS) || BUILDFLAG(IS_LINUX)
++#if BUILDFLAG(IS_CHROMEOS) || (BUILDFLAG(IS_LINUX) && defined(USE_DBUS))
+   bool is_initialized;
+ 
+   if (floss::features::IsFlossEnabled()) {
+@@ -91,7 +91,7 @@ void BluetoothMetricsProvider::GetBluetoothAvailability() {
+   // startup.
+   if (!is_initialized)
+     return;
+-#endif  // BUILDFLAG(IS_CHROMEOS) || BUILDFLAG(IS_LINUX)
++#endif  // BUILDFLAG(IS_CHROMEOS) || (BUILDFLAG(IS_LINUX) && defined(USE_DBUS))
  
    if (!device::BluetoothAdapterFactory::Get()->IsBluetoothSupported()) {
-     ReportAvailability(BLUETOOTH_NOT_SUPPORTED);
+     bluetooth_availability_ = BluetoothAvailability::BLUETOOTH_NOT_SUPPORTED;
 diff --git a/chrome/browser/platform_util_linux.cc b/chrome/browser/platform_util_linux.cc
-index b0eac95..2037fb2 100644
+index a17fd8e..d783e15 100644
 --- a/chrome/browser/platform_util_linux.cc
 +++ b/chrome/browser/platform_util_linux.cc
-@@ -25,14 +25,18 @@
+@@ -27,11 +27,15 @@
  // complain as Chromecast doesn't use (or depend on) //components/dbus.
  // TODO(crbug.com/1215474): Eliminate //chrome being visible in the GN structure
  // on Chromecast and remove the nogncheck below.
@@ -80,9 +103,6 @@ index b0eac95..2037fb2 100644
  #include "components/dbus/thread_linux/dbus_thread_linux.h"  // nogncheck
 +#endif
  #include "content/public/browser/browser_thread.h"
- #include "content/public/browser/notification_observer.h"
- #include "content/public/browser/notification_registrar.h"
- #include "content/public/browser/notification_service.h"
 +#if defined(USE_DBUS)
  #include "dbus/bus.h"
  #include "dbus/message.h"
@@ -91,7 +111,7 @@ index b0eac95..2037fb2 100644
  #include "third_party/abseil-cpp/absl/types/optional.h"
  #include "url/gurl.h"
  
-@@ -42,6 +46,7 @@ namespace platform_util {
+@@ -41,6 +45,7 @@ namespace platform_util {
  
  namespace {
  
@@ -99,15 +119,15 @@ index b0eac95..2037fb2 100644
  const char kMethodListActivatableNames[] = "ListActivatableNames";
  const char kMethodNameHasOwner[] = "NameHasOwner";
  
-@@ -288,6 +293,7 @@ class ShowItemHelper : public content::NotificationObserver {
- 
+@@ -284,6 +289,7 @@ class ShowItemHelper {
+   base::CallbackListSubscription browser_shutdown_subscription_;
    base::WeakPtrFactory<ShowItemHelper> weak_ptr_factory_{this};
  };
 +#endif
  
  void RunCommand(const std::string& command,
                  const base::FilePath& working_directory,
-@@ -354,8 +360,10 @@ void PlatformOpenVerifiedItem(const base::FilePath& path, OpenItemType type) {
+@@ -350,8 +356,10 @@ void PlatformOpenVerifiedItem(const base::FilePath& path, OpenItemType type) {
  }  // namespace internal
  
  void ShowItemInFolder(Profile* profile, const base::FilePath& full_path) {
@@ -118,6 +138,19 @@ index b0eac95..2037fb2 100644
  }
  
  void OpenExternal(Profile* profile, const GURL& url) {
+diff --git a/device/bluetooth/adapter.cc b/device/bluetooth/adapter.cc
+index f028473..98db098 100644
+--- a/device/bluetooth/adapter.cc
++++ b/device/bluetooth/adapter.cc
+@@ -107,7 +107,7 @@ void Adapter::GetInfo(GetInfoCallback callback) {
+   mojom::AdapterInfoPtr adapter_info = mojom::AdapterInfo::New();
+   adapter_info->address = adapter_->GetAddress();
+   adapter_info->name = adapter_->GetName();
+-#if BUILDFLAG(IS_CHROMEOS) || BUILDFLAG(IS_LINUX)
++#if BUILDFLAG(IS_CHROMEOS) || (BUILDFLAG(IS_LINUX) && defined(USE_DBUS))
+   adapter_info->system_name = adapter_->GetSystemName();
+   adapter_info->floss = floss::features::IsFlossEnabled();
+ #endif
 diff --git a/device/bluetooth/bluetooth_adapter_factory.cc b/device/bluetooth/bluetooth_adapter_factory.cc
 index 3526f17..ac4725a 100644
 --- a/device/bluetooth/bluetooth_adapter_factory.cc
@@ -204,104 +237,26 @@ index 1637134..059e94a 100644
    android_library("java") {
      # Conceptually, this should be visible only to //services/device:java.
 diff --git a/ui/shell_dialogs/BUILD.gn b/ui/shell_dialogs/BUILD.gn
-index e1b3041..762dcf6 100644
+index 3c75b8f..fbc55db 100644
 --- a/ui/shell_dialogs/BUILD.gn
 +++ b/ui/shell_dialogs/BUILD.gn
-@@ -49,15 +49,9 @@ component("shell_dialogs") {
-       "select_file_dialog_linux.h",
-       "select_file_dialog_linux_kde.cc",
-       "select_file_dialog_linux_kde.h",
--      "select_file_dialog_linux_portal.cc",
--      "select_file_dialog_linux_portal.h",
-       "shell_dialog_linux.cc",
+@@ -55,7 +55,6 @@ component("shell_dialogs") {
        "shell_dialog_linux.h",
      ]
--    deps += [
+     deps += [
 -      "//components/dbus/thread_linux",
--      "//dbus",
--    ]
-   }
- 
-   if (is_mac) {
-diff --git a/ui/shell_dialogs/shell_dialog_linux.cc b/ui/shell_dialogs/shell_dialog_linux.cc
-index 0f5fa2e..a15ead1 100644
---- a/ui/shell_dialogs/shell_dialog_linux.cc
-+++ b/ui/shell_dialogs/shell_dialog_linux.cc
-@@ -10,14 +10,20 @@
- #include "build/chromeos_buildflags.h"
- #include "ui/shell_dialogs/select_file_dialog_linux.h"
- #include "ui/shell_dialogs/select_file_dialog_linux_kde.h"
-+#if defined(USE_DBUS)
- #include "ui/shell_dialogs/select_file_dialog_linux_portal.h"
-+#endif
- #include "ui/shell_dialogs/select_file_policy.h"
- 
- namespace {
- 
- ui::ShellDialogLinux* g_shell_dialog_linux = nullptr;
- 
--enum FileDialogChoice { kUnknown, kToolkit, kKde, kPortal };
-+enum FileDialogChoice { kUnknown, kToolkit, kKde,
-+#if defined(USE_DBUS)
-+  kPortal
-+#endif
-+};
- 
- FileDialogChoice dialog_choice_ = kUnknown;
- 
-@@ -33,7 +39,9 @@ namespace ui {
- ShellDialogLinux::ShellDialogLinux() = default;
- 
- ShellDialogLinux::~ShellDialogLinux() {
-+#if defined(USE_DBUS)
-   SelectFileDialogLinuxPortal::DestroyPortalConnection();
-+#endif
- }
- 
- void ShellDialogLinux::SetInstance(ShellDialogLinux* instance) {
-@@ -45,7 +53,9 @@ const ShellDialogLinux* ShellDialogLinux::instance() {
- }
- 
- void ShellDialogLinux::Initialize() {
-+#if defined(USE_DBUS)
-   SelectFileDialogLinuxPortal::StartAvailabilityTestInBackground();
-+#endif
- }
- 
- SelectFileDialog* CreateSelectFileDialog(
-@@ -55,12 +65,14 @@ SelectFileDialog* CreateSelectFileDialog(
-     // Start out assuming we are going to use dialogs from the toolkit.
-     dialog_choice_ = kToolkit;
- 
-+#if defined(USE_DBUS)
-     // Check to see if the portal is available.
-     if (SelectFileDialogLinuxPortal::IsPortalAvailable()) {
-       dialog_choice_ = kPortal;
-     } else {
-       // Make sure to kill the portal connection.
-       SelectFileDialogLinuxPortal::DestroyPortalConnection();
-+#endif
- 
-       // Check to see if KDE is the desktop environment.
-       std::unique_ptr<base::Environment> env(base::Environment::Create());
-@@ -78,7 +90,9 @@ SelectFileDialog* CreateSelectFileDialog(
-           }
-         }
-       }
-+#if defined(USE_DBUS)
+       "//ui/linux:linux_ui",
+     ]
+     if (use_dbus) {
+@@ -64,7 +63,10 @@ component("shell_dialogs") {
+         "select_file_dialog_linux_portal.cc",
+         "select_file_dialog_linux_portal.h",
+       ]
+-      deps += [ "//dbus" ]
++      deps += [
++        "//components/dbus/thread_linux",
++        "//dbus",
++      ]
      }
-+#endif
    }
  
-   const ui::ShellDialogLinux* shell_dialogs = ui::ShellDialogLinux::instance();
-@@ -87,8 +101,10 @@ SelectFileDialog* CreateSelectFileDialog(
-       if (!shell_dialogs)
-         break;
-       return shell_dialogs->CreateSelectFileDialog(listener, std::move(policy));
-+#if defined(USE_DBUS)
-     case kPortal:
-       return new SelectFileDialogLinuxPortal(listener, std::move(policy));
-+#endif
-     case kKde: {
-       std::unique_ptr<base::Environment> env(base::Environment::Create());
-       base::nix::DesktopEnvironment desktop =

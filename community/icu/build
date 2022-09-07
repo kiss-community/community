@@ -2,10 +2,12 @@
 
 # Change the order for checking installed compilers as
 # the ccache clang symlink might exist, but clang might not be installed.
-sed -i 's/clang gcc cc/cc clang gcc/g'       source/configure
-sed -i 's/clang++ g++ c++/c++ clang++ g++/g' source/configure
+sed 's/clang gcc cc/cc clang gcc/g' icu4c/source/configure > _
+mv -f _ icu4c/source/configure
+sed 's/clang++ g++ c++/c++ clang++ g++/g' icu4c/source/configure > _
+mv -f _ icu4c/source/configure
 
-source/configure \
+sh icu4c/source/configure \
     --prefix=/usr \
     --sbindir=/usr/bin
 

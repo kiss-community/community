@@ -1,6 +1,7 @@
 alsa-lib
 bison              make
 bzip2
+ffmpeg
 flac
 fontconfig
 glib
@@ -9,6 +10,7 @@ gtk+3
 libdrm
 libgcrypt
 libjpeg-turbo
+libva              make
 libwebp
 libxkbcommon
 mesa

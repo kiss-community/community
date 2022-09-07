@@ -1,7 +1,6 @@
 freetype-harfbuzz
-gumbo-parser
 jbig2dec
 libjpeg-turbo
-openjpeg2
+openssl
 pkgconf make
 zlib
