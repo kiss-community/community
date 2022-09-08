@@ -1,10 +1,14 @@
 #!/bin/sh -e
 
+for p in *.patch; do
+    patch -p1 < "$p"
+done
+
 ./configure \
     --prefix=/usr \
-    --sbindir=/usr/sbin \
+    --sbindir=/usr/bin \
     --enable-libipq \
-    --with-xtlibdir=/lib/xtables \
+    --with-xtlibdir=/usr/lib/xtables \
     --disable-nftables
 
 make

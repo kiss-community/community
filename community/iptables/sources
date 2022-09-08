@@ -1,1 +1,4 @@
-https://www.netfilter.org/projects/iptables/files/iptables-1.8.7.tar.bz2
+https://www.netfilter.org/projects/iptables/files/iptables-1.8.8.tar.bz2
+patches/fix-u_int16_t.patch
+patches/fix-xtables.patch
+patches/use-sh-iptables-apply.patch
