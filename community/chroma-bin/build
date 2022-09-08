@@ -1,6 +1,0 @@
-#!/bin/sh -e
-
-tar xf ./chroma-*.tar.gz\?no-extract
-
-mkdir -p "$1/usr/bin"
-cp chroma "$1/usr/bin/chroma"
