@@ -6,6 +6,7 @@
     --disable-xxhash \
     --disable-zstd \
     --disable-lz4 \
+    --disable-openssl \
     --without-included-zlib
 
 make
