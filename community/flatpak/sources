@@ -1,0 +1,3 @@
+https://github.com/flatpak/flatpak/releases/download/VERSION/flatpak-VERSION.tar.xz
+https://github.com/pyparsing/pyparsing/releases/download/pyparsing_3.0.9/pyparsing-3.0.9.tar.gz pyparsing
+patches/fix-libcurl-usage.patch

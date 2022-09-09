@@ -1,0 +1,28 @@
+#!/bin/sh -e
+
+# Remove fuse2 dependency (used solely with root "system-helper"
+# daemon for file transfer. Unneeded in our case and drops the
+# old fuse version.
+sed \
+    -e 's/as_fn_error.*fuse/: "/g' \
+    -e '/Werror=missing-include-dirs/d' configure > _
+mv -f _ configure
+
+echo "int main(void) { return 1; }" > revokefs/main.c
+:>revokefs/writer.c
+
+export PYTHONPATH=$PWD/pyparsing:$(python -c "import sys; print(':'.join(sys.path))")
+
+patch -p1 < fix-libcurl-usage.patch
+
+sh ./configure \
+    --prefix=/usr \
+    --sysconfdir=/etc \
+    --with-system-bubblewrap \
+    --disable-system-helper \
+    --disable-xauth \
+    --disable-seccomp \
+    --disable-documentation
+
+make
+make DESTDIR="$1" install

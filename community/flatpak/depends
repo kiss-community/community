@@ -1,0 +1,12 @@
+appstream
+bubblewrap
+curl
+gdk-pixbuf
+glib
+gpgme
+json-glib
+libarchive
+libassuan
+libgpg-error
+libxml2
+ostree

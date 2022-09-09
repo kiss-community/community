@@ -1,0 +1,13 @@
+#!/bin/sh -e
+
+patch -p1 < fix-libcurl-usage.patch
+
+./configure \
+    --prefix=/usr \
+    --sysconfdir=/etc \
+    --disable-rofiles-fuse \
+    --with-soup=no \
+    --with-curl=yes
+
+make
+make DESTDIR="$1" install
