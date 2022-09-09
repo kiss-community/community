@@ -10,3 +10,4 @@ libassuan
 libgpg-error
 libxml2
 ostree
+python make

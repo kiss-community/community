@@ -11,7 +11,8 @@ mv -f _ configure
 echo "int main(void) { return 1; }" > revokefs/main.c
 :>revokefs/writer.c
 
-export PYTHONPATH=$PWD/pyparsing:$(python -c "import sys; print(':'.join(sys.path))")
+PYTHONPATH=$PWD/pyparsing:$(python -c "import sys; print(':'.join(sys.path))")
+export PYTHONPATH
 
 patch -p1 < fix-libcurl-usage.patch
 
