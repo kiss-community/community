@@ -1,0 +1,111 @@
+limine
+________________________________________________________________________________
+
+Limine is an advanced, portable, multiprotocol bootloader that supports Linux,
+multiboot1 and 2, the native Limine boot protocol, and more. 
+
+Upstream: https://limine-bootloader.org/
+
+
+[000] Index
+________________________________________________________________________________
+
+* Installation ........................................................... [001]
+* Setup .................................................................. [002]
+* UEFI Systems ........................................................... [003]
+* Configuration file: limine.cfg ......................................... [004]
+* Packaging .............................................................. [005]
+* References ............................................................. [006]
+
+
+[001] Installation
+________________________________________________________________________________
+
++------------------------------------------------------------------------------+
+|                                                                              |
+|  $ kiss b limine                                                             |
+|                                                                              |
++------------------------------------------------------------------------------+
+
+
+[002] Setup
+________________________________________________________________________________
+
+After the installation, the file "limine.sys" must be copied to root or the 
+/boot directory f any partition on the disk onto which Limine will be deployed,
+as long as the filesystem is supported.
+
++------------------------------------------------------------------------------+
+|                                                                              |
+|  # cp /usr/share/limine/limine.sys /boot                                     |
+|                                                                              |
++------------------------------------------------------------------------------+
+
+Then stage 1 and 2 must be deployed with the limine-deploy utility.
+
++------------------------------------------------------------------------------+
+|                                                                              |
+|  # limine-deploy /dev/sdX                                                    |
+|                                                                              |
++------------------------------------------------------------------------------+
+
+where /dev/sdX is the disk (and not the partition) where limine is to be 
+installed. Then the configuration file limine.cfg must be created, see [004].
+
+[003] UEFI Systems 
+________________________________________________________________________________
+
+To deploy limine on UEFI systems, the file BOOTX64.EFI must be copied to an EFI
+system partition. Usually it's esp/EFI/BOOT/BOOTX64.EFI. On kisslinux it's often
+
++------------------------------------------------------------------------------+
+|                                                                              |
+|  # cp /usr/share/limine/BOOTX64.EFI /boot/EFI/kiss                           |
+|                                                                              |
++------------------------------------------------------------------------------+
+
+[004] Configuration file: limine.cfg
+________________________________________________________________________________
+
+This package doesn't provide a sample configuration file. The configuration
+file limine.cfg can reside on root or /boot like limine.sys. Here is a sample
+configuration file:
+
++------------------------------------------------------------------------------+
+|                                                                              |
+| limine.cfg:                                                                  |
+|                                                                              |
+| TIMEOUT=5                                                                    |
+|                                                                              |
+| :Kiss Linux 5.7.12.7                                                         |
+|                                                                              |
+| PROTOCOL=linux                                                               |
+| KERNEL_PATH=boot:///vmlinuz-5.7.12.7                                         |
+| CMDLINE=root=/dev/sda1 ro loglevel=3 quiet                                   |
++------------------------------------------------------------------------------+
+
+Each entry begins with a colon ":" followed by a description of the entry. In 
+this example the entry "Kiss Linux 5.7.12.7" will boot with kernel 
+"vmlinuz-5.7.12.7". 
+
+In this case, the kernel load without an initramfs.
+
+Parameters:
+
+- KERNEL_PATH: "boot:///" refers to the partition containing "/boot". 
+               If there is no separate partition for boot, the entry
+               should be: "boot:///boot/". 
+- CMDLINE: the partition containing root "/" must be given. Here
+	   root is on partition "/dev/sda1".
+
+[005] Packaging
+________________________________________________________________________________
+
+Build file:
+
+-> --disable-uefi-aarch64 [0]
+
+[006] References
+________________________________________________________________________________
+
+[0] https://github.com/limine-bootloader/limine/issues/213
