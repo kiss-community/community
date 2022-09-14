@@ -1,7 +1,0 @@
-#!/bin/sh -e
-
-cat <<EOF
-
-NOTE: This package need pycryptodome, install with pip3.
-
-EOF
