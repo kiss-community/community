@@ -1,8 +1,12 @@
 #!/bin/sh -e
 
+# Support for uefi aarch64 disabled because it's unsupported
+# in kiss
+
 ./configure \
 	--prefix=/usr \
-	--enable-all
+	--enable-all \
+	--disable-uefi-aarch64
 	
 make
 make DESTDIR="$1" install
