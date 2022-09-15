@@ -1,15 +1,12 @@
 #!/bin/sh -e
 
-udev=--disable-libudev
-kiss list libudev-zero && udev=--enable-libudev
-
 ./configure \
     --prefix=/usr \
     --bindir=/usr/bin \
     --disable-documentation \
     --disable-backtrace \
     --disable-zstd \
-    "$udev"
+    --disable-libudev
 
 make
 make DESTDIR="$1" install
