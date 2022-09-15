@@ -1,0 +1,9 @@
+#!/bin/sh -e
+
+make VERSION="v$2"
+make DESTDIR="$1" PREFIX=/usr install
+
+mkdir -p "$1/etc/sv/containerd"
+
+cp run "$1/etc/sv/containerd/"
+ln -sf /run/runit/supervise.containerd "$1/etc/sv/containerd/supervise"

@@ -1,0 +1,100 @@
+#!/bin/sh -e
+
+grep -q ^docker: /etc/group || addgroup -S docker
+
+cat <<EOF
+NOTE: Add your user to the 'docker' group to be able to run commands
+      without root priviliges.
+NOTE: Enable the following kernel config options for docker to work
+
+Generally Necessary:
+- CONFIG_NAMESPACES
+- CONFIG_NET_NS
+- CONFIG_PID_NS
+- CONFIG_IPC_NS
+- CONFIG_UTS_NS
+- CONFIG_CGROUPS
+- CONFIG_CGROUP_CPUACCT
+- CONFIG_CGROUP_DEVICE
+- CONFIG_CGROUP_FREEZER
+- CONFIG_CGROUP_SCHED
+- CONFIG_CPUSETS
+- CONFIG_MEMCG
+- CONFIG_KEYS
+- CONFIG_VETH
+- CONFIG_BRIDGE
+- CONFIG_BRIDGE_NETFILTER
+- CONFIG_IP_NF_FILTER
+- CONFIG_IP_NF_TARGET_MASQUERADE
+- CONFIG_NETFILTER_XT_MATCH_ADDRTYPE
+- CONFIG_NETFILTER_XT_MATCH_CONNTRACK
+- CONFIG_NETFILTER_XT_MATCH_IPVS
+- CONFIG_NETFILTER_XT_MARK
+- CONFIG_IP_NF_NAT
+- CONFIG_NF_NAT
+- CONFIG_POSIX_MQUEUE
+
+Optional Features:
+- CONFIG_USER_NS
+- CONFIG_SECCOMP
+- CONFIG_CGROUP_PIDS
+- CONFIG_MEMCG_SWAP
+- CONFIG_BLK_CGROUP
+- CONFIG_BLK_DEV_THROTTLING
+- CONFIG_CGROUP_PERF
+- CONFIG_CGROUP_HUGETLB
+- CONFIG_NET_CLS_CGROUP
+- CONFIG_CGROUP_NET_PRIO
+- CONFIG_CFS_BANDWIDTH
+- CONFIG_FAIR_GROUP_SCHED
+- CONFIG_RT_GROUP_SCHED
+- CONFIG_IP_NF_TARGET_REDIRECT
+- CONFIG_IP_VS
+- CONFIG_IP_VS_NFCT
+- CONFIG_IP_VS_PROTO_TCP
+- CONFIG_IP_VS_PROTO_UDP
+- CONFIG_IP_VS_RR
+- CONFIG_EXT4_FS
+- CONFIG_EXT4_FS_POSIX_ACL
+- CONFIG_EXT4_FS_SECURITY
+    enable these ext4 configs if you are using ext3 or ext4 as backing filesystem
+- Network Drivers:
+  - "overlay":
+    - CONFIG_VXLAN
+    - CONFIG_BRIDGE_VLAN_FILTERING
+      Optional (for encrypted networks):
+      - CONFIG_CRYPTO
+      - CONFIG_CRYPTO_AEAD
+      - CONFIG_CRYPTO_GCM
+      - CONFIG_CRYPTO_SEQIV
+      - CONFIG_CRYPTO_GHASH
+      - CONFIG_XFRM
+      - CONFIG_XFRM_USER
+      - CONFIG_XFRM_ALGO
+      - CONFIG_INET_ESP
+  - "ipvlan":
+    - CONFIG_IPVLAN
+  - "macvlan":
+    - CONFIG_MACVLAN
+    - CONFIG_DUMMY
+  - "ftp,tftp client in container":
+    - CONFIG_NF_NAT_FTP
+    - CONFIG_NF_CONNTRACK_FTP
+    - CONFIG_NF_NAT_TFTP
+    - CONFIG_NF_CONNTRACK_TFTP
+- Storage Drivers:
+  - "aufs":
+    - CONFIG_AUFS_FS
+  - "btrfs":
+    - CONFIG_BTRFS_FS
+    - CONFIG_BTRFS_FS_POSIX_ACL
+  - "devicemapper":
+    - CONFIG_BLK_DEV_DM
+    - CONFIG_DM_THIN_PROVISIONING
+  - "overlay":
+    - CONFIG_OVERLAY_FS
+  - "zfs":
+    - /dev/zfs
+    - zfs command
+    - zpool command
+EOF

@@ -1,0 +1,30 @@
+#!/bin/sh -e
+
+die() { printf '%s\n' "$@" >&2; exit 1; }
+
+mntpnt() {
+    [ -e "$1" ] &&
+    [ -f /proc/mounts ] &&
+    while read -r _ mnt _; do
+        case "$mnt" in "$1") return 0; esac
+    done < /proc/mounts
+
+    return 1
+}
+
+[ -d /sys/fs/cgroup ] || die "Kernel doesn't provide cgroups"
+[ -e /proc/cgroups  ] || die "Kernel doesn't provide cgroup information"
+
+mntpnt /sys/fs/cgroup || mount -t tmpfs -o uid=0,gid=0,mode=0755 cgroup /sys/fs/cgroup
+
+cd /sys/fs/cgroup
+
+while read -r sys _; do
+    case "$sys" in "#"*) continue; esac
+    mkdir -p "$sys"
+    mntpnt "$PWD/$sys" || mount -n -t cgroup -o "$sys" cgroup "$sys" 
+done < /proc/cgroups
+
+[ -e /sys/fs/cgroup/memory/memory.use_hierarchy ] && echo 1 > /sys/fs/cgroup/memory/memory.use_hierarchy
+
+exec dockerd
