@@ -6,7 +6,7 @@ ncurses
 perl make
 pixman
 pkgconf make
-python
+python  make
 samurai make
 sdl2
 zlib
