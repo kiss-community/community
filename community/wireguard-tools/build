@@ -1,0 +1,9 @@
+#!/bin/sh -e
+
+cd src
+
+make \
+    DESTDIR="$1" \
+    WITH_WGQUICK=yes \
+    WITH_SYSTEMDUNITS=no \
+    install
