@@ -1,0 +1,39 @@
+cups-filters
+________________________________________________________________________________
+
+Backends, filters, and other software that was once part of the core CUPS
+distribution, but during the time when CUPS was developed at Apple, Apple
+stopped maintining these parts as they were not needed by Mac OS.
+
+Upstream: https://github.com/OpenPrinting/cups-filters 
+
+
+[000] Index
+________________________________________________________________________________
+
+* Installation ........................................................... [001]
+* Packaging .............................................................. [002]
+* References ............................................................. [003]
+
+
+[001] Installation
+________________________________________________________________________________
+
++------------------------------------------------------------------------------+
+|                                                                              |
+|  $ kiss b cups-filters                                                       |
+|                                                                              |
++------------------------------------------------------------------------------+
+
+
+[002] Packaging
+________________________________________________________________________________
+
+libexif was introduced as a dependency with version 1.28.16. See [0]
+and [1]. 
+
+[003] References
+________________________________________________________________________________
+
+[0] https://github.com/OpenPrinting/cups-filters/issues/362 
+[1] https://github.com/kiss-community/community/issues/1252
