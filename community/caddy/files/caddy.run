@@ -1,2 +1,0 @@
-#!/bin/sh
-exec caddy run --config /etc/caddy/caddy.conf --adapter caddyfile

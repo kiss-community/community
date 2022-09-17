@@ -1,9 +1,0 @@
-#!/bin/sh -e
-
-sed -i'' '/ -fforce-mem/d' configure
-
-./configure \
-    --prefix=/usr
-
-make
-make DESTDIR="$1" install
