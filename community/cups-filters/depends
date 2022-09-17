@@ -3,6 +3,7 @@ freetype-harfbuzz
 ghostscript
 glib
 lcms make
+libexif
 pkgconf make
 poppler
 qpdf
