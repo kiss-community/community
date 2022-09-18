@@ -1,0 +1,6 @@
+cairo
+gdk-pixbuf
+glib
+gtk+3
+meson make
+pango
