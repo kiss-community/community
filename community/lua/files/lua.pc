@@ -1,5 +1,5 @@
-V=5.3
-R=5.3.5
+V=%VER%
+R=%REL%
 
 prefix=/usr
 INSTALL_BIN=${prefix}/bin
