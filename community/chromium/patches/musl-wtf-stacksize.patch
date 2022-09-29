@@ -1,4 +1,4 @@
---- a/third_party/blink/renderer/platform/wtf/stack_util.cc.orig
+--- a/third_party/blink/renderer/platform/wtf/stack_util.cc
 +++ b/third_party/blink/renderer/platform/wtf/stack_util.cc
 @@ -29,7 +29,7 @@
  // FIXME: On Mac OSX and Linux, this method cannot estimate stack size

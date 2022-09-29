@@ -1,12 +1,10 @@
-diff --git a/sandbox/linux/services/namespace_sandbox.cc b/sandbox/linux/services/namespace_sandbox.cc
-index 3925c3e..cac8c21 100644
---- a/sandbox/linux/services/namespace_sandbox.cc
-+++ b/sandbox/linux/services/namespace_sandbox.cc
-@@ -208,6 +208,70 @@ base::Process NamespaceSandbox::LaunchProcessWithOptions(
+--- ./sandbox/linux/services/namespace_sandbox.cc.orig
++++ ./sandbox/linux/services/namespace_sandbox.cc
+@@ -209,6 +209,70 @@
    return base::LaunchProcess(argv, launch_options_copy);
  }
  
-+#if defined(__aarch64__) || defined(__arm__) || defined(__powerpc__)
++#if defined(__aarch64__)
 +#define TLS_ABOVE_TP
 +#endif
 +
@@ -73,7 +71,7 @@ index 3925c3e..cac8c21 100644
  // static
  pid_t NamespaceSandbox::ForkInNewPidNamespace(bool drop_capabilities_in_child) {
    const pid_t pid =
-@@ -225,6 +289,7 @@ pid_t NamespaceSandbox::ForkInNewPidNamespace(bool drop_capabilities_in_child) {
+@@ -226,6 +290,7 @@
  #if defined(LIBC_GLIBC)
      MaybeUpdateGlibcTidCache();
  #endif

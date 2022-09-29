@@ -72,8 +72,8 @@ index 0e1b808..c88b437 100644
  void StackTrace::OutputToStreamWithPrefix(std::ostream* os,
                                            const char* prefix_string) const {
    StreamBacktraceOutputHandler handler(os);
---- a/v8/src/codegen/external-reference-table.cc.orig
-+++ b/v8/src/codegen/external-reference-table.cc
+--- ./v8/src/codegen/external-reference-table.cc.orig
++++ ./v8/src/codegen/external-reference-table.cc
 @@ -11,7 +11,9 @@
 
  #if defined(DEBUG) && defined(V8_OS_LINUX) && !defined(V8_OS_ANDROID)
@@ -93,3 +93,35 @@ index 0e1b808..c88b437 100644
    char** names = backtrace_symbols(&address, 1);
    const char* name = names[0];
    // The array of names is malloc'ed. However, each name string is static
+--- a/third_party/swiftshader/third_party/llvm-subzero/build/Linux/include/llvm/Config/config.h
++++ b/third_party/swiftshader/third_party/llvm-subzero/build/Linux/include/llvm/Config/config.h
+@@ -58,7 +58,7 @@
+ #define HAVE_ERRNO_H 1
+ 
+ /* Define to 1 if you have the <execinfo.h> header file. */
+-#define HAVE_EXECINFO_H 1
++/* #define HAVE_EXECINFO_H 1 */
+ 
+ /* Define to 1 if you have the <fcntl.h> header file. */
+ #define HAVE_FCNTL_H 1
+--- a/base/debug/stack_trace.cc
++++ b/base/debug/stack_trace.cc
+@@ -251,7 +253,9 @@
+ }
+ 
+ void StackTrace::OutputToStream(std::ostream* os) const {
++#if defined(__GLIBC__) && !defined(_AIX)
+   OutputToStreamWithPrefix(os, nullptr);
++#endif
+ }
+ 
+ std::string StackTrace::ToString() const {
+@@ -281,7 +281,7 @@
+ }
+ std::string StackTrace::ToStringWithPrefix(const char* prefix_string) const {
+   std::stringstream stream;
+-#if !defined(__UCLIBC__) && !defined(_AIX)
++#if defined(__GLIBC__) && !defined(_AIX)
+   OutputToStreamWithPrefix(&stream, prefix_string);
+ #endif
+   return stream.str();

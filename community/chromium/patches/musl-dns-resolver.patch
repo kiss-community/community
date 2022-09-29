@@ -1,0 +1,40 @@
+diff --git a/net/dns/host_resolver_manager.cc b/net/dns/host_resolver_manager.cc
+index 095269c..c15c49c 100644
+--- a/net/dns/host_resolver_manager.cc
++++ b/net/dns/host_resolver_manager.cc
+@@ -3126,8 +3126,7 @@ HostResolverManager::HostResolverManager(
+   }
+   if (system_dns_config_notifier_)
+     system_dns_config_notifier_->AddObserver(this);
+-#if BUILDFLAG(IS_POSIX) && !BUILDFLAG(IS_APPLE) && !BUILDFLAG(IS_OPENBSD) && \
+-    !BUILDFLAG(IS_ANDROID)
++#if defined(__GLIBC__)
+   EnsureDnsReloaderInit();
+ #endif
+ 
+--- ./net/dns/dns_reloader.cc.orig
++++ ./net/dns/dns_reloader.cc
+@@ -6,8 +6,7 @@
+ 
+ #include "build/build_config.h"
+ 
+-#if BUILDFLAG(IS_POSIX) && !BUILDFLAG(IS_APPLE) && !BUILDFLAG(IS_OPENBSD) && \
+-    !BUILDFLAG(IS_ANDROID) && !BUILDFLAG(IS_FUCHSIA)
++#if defined(__GLIBC__)
+ 
+ #include <resolv.h>
+ 
+diff --git a/net/dns/host_resolver_proc.cc b/net/dns/host_resolver_proc.cc
+index 08c0105..5f69fc2 100644
+--- a/net/dns/host_resolver_proc.cc
++++ b/net/dns/host_resolver_proc.cc
+@@ -192,8 +192,7 @@ int SystemHostResolverCall(const std::string& host,
+   base::ScopedBlockingCall scoped_blocking_call(FROM_HERE,
+                                                 base::BlockingType::WILL_BLOCK);
+ 
+-#if BUILDFLAG(IS_POSIX) && \
+-    !(BUILDFLAG(IS_APPLE) || BUILDFLAG(IS_OPENBSD) || BUILDFLAG(IS_ANDROID))
++#if defined(__GLIBC__)
+   DnsReloaderMaybeReload();
+ #endif
+   auto [ai, err, os_error] = AddressInfo::Get(host, hints, nullptr, network);
