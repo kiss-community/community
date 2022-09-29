@@ -13,8 +13,8 @@ export GOARCH=amd64
 export GO_LDFLAGS="-w -s"
 
 [ -f "$KISS_ROOT/var/db/kiss/installed/go/manifest" ] || {
-    export GOROOT=$PWD/go1.4-bootstrap
-    export GOROOT_FINAL=$PWD/lib/go-bootstrap
+    export GOROOT="$PWD/go1.4-bootstrap"
+    export GOROOT_FINAL="$PWD/lib/go-bootstrap"
 
     mkdir -p lib/go-bootstrap
 
@@ -30,10 +30,10 @@ export GOROOT_FINAL=/usr/lib/go
 if [ -d "$GOROOT_FINAL" ]; then
     export GOROOT_BOOTSTRAP=/usr/lib/go
 else
-    export GOROOT_BOOTSTRAP=$PWD/lib/go-bootstrap
+    export GOROOT_BOOTSTRAP="$PWD/lib/go-bootstrap"
 fi
 
-export GOROOT=$PWD/go-current
+export GOROOT="$PWD/go-current"
 
 (
     cd "$GOROOT/src"
