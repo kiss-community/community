@@ -1,7 +1,12 @@
 #!/bin/sh -e
 
-export GOFLAGS="-mod=vendor"
+mkdir build
 
-make build
+go build -v \
+    -trimpath \
+    -modcacherw \
+    -o build \
+    .
 
-install -Dm755 tea "$1/usr/bin/tea"
+mkdir -p "$1/usr/bin"
+cp build/tea "$1/usr/bin/"
