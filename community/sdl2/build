@@ -3,6 +3,7 @@
 ./configure \
     --disable-video-opengl \
     --enable-video-opengles \
+    --disable-rpath \
     --prefix=/usr
 
 make
