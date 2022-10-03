@@ -1,0 +1,11 @@
+#!/bin/sh -e
+
+export DESTDIR="$1"
+
+meson \
+    --prefix=/usr \
+    -Dprebuilt_server="$PWD/scrcpy-server-v$2" \
+    . output
+
+ninja -C output
+ninja -C output install
