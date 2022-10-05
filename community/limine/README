@@ -32,7 +32,7 @@ ________________________________________________________________________________
 ________________________________________________________________________________
 
 After the installation, the file "limine.sys" must be copied to root or the 
-/boot directory f any partition on the disk onto which Limine will be deployed,
+/boot directory of any partition on the disk onto which limine will be deployed,
 as long as the filesystem is supported.
 
 +------------------------------------------------------------------------------+
@@ -63,6 +63,45 @@ system partition. Usually it's esp/EFI/BOOT/BOOTX64.EFI. On kisslinux it's often
 |  # cp /usr/share/limine/BOOTX64.EFI /boot/EFI/kiss                           |
 |                                                                              |
 +------------------------------------------------------------------------------+
+
+Check if limine is referenced in the list of possible bootloaders with
+
++------------------------------------------------------------------------------+
+|                                                                              |
+|  # efibootmgr                                                                |
+|                                                                              |
++------------------------------------------------------------------------------+
+
+In a first installation, there should be no entry for limine. You can add
+an entry with
+
++------------------------------------------------------------------------------+
+|                                                                              |
+|  # efibootmgr -c -d /dev/sda1 -L "Limine" -l "\EFI\BOOTX64.EFI"              | 
+|                                                                              |
++------------------------------------------------------------------------------+
+
+where /dev/sda1 is the partition containing /boot.
+
+Then check with
+
++------------------------------------------------------------------------------+
+|                                                                              |
+|  # efibootmgr                                                                |
+|                                                                              |
++------------------------------------------------------------------------------+
+
+that limine is the first choice in the boot order. If no, set it in the first 
+position with
+
++------------------------------------------------------------------------------+
+|                                                                              |
+|  # efibootmgr -o XXXX,YYYY,ZZZZ                                              | 
+|                                                                              |
++------------------------------------------------------------------------------+
+
+where XXXX, YYYY and ZZZZ are the bootnumbers.
+
 
 [004] Configuration file: limine.cfg
 ________________________________________________________________________________
