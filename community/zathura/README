@@ -1,0 +1,58 @@
+zathura
+________________________________________________________________________________
+
+zathura is a highly customizable and functional document viewer. It provides a
+minimalistic and space saving interface as well as an easy usage that mainly
+focuses on keyboard interaction.
+
+Upstream: https://pwmt.org/projects/zathura/
+
+
+[000] Index
+________________________________________________________________________________
+
+* Installation ........................................................... [001]
+* Usage .................................................................. [002]
+* Packaging .............................................................. [003]
+* References ............................................................. [004]
+
+
+[001] Installation
+________________________________________________________________________________
+
++------------------------------------------------------------------------------+
+|                                                                              |
+|  $ kiss b zathura                                                            |
+|                                                                              |
++------------------------------------------------------------------------------+
+
+
+[002] Usage 
+________________________________________________________________________________
+
+Refer to the manual pages and command help output.
+
+
+[003] Packaging
+________________________________________________________________________________
+
+To build the manpages sphinx is needed. In kisslinux sphinx is not packaged.
+So the files:
+
+* zathura.1 
+* zathurarc.5
+
+have to be taken from somewhere. The maintainer has the following
+possibilities:
+
+* the package can be downloaded from a binary distribution. For example 
+  Archlinux [0]. The package can be downloaded from the link 
+  "Download from Mirror" in the box "Package Actions".
+* if there are only few changes, the patches can be downloaded from github and
+  applied to the files. [1]
+
+[004] References
+________________________________________________________________________________
+
+[0] https://archlinux.org/packages/community/x86_64/zathura/
+[1] https://github.com/pwmt/zathura

@@ -27,7 +27,7 @@ level margin: \\n[rst2man-indent\\n[rst2man-indent-level]]
 .\" new: \\n[rst2man-indent\\n[rst2man-indent-level]]
 .in \\n[rst2man-indent\\n[rst2man-indent-level]]u
 ..
-.TH "ZATHURARC" "5" "2021-07-31" "0.4.8" "zathura"
+.TH "ZATHURARC" "5" "2022-10-03" "0.5.1" "zathura"
 .SH NAME
 zathurarc \- zathura configuration file
 .SH SYNOPSIS
@@ -68,7 +68,7 @@ FLOAT \- A floating point number
 .IP \(bu 2
 STRING \- A character string
 .IP \(bu 2
-BOOL \- A boolean value ("true" for true, "false" for false)
+BOOL \- A boolean value (\(dqtrue\(dq for true, \(dqfalse\(dq for false)
 .UNINDENT
 .sp
 In addition we advice you to check the options to get a more detailed view of
@@ -85,7 +85,7 @@ set option1 5
 set option2 2.0
 set option3 hello
 set option4 hello\e world
-set option5 "hello world"
+set option5 \(dqhello world\(dq
 .ft P
 .fi
 .UNINDENT
@@ -103,7 +103,7 @@ to escape the hash symbol.
 .sp
 .nf
 .ft C
-set default\-fg "#CCBBCC"
+set default\-fg \(dq#CCBBCC\(dq
 set default\-fg \e#CCBBCC
 .ft P
 .fi
@@ -338,7 +338,8 @@ Display link target.
 .IP \(bu 2
 \fBexec\fP:
 .sp
-Execute an external command.
+Execute an external command. \fB$FILE\fP expands to the current document path,
+and \fB$PAGE\fP to the current page number.
 .IP \(bu 2
 \fBfocus_inputbar\fP
 .sp
@@ -816,7 +817,7 @@ Default value: true
 .TP
 .B \fIadjust\-open\fP
 Defines which auto adjustment mode should be used if a document is loaded.
-Possible options are "best\-fit" and "width".
+Possible options are \(dqbest\-fit\(dq and \(dqwidth\(dq.
 .INDENT 7.0
 .IP \(bu 2
 Value type: String
@@ -845,8 +846,8 @@ Default value: false
 .TP
 .B \fIdatabase\fP
 Defines the database backend to use for bookmarks and input history. Possible
-values are "plain", "sqlite" (if built with sqlite support) and "null". If
-"null" is used, bookmarks and input history will not be stored.
+values are \(dqplain\(dq, \(dqsqlite\(dq (if built with sqlite support) and \(dqnull\(dq. If
+\(dqnull\(dq is used, bookmarks and input history will not be stored.
 .INDENT 7.0
 .IP \(bu 2
 Value type: String
@@ -876,8 +877,8 @@ Default value: true
 .TP
 .B \fIfilemonitor\fP
 Defines the file monitor backend used to check for changes in files. Possible
-values are "glib", "signal" (if signal handling is supported), and "noop". The
-"noop" file monitor does not trigger reloads.
+values are \(dqglib\(dq, \(dqsignal\(dq (if signal handling is supported), and \(dqnoop\(dq. The
+\(dqnoop\(dq file monitor does not trigger reloads.
 .INDENT 7.0
 .IP \(bu 2
 Value type: String
@@ -1042,7 +1043,7 @@ Default value: false
 .UNINDENT
 .TP
 .B \fIrender\-loading\fP
-Defines if the "Loading..." text should be displayed if a page is rendered.
+Defines if the \(dqLoading...\(dq text should be displayed if a page is rendered.
 .INDENT 7.0
 .IP \(bu 2
 Value type: Boolean
@@ -1051,7 +1052,7 @@ Default value: true
 .UNINDENT
 .TP
 .B \fIrender\-loading\-bg\fP
-Defines the background color that is used for the "Loading..." text.
+Defines the background color that is used for the \(dqLoading...\(dq text.
 .INDENT 7.0
 .IP \(bu 2
 Value type: String
@@ -1060,7 +1061,7 @@ Default value: #FFFFFF
 .UNINDENT
 .TP
 .B \fIrender\-loading\-fg\fP
-Defines the foreground color that is used for the "Loading..." text.
+Defines the foreground color that is used for the \(dqLoading...\(dq text.
 .INDENT 7.0
 .IP \(bu 2
 Value type: String
@@ -1207,6 +1208,15 @@ Value type: Boolean
 Default value: false
 .UNINDENT
 .TP
+.B \fIstatusbar\-page\-percent\fP
+Display (current page / total pages) as a percent in the statusbar.
+.INDENT 7.0
+.IP \(bu 2
+Value type: Boolean
+.IP \(bu 2
+Default value: false
+.UNINDENT
+.TP
 .B \fIstatusbar\-home\-tilde\fP
 Display a short version of the file path, which replaces $HOME with ~, in the statusbar.
 .INDENT 7.0
@@ -1263,8 +1273,8 @@ Default value: 10
 .TP
 .B \fIselection\-clipboard\fP
 Defines the X clipboard into which mouse\-selected data will be written.  When it
-is "clipboard", selected data will be written to the CLIPBOARD clipboard, and
-can be pasted using the Ctrl+v key combination.  When it is "primary", selected
+is \(dqclipboard\(dq, selected data will be written to the CLIPBOARD clipboard, and
+can be pasted using the Ctrl+v key combination.  When it is \(dqprimary\(dq, selected
 data will be written to the PRIMARY clipboard, and can be pasted using the
 middle mouse button, or the Shift\-Insert key combination.
 .INDENT 7.0
@@ -1339,9 +1349,9 @@ Default value: #9FBC00
 .TP
 .B \fIsandbox\fP
 Defines the sandbox mode to use for the seccomp syscall filter. Possible
-values are "none", "normal" and "strict". If "none" is used, the sandbox
-will be disabled. The use of "normal" will provide minimal protection and
-allow normal use of zathura with support for all features. The "strict" mode
+values are \(dqnone\(dq, \(dqnormal\(dq and \(dqstrict\(dq. If \(dqnone\(dq is used, the sandbox
+will be disabled. The use of \(dqnormal\(dq will provide minimal protection and
+allow normal use of zathura with support for all features. The \(dqstrict\(dq mode
 is a read only sandbox that is intended for viewing documents only.
 .INDENT 7.0
 .IP \(bu 2
@@ -1362,9 +1372,12 @@ printing
 bookmarks and history
 .UNINDENT
 .sp
+The strict sandbox mode is still experimental with some libc implementations.
+Currently supported and tested libc implementations: glibc
+.sp
 No feature regressions are expected when using normal sandbox mode.
 .sp
-When running under WSL, the default is "none" since seccomp is not supported in
+When running under WSL, the default is \(dqnone\(dq since seccomp is not supported in
 that environment.
 .TP
 .B \fIwindow\-icon\-document\fP
@@ -1392,6 +1405,6 @@ zathura(1)
 .SH AUTHOR
 pwmt.org
 .SH COPYRIGHT
-2009-2021, pwmt.org
+2009-2022, pwmt.org
 .\" Generated by docutils manpage writer.
 .
