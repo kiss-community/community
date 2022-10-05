@@ -1,7 +1,15 @@
+alsa-lib
 bzip2
 curl
 glib
-libffi
+libepoxy
+libpng
+libudev-zero
+liburing
+libusb
+libxkbcommon
+mesa
+meson   make
 ncurses
 perl make
 pixman
@@ -9,4 +17,6 @@ pkgconf make
 python  make
 samurai make
 sdl2
+virglrenderer
 zlib
+zstd
