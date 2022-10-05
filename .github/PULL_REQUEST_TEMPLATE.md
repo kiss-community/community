@@ -1,3 +1,7 @@
+NOTE: This repository has shifted to Codeberg:
+
+https://codeberg.org/kiss-community/community
+
 Please fill out the template.
 
 Read: https://kisscommunity.bvnf.space/kiss/style-guide/
