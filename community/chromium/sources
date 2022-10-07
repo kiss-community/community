@@ -1,6 +1,6 @@
-https://commondatastorage.googleapis.com/chromium-browser-official/chromium-VERSION.tar.xz
-https://github.com/stha09/chromium-patches/releases/download/chromium-MAJOR-patchset-3/chromium-MAJOR-patchset-3.tar.xz
-https://github.com/ungoogled-software/ungoogled-chromium/archive/VERSION-1.tar.gz ungoogled-chromium
+https://commondatastorage.googleapis.com/chromium-browser-official/chromium-106.0.5249.103.tar.xz
+https://github.com/stha09/chromium-patches/releases/download/chromium-106-patchset-3/chromium-106-patchset-3.tar.xz
+https://github.com/ungoogled-software/ungoogled-chromium/archive/106.0.5249.103-1.tar.gz ungoogled-chromium
 files/chromium.sh
 patches/chromium-EnumTable-crash.patch
 patches/chromium-angle-wayland-include.patch
