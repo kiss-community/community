@@ -1,6 +1,0 @@
-#!/bin/sh -e
-
-cargo build --release
-
-install -Dm755 target/release/rage "$1/usr/bin/rage"
-install -Dm755 target/release/rage-keygen "$1/usr/bin/rage-keygen"
