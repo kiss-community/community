@@ -9,6 +9,7 @@ EOF
 ./configure \
     --prefix=/usr \
     --sysconfdir=/etc \
+    --disable-man \
     --disable-rofiles-fuse \
     --with-soup=no \
     --with-curl=yes
