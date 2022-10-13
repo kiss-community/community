@@ -1,7 +1,9 @@
 #!/bin/sh -e
 
-autoreconf -vi
-./configure --prefix=/usr
+cmake -B build \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_INSTALL_LIBDIR=lib
 
-make
-make DESTDIR="$1" install
+cmake --build   build
+cmake --install build
