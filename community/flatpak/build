@@ -20,9 +20,9 @@ sh ./configure \
     --prefix=/usr \
     --sysconfdir=/etc \
     --with-system-bubblewrap \
+    --enable-seccomp \
     --disable-system-helper \
     --disable-xauth \
-    --disable-seccomp \
     --disable-documentation
 
 make

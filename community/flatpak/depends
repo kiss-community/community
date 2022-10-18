@@ -8,6 +8,7 @@ json-glib
 libarchive
 libassuan
 libgpg-error
+libseccomp
 libxml2
 ostree
 python make
