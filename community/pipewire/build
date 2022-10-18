@@ -10,6 +10,7 @@ meson \
     --prefix=/usr \
     --libexecdir=/usr/lib \
     -Ddbus=disabled \
+    -Dsndfile=enabled \
     -Dtests=disabled \
     -Dudev=enabled \
     -Dudevrulesdir=/usr/lib/udev/rules.d \
