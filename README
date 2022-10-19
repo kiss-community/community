@@ -14,7 +14,7 @@ ________________________________________________________________________________
 
 - https://kisslinux.org/package-system
 - https://kisslinux.org/package-manager
-- style-guide.txt in this repository
+- https://kisscommunity.bvnf.space/kiss/style-guide
 
 
 Maintenance
@@ -26,7 +26,7 @@ issues must be reported to the maintainer directly.
 
 The maintainer's details can be found via 'git log' or the 'kiss maintainer'
 command. If the maintainer cannot be reached via email, open an issue in this
-repository on GitHub.
+repository on Codeberg.
 
 If the maintainer does not respond within a reasonable amount of time, the
 package will be orphaned and ownership will be given to someone else.
