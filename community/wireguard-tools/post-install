@@ -1,0 +1,8 @@
+#!/bin/sh
+
+cat <<EOF
+NOTE: /usr/bin/ip must be provided by iproute2 instead of busybox as
+      wg-quick uses various features not provided by busybox
+
+# kiss a iproute2 /usr/bin/ip
+EOF

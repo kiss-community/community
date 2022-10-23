@@ -1,3 +1,4 @@
 bash
 iproute2
+iptables
 openresolv
