@@ -1,5 +1,12 @@
+bzip2
+cairo
 fontconfig
+freetype-harfbuzz
 libjpeg-turbo
 libpng
 libwebp
+libxml2
+pango
 pkgconf make
+xz
+zlib

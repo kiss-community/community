@@ -4,15 +4,20 @@
     --prefix=/usr \
     --sysconfdir=/etc \
     --mandir=/usr/share/man \
-    --disable-shared \
-    --disable-nls \
+    --with-threads \
     --without-modules \
-    --without-magick-plus-plus \
+    --with-magick-plus-plus \
+    --with-bzlib \
+    --with-zlib \
+    --with-fontconfig \
+    --with-freetype \
+    --with-jpeg \
+    --without-jxl \
+    --with-pango \
+    --with-png \
+    --with-webp \
+    --with-xml \
     --without-perl \
-    --without-xml
 
 make
-make DESTDIR="$1" install-binPROGRAMS install-exec-local
-
-# Remove the rarely used library.
-rm -rf "$1/usr/lib"
+make DESTDIR="$1" install
