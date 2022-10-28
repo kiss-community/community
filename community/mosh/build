@@ -1,5 +1,8 @@
 #!/bin/sh -e
 
+sed '/perl -Mdiagnostics/d' scripts/Makefile.in > _
+mv _ scripts/Makefile.in
+
 ./configure \
     --prefix=/usr \
     --sysconfdir=/etc
