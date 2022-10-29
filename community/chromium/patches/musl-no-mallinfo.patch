@@ -103,8 +103,8 @@ index 7392898..0bf7c4a 100644
  /* #undef HAVE_MALLOC_MALLOC_H */
 diff --git a/base/allocator/allocator_shim_default_dispatch_to_partition_alloc.cc b/base/allocator/allocator_shim_default_dispatch_to_partition_alloc.cc
 index 3a34f62..e4f3e1b 100644
---- a/base/allocator/allocator_shim_default_dispatch_to_partition_alloc.cc
-+++ b/base/allocator/allocator_shim_default_dispatch_to_partition_alloc.cc
+--- a/base/allocator/partition_allocator/shim/allocator_shim_default_dispatch_to_partition_alloc.cc
++++ b/base/allocator/partition_allocator/shim/allocator_shim_default_dispatch_to_partition_alloc.cc
 @@ -735,7 +735,7 @@ SHIM_ALWAYS_EXPORT int mallopt(int cmd, int value) __THROW {
  
  #endif  // !BUILDFLAG(IS_APPLE) && !BUILDFLAG(IS_ANDROID)
