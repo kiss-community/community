@@ -1,5 +1,5 @@
-https://github.com/docker/cli/archive/v20.10.18.tar.gz cli
-https://github.com/moby/moby/archive/refs/tags/v20.10.18.tar.gz moby
+https://github.com/docker/cli/archive/v20.10.21.tar.gz cli
+https://github.com/moby/moby/archive/refs/tags/v20.10.21.tar.gz moby
 https://github.com/docker/libnetwork/archive/0dde5c895075df6e3630e76f750a447cf63f4789.tar.gz libnetwork
 https://github.com/krallin/tini/archive/de40ad007797e0dcd8b7126f27bb87401d224240.tar.gz tini
 files/run
