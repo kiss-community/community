@@ -1,1 +1,7 @@
 https://ftp.gnu.org/gnu/patch/patch-2.7.6.tar.xz
+patches/0001-Fix-swapping-fake-lines-in-pch_swap.patch
+patches/Allow_input_files_to_be_missing_for_ed-style_patches.patch
+patches/CVE-2018-1000156.patch
+patches/CVE-2018-6951.patch
+patches/CVE-2019-13636.patch
+patches/CVE-2019-13638.patch
