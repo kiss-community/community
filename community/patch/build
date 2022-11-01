@@ -1,9 +1,13 @@
 #!/bin/sh -e
 
-export CFLAGS="$CFLAGS -static"
+export LDFLAGS="$LDFLAGS -static"
 
 ./configure \
-    --prefix=/usr
+    --prefix=/usr \
+    --program-prefix=g
 
 make
 make DESTDIR="$1" install
+
+ln -s gpatch "$1/usr/bin/patch"
+ln -s gpatch.1 "$1/usr/share/man/man1/patch.1"
