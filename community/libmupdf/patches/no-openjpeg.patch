@@ -1,6 +1,8 @@
+diff --git a/Makelists b/Makelists
+index ac54f6f..af430d6 100644
 --- a/Makelists
 +++ b/Makelists
-@@ -247,36 +247,6 @@
+@@ -272,37 +272,6 @@ JBIG2DEC_SRC += thirdparty/jbig2dec/jbig2_segment.c
  JBIG2DEC_SRC += thirdparty/jbig2dec/jbig2_symbol_dict.c
  JBIG2DEC_SRC += thirdparty/jbig2dec/jbig2_text.c
  
@@ -19,6 +21,7 @@
 -OPENJPEG_SRC += thirdparty/openjpeg/src/lib/openjp2/dwt.c
 -OPENJPEG_SRC += thirdparty/openjpeg/src/lib/openjp2/event.c
 -OPENJPEG_SRC += thirdparty/openjpeg/src/lib/openjp2/function_list.c
+-OPENJPEG_SRC += thirdparty/openjpeg/src/lib/openjp2/ht_dec.c
 -OPENJPEG_SRC += thirdparty/openjpeg/src/lib/openjp2/image.c
 -OPENJPEG_SRC += thirdparty/openjpeg/src/lib/openjp2/invert.c
 -OPENJPEG_SRC += thirdparty/openjpeg/src/lib/openjp2/j2k.c

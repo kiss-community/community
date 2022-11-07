@@ -40,7 +40,7 @@ index e37b3ed..dbcf577 100644
  
  HARFBUZZ_CFLAGS += -Ithirdparty/harfbuzz/src
 diff --git a/source/fitz/xml.c b/source/fitz/xml.c
-index d334beb..2d811bd 100644
+index 60f67b9..5336594 100644
 --- a/source/fitz/xml.c
 +++ b/source/fitz/xml.c
 @@ -26,7 +26,9 @@
@@ -53,7 +53,7 @@ index d334beb..2d811bd 100644
  
  /* #define FZ_XML_SEQ */
  
-@@ -867,6 +869,7 @@ fz_parse_xml(fz_context *ctx, fz_buffer *buf, int preserve_white)
+@@ -1000,6 +1002,7 @@ fz_parse_xml(fz_context *ctx, fz_buffer *buf, int preserve_white)
  	return xml;
  }
  
@@ -61,8 +61,11 @@ index d334beb..2d811bd 100644
  /*
  	Parse the contents of buffer into a tree of XML nodes, using the HTML5 syntax.
  
-@@ -1021,3 +1024,4 @@ fz_parse_xml_from_html5(fz_context *ctx, fz_buffer *buf)
+@@ -1166,6 +1169,7 @@ fz_parse_xml_from_html5(fz_context *ctx, fz_buffer *buf)
  
  	return xml;
  }
 +#endif
+ 
+ fz_xml *fz_xml_find_dfs(fz_xml *item, const char *tag, const char *att, const char *match)
+ {
