@@ -1,6 +1,6 @@
-https://commondatastorage.googleapis.com/chromium-browser-official/chromium-107.0.5304.87.tar.xz
+https://commondatastorage.googleapis.com/chromium-browser-official/chromium-107.0.5304.110.tar.xz
 https://github.com/stha09/chromium-patches/releases/download/chromium-107-patchset-1/chromium-107-patchset-1.tar.xz
-https://github.com/ungoogled-software/ungoogled-chromium/archive/107.0.5304.87-1.tar.gz ungoogled-chromium
+https://github.com/ungoogled-software/ungoogled-chromium/archive/107.0.5304.110-1.tar.gz ungoogled-chromium
 files/chromium.sh
 patches/chromium-EnumTable-crash.patch
 patches/chromium-angle-wayland-include.patch
