@@ -1,5 +1,9 @@
 #!/bin/sh -e
 
+# Disable tests and examples
+echo "all:" > examples/Makefile
+echo "all:" > test/Makefile
+
 ./configure \
     --prefix=/usr
 
