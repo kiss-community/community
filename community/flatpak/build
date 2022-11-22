@@ -14,8 +14,6 @@ echo "int main(void) { return 1; }" > revokefs/main.c
 PYTHONPATH=$PWD/pyparsing:$(python -c "import sys; print(':'.join(sys.path))")
 export PYTHONPATH
 
-patch -p1 < fix-libcurl-usage.patch
-
 sh ./configure \
     --prefix=/usr \
     --sysconfdir=/etc \
