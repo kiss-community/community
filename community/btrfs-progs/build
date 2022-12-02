@@ -5,7 +5,6 @@
     --bindir=/usr/bin \
     --disable-documentation \
     --disable-backtrace \
-    --disable-zstd \
     --disable-libudev
 
 make

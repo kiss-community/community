@@ -5,3 +5,4 @@ pkgconf       make
 python        make
 util-linux
 zlib
+zstd
