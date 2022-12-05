@@ -92,10 +92,10 @@ index a398390..5b3d544 100644
    if (!device::BluetoothAdapterFactory::Get()->IsBluetoothSupported()) {
      bluetooth_availability_ = BluetoothAvailability::BLUETOOTH_NOT_SUPPORTED;
 diff --git a/chrome/browser/platform_util_linux.cc b/chrome/browser/platform_util_linux.cc
-index a17fd8e..d783e15 100644
+index 06890f8..ce34986 100644
 --- a/chrome/browser/platform_util_linux.cc
 +++ b/chrome/browser/platform_util_linux.cc
-@@ -27,11 +27,15 @@
+@@ -28,11 +28,15 @@
  // complain as Chromecast doesn't use (or depend on) //components/dbus.
  // TODO(crbug.com/1215474): Eliminate //chrome being visible in the GN structure
  // on Chromecast and remove the nogncheck below.
@@ -111,7 +111,7 @@ index a17fd8e..d783e15 100644
  #include "third_party/abseil-cpp/absl/types/optional.h"
  #include "url/gurl.h"
  
-@@ -41,6 +45,7 @@ namespace platform_util {
+@@ -42,6 +46,7 @@ namespace platform_util {
  
  namespace {
  
@@ -119,7 +119,7 @@ index a17fd8e..d783e15 100644
  const char kMethodListActivatableNames[] = "ListActivatableNames";
  const char kMethodNameHasOwner[] = "NameHasOwner";
  
-@@ -284,6 +289,7 @@ class ShowItemHelper {
+@@ -285,6 +290,7 @@ class ShowItemHelper {
    base::CallbackListSubscription browser_shutdown_subscription_;
    base::WeakPtrFactory<ShowItemHelper> weak_ptr_factory_{this};
  };
@@ -127,7 +127,7 @@ index a17fd8e..d783e15 100644
  
  void RunCommand(const std::string& command,
                  const base::FilePath& working_directory,
-@@ -350,8 +356,10 @@ void PlatformOpenVerifiedItem(const base::FilePath& path, OpenItemType type) {
+@@ -351,8 +357,10 @@ void PlatformOpenVerifiedItem(const base::FilePath& path, OpenItemType type) {
  }  // namespace internal
  
  void ShowItemInFolder(Profile* profile, const base::FilePath& full_path) {
@@ -137,7 +137,7 @@ index a17fd8e..d783e15 100644
 +#endif
  }
  
- void OpenExternal(Profile* profile, const GURL& url) {
+ void OpenExternal(const GURL& url) {
 diff --git a/device/bluetooth/adapter.cc b/device/bluetooth/adapter.cc
 index f028473..98db098 100644
 --- a/device/bluetooth/adapter.cc

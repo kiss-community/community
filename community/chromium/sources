@@ -1,12 +1,13 @@
-https://commondatastorage.googleapis.com/chromium-browser-official/chromium-107.0.5304.121.tar.xz
-https://github.com/stha09/chromium-patches/releases/download/chromium-107-patchset-1/chromium-107-patchset-1.tar.xz
-https://github.com/ungoogled-software/ungoogled-chromium/archive/107.0.5304.121-1.tar.gz ungoogled-chromium
+https://commondatastorage.googleapis.com/chromium-browser-official/chromium-108.0.5359.94.tar.xz
+https://github.com/stha09/chromium-patches/releases/download/chromium-108-patchset-2/chromium-108-patchset-2.tar.xz
+https://github.com/ungoogled-software/ungoogled-chromium/archive/108.0.5359.94-1.tar.gz ungoogled-chromium
 files/chromium.sh
 patches/chromium-EnumTable-crash.patch
 patches/chromium-angle-wayland-include.patch
 patches/chromium-credentials-sys-types-header.patch
 patches/chromium-fix-missing-cmath-include.patch
 patches/chromium-fix-narrowing-cast.patch
+patches/chromium-gcc-public-decodedbodydata.patch
 patches/chromium-optional-atk-dbus.patch
 patches/chromium-partition-atfork.patch
 patches/chromium-roll-src-third_party-ffmpeg-102.patch

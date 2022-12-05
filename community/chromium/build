@@ -2,6 +2,9 @@
 
 printf "NOTE: It is HIGHLY recommended to build this package with sane build flags and 'ccache' enabled!\n"
 
+# This change was made upstream.
+rm chromium-108-LabToLCH-include.patch
+
 for patch in chromium-*.patch; do
     patch -p1 < "$patch"
 done
@@ -128,7 +131,7 @@ conf="
     use_pulseaudio=false
     use_qt=false
     use_sysroot=false
-    use_system_libwayland_server=true
+    use_system_libwayland=true
     use_system_wayland_scanner=true
     use_thin_lto=false
     use_cfi_icall=false
