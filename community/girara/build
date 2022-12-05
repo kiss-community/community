@@ -1,11 +1,14 @@
 #!/bin/sh -e
 
+# The configuration dumping support is not
+# requested, so it's disabled with -Djson=disabled.
+
 meson build \
     --prefix=/usr \
     --sysconfdir=/etc \
     --buildtype=release \
-    -Djson=enabled \
-    -Dnotify=disabled \
+    --backend=ninja \
+    -Djson=disabled \
     -Ddocs=disabled \
     -Dtests=disabled 
 
