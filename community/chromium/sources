@@ -1,6 +1,6 @@
-https://commondatastorage.googleapis.com/chromium-browser-official/chromium-108.0.5359.94.tar.xz
+https://commondatastorage.googleapis.com/chromium-browser-official/chromium-108.0.5359.98.tar.xz
 https://github.com/stha09/chromium-patches/releases/download/chromium-108-patchset-2/chromium-108-patchset-2.tar.xz
-https://github.com/ungoogled-software/ungoogled-chromium/archive/108.0.5359.94-1.tar.gz ungoogled-chromium
+https://github.com/ungoogled-software/ungoogled-chromium/archive/108.0.5359.98-1.tar.gz ungoogled-chromium
 files/chromium.sh
 patches/chromium-EnumTable-crash.patch
 patches/chromium-angle-wayland-include.patch
