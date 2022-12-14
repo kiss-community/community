@@ -1,18 +1,5 @@
-From d8d8dd628302f5bde4f55f11137690bf40abaa88 Mon Sep 17 00:00:00 2001
-From: Christian Hesse <mail@eworm.de>
-Date: Thu, 28 Jul 2016 08:49:20 +0200
-Subject: [PATCH 1/1] make iproute2 fhs compliant
-
----
- Makefile       |  2 +-
- netem/Makefile |  4 ++--
- tc/q_netem.c   |  2 +-
- tc/tc_util.c   | 15 +++++++++++++++
- tc/tc_util.h   |  1 +
- 5 files changed, 20 insertions(+), 4 deletions(-)
-
 diff --git a/Makefile b/Makefile
-index f6214534..f80f46c9 100644
+index 8a17d61..602df52 100644
 --- a/Makefile
 +++ b/Makefile
 @@ -32,7 +32,7 @@ DBM_INCLUDE:=$(DESTDIR)/usr/include
@@ -25,7 +12,7 @@ index f6214534..f80f46c9 100644
  DEFINES+= -DNO_SHARED_LIBS
  endif
 diff --git a/netem/Makefile b/netem/Makefile
-index ba4c5a76..cb197afa 100644
+index ba4c5a7..cb197af 100644
 --- a/netem/Makefile
 +++ b/netem/Makefile
 @@ -23,9 +23,9 @@ stats: stats.c
@@ -41,10 +28,10 @@ index ba4c5a76..cb197afa 100644
  
  clean:
 diff --git a/tc/q_netem.c b/tc/q_netem.c
-index f45a64b9..83fa952d 100644
+index 26402e9..f917ca8 100644
 --- a/tc/q_netem.c
 +++ b/tc/q_netem.c
-@@ -128,7 +128,7 @@ static int get_distribution(const char *type, __s16 *data, int maxdata)
+@@ -130,7 +130,7 @@ static int get_distribution(const char *type, __s16 *data, int maxdata)
  	char *line = NULL;
  	char name[128];
  
@@ -54,7 +41,7 @@ index f45a64b9..83fa952d 100644
  	if (f == NULL) {
  		fprintf(stderr, "No distribution data for %s (%s: %s)\n",
 diff --git a/tc/tc_util.c b/tc/tc_util.c
-index ba34aed7..0adbb9ba 100644
+index d262206..ad24171 100644
 --- a/tc/tc_util.c
 +++ b/tc/tc_util.c
 @@ -31,6 +31,10 @@
@@ -85,9 +72,9 @@ index ba34aed7..0adbb9ba 100644
 +
  int get_qdisc_handle(__u32 *h, const char *str)
  {
- 	__u32 maj;
+ 	unsigned long maj;
 diff --git a/tc/tc_util.h b/tc/tc_util.h
-index b197bcdd..e812b895 100644
+index a3fa736..a65f8b4 100644
 --- a/tc/tc_util.h
 +++ b/tc/tc_util.h
 @@ -71,6 +71,7 @@ struct exec_util {
@@ -98,6 +85,3 @@ index b197bcdd..e812b895 100644
  
  struct qdisc_util *get_qdisc_kind(const char *str);
  struct filter_util *get_filter_kind(const char *str);
--- 
-2.35.1
-
