@@ -19,7 +19,6 @@ for action in stage install; do
         linkflags="$LDFLAGS" \
         --disable-icu boost.locale.icu=off \
         --without-mpi \
-        --without-locale \
         --without-context \
         --without-coroutine \
         --without-fiber \
