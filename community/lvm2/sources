@@ -1,4 +1,4 @@
-https://mirrors.kernel.org/sourceware/lvm2/releases/LVM2.2.03.17.tgz
+https://mirrors.kernel.org/sourceware/lvm2/releases/LVM2.2.03.18.tgz
 patches/fix-stdio-usage.patch
 patches/includes.patch
 patches/lvresize-use-POSIX-shell.patch
