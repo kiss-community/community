@@ -9,6 +9,11 @@ export PATH="$PWD/bin:$PATH"
 # Remove mandatory gettext dependency.
 sed -i 's/^/#/' src/nvim/po/CMakeLists.txt
 
+find .deps/ -type f -name \*no-extract |
+    while read -r s; do
+        mv "$s" "${s%\?no-extract}"
+    done
+
 make \
     CMAKE_BUILD_TYPE=Release \
     CMAKE_INSTALL_PREFIX=/usr \
