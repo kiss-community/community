@@ -1,11 +1,14 @@
 #!/bin/sh -e
 
-make MYCFLAGS="$CFLAGS -fPIC" \
-     MYLDFLAGS="$LDFLAGS" \
-     posix
-     
 sed "s/install -p/install/" Makefile > _
 mv -f _ Makefile
+
+sed "s|/usr/local|/usr|g" src/luaconf.h > _
+mv -f _ src/luaconf.h
+
+make MYCFLAGS="$CFLAGS -fPIC" \
+     MYLDFLAGS="$LDFLAGS" \
+     linux
 
 make INSTALL_TOP="$1/usr" \
      INSTALL_MAN="$1/usr/share/man/man1" \
