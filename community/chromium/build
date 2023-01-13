@@ -2,9 +2,6 @@
 
 printf "NOTE: It is HIGHLY recommended to build this package with sane build flags and 'ccache' enabled!\n"
 
-# This change was made upstream.
-rm chromium-108-LabToLCH-include.patch
-
 for patch in chromium-*.patch; do
     patch -p1 < "$patch"
 done
@@ -117,7 +114,6 @@ conf="
     rtc_use_pipewire=${pipewire:-false}
     symbol_level=0
     use_allocator=\"none\"
-    use_allocator_shim=false
     use_atk=false
     use_bluez=false
     use_cups=false
