@@ -1,6 +1,6 @@
-https://commondatastorage.googleapis.com/chromium-browser-official/chromium-109.0.5414.74.tar.xz
+https://commondatastorage.googleapis.com/chromium-browser-official/chromium-109.0.5414.119.tar.xz
 https://github.com/stha09/chromium-patches/releases/download/chromium-109-patchset-2/chromium-109-patchset-2.tar.xz
-https://github.com/ungoogled-software/ungoogled-chromium/archive/109.0.5414.74-1.tar.gz ungoogled-chromium
+https://github.com/ungoogled-software/ungoogled-chromium/archive/109.0.5414.119-1.tar.gz ungoogled-chromium
 files/chromium.sh
 patches/chromium-EnumTable-crash.patch
 patches/chromium-angle-wayland-include.patch
