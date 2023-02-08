@@ -2,6 +2,7 @@
 
 ./configure \
     --prefix=/usr \
+    --disable-pinentry-qt5 \
     --enable-pinentry-tty
 
 make
