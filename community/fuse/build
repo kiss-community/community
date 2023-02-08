@@ -1,7 +1,5 @@
 #!/bin/sh -e
 
-patch -p1 < use-off_t-over-off64_t.patch
-
 export DESTDIR="$1"
 
 meson \

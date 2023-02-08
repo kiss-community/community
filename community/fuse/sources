@@ -1,2 +1,1 @@
-https://github.com/libfuse/libfuse/releases/download/fuse-3.13.0/fuse-3.13.0.tar.xz
-patches/use-off_t-over-off64_t.patch
+https://github.com/libfuse/libfuse/releases/download/fuse-3.13.1/fuse-3.13.1.tar.xz
