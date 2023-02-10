@@ -26,6 +26,11 @@ python ungoogled-chromium/utils/domain_substitution.py apply \
     -f ungoogled-chromium/domain_substitution.list \
     -c domainsubcache.tar.gz ./
 
+# Use usb.ids at run time
+sed 's|//third_party/usb_ids/usb.ids|/usr/share/hwdata/usb.ids|g' \
+    services/device/public/cpp/usb/BUILD.gn > _
+mv -f _ services/device/public/cpp/usb/BUILD.gn
+
 mkdir -p third_party/node/linux/node-linux-x64/bin
 ln -s /usr/bin/node third_party/node/linux/node-linux-x64/bin/
 
@@ -94,46 +99,11 @@ kiss list pipewire && pipewire=true
 conf="
     blink_enable_generated_code_formatting=false
     blink_symbol_level=0
-    clang_use_chrome_plugins=false
-    clang_base_path=\"/usr\"
-    custom_toolchain=\"//build/toolchain/linux/unbundle:default\"
-    host_toolchain=\"//build/toolchain/linux/unbundle:default\"
-    enable_vr=false
-    enable_widevine=false
-    fatal_linker_warnings=false
-    ffmpeg_branding=\"Chrome\"
-    is_cfi=false
-    is_clang=${clang:-false}
-    is_debug=false
-    is_official_build=true
-    link_pulseaudio=false
-    ozone_platform_wayland=true
-    ozone_platform_x11=false
-    proprietary_codecs=true
-    rtc_build_examples=false
-    rtc_use_pipewire=${pipewire:-false}
-    symbol_level=0
-    use_allocator=\"none\"
-    use_atk=false
-    use_bluez=false
-    use_cups=false
-    use_custom_libcxx=false
-    use_dbus=false
-    use_gnome_keyring=false
-    use_gold=false
-    use_kerberos=false
-    use_libpci=false
-    use_lld=false
-    use_pulseaudio=false
-    use_qt=false
-    use_sysroot=false
-    use_system_libwayland=true
-    use_system_wayland_scanner=true
-    use_thin_lto=false
-    use_cfi_icall=false
-    use_vaapi=true
     build_with_tflite_lib=false
     chrome_pgo_phase=0
+    clang_base_path=\"/usr\"
+    clang_use_chrome_plugins=false
+    custom_toolchain=\"//build/toolchain/linux/unbundle:default\"
     disable_fieldtrial_testing_config=true
     enable_hangout_services_extension=false
     enable_js_type_check=false
@@ -144,14 +114,53 @@ conf="
     enable_remoting=false
     enable_reporting=false
     enable_service_discovery=false
+    enable_vr=false
+    enable_widevine=false
     exclude_unwind_tables=true
+    fatal_linker_warnings=false
+    ffmpeg_branding=\"Chrome\"
     google_api_key=\"\"
     google_default_client_id=\"\"
     google_default_client_secret=\"\"
+    host_toolchain=\"//build/toolchain/linux/unbundle:default\"
+    is_cfi=false
+    is_clang=${clang:-false}
+    is_debug=false
+    is_official_build=true
+    link_pulseaudio=false
+    ozone_platform_wayland=true
+    ozone_platform_x11=false
+    proprietary_codecs=true
+    rtc_build_examples=false
+    rtc_link_pipewire=${pipewire:-false}
+    rtc_use_pipewire=${pipewire:-false}
     safe_browsing_mode=0
+    symbol_level=0
     treat_warnings_as_errors=false
+    use_allocator=\"none\"
+    use_atk=false
+    use_bluez=false
+    use_cfi_icall=false
+    use_cups=false
+    use_custom_libcxx=false
+    use_dbus=false
+    use_gnome_keyring=false
+    use_gold=false
+    use_kerberos=false
+    use_libpci=false
+    use_lld=false
     use_official_google_api_keys=false
+    use_pulseaudio=false
+    use_qt=false
+    use_sysroot=false
+    use_system_freetype=true
+    use_system_harfbuzz=true
+    use_system_libdrm=true
+    use_system_libffi=true
+    use_system_libjpeg=true
+    use_thin_lto=false
     use_unofficial_version_number=false
+    use_vaapi=true
 "
 
 out/Release/gn gen out/Release --args="$conf"

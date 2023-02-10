@@ -7,7 +7,9 @@ fontconfig
 glib
 gperf              make
 gtk+3
+hwdata
 libdrm
+libffi
 libgcrypt
 libjpeg-turbo
 libva              make
@@ -21,5 +23,3 @@ perl               make
 pkgconf            make
 python             make
 samurai            make
-wayland
-wayland-protocols  make

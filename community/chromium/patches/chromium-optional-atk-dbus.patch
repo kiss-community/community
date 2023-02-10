@@ -41,56 +41,25 @@ index 4f2791c..57502f8 100644
    bluez::BluezDBusThreadManager::Shutdown();
  #endif  // BUILDFLAG(IS_CHROMEOS)
 diff --git a/chrome/browser/metrics/bluetooth_metrics_provider.cc b/chrome/browser/metrics/bluetooth_metrics_provider.cc
-index a398390..5b3d544 100644
+index adf8494..4dc0faf 100644
 --- a/chrome/browser/metrics/bluetooth_metrics_provider.cc
 +++ b/chrome/browser/metrics/bluetooth_metrics_provider.cc
-@@ -10,11 +10,11 @@
- #include "content/public/browser/browser_thread.h"
- #include "device/bluetooth/bluetooth_adapter_factory.h"
+@@ -15,11 +15,15 @@ BluetoothMetricsProvider::BluetoothMetricsProvider() = default;
+ BluetoothMetricsProvider::~BluetoothMetricsProvider() = default;
  
--#if BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_CHROMEOS)
-+#if (BUILDFLAG(IS_LINUX) && defined(USE_DBUS)) || BUILDFLAG(IS_CHROMEOS)
- #include "device/bluetooth/dbus/bluez_dbus_manager.h"
- #include "device/bluetooth/floss/floss_dbus_manager.h"
- #include "device/bluetooth/floss/floss_features.h"
--#endif  // BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_CHROMEOS)
-+#endif  // (BUILDFLAG(IS_LINUX) && defined(USE_DBUS)) || BUILDFLAG(IS_CHROMEOS)
- 
- namespace metrics {
- 
-@@ -31,12 +31,12 @@ void BluetoothMetricsProvider::ProvideCurrentSessionData(
-   base::UmaHistogramEnumeration("Bluetooth.Availability.v2",
-                                 bluetooth_availability_);
- 
--#if BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_CHROMEOS)
-+#if (BUILDFLAG(IS_LINUX) && defined(USE_DBUS)) || BUILDFLAG(IS_CHROMEOS)
+ bool BluetoothMetricsProvider::ProvideHistograms() {
++#ifdef USE_DBUS
    base::UmaHistogramEnumeration("Bluetooth.StackName",
                                  floss::features::IsFlossEnabled()
                                      ? BluetoothStackName::kFloss
                                      : BluetoothStackName::kBlueZ);
--#endif  // BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_CHROMEOS)
-+#endif  // (BUILDFLAG(IS_LINUX) && defined(USE_DBUS)) || BUILDFLAG(IS_CHROMEOS)
- #endif  // BUILDFLAG(IS_CHROMEOS) || BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_MAC) ||
-         // BUILDFLAG(IS_WIN)
+   return true;
++#else
++  return false;
++#endif
  }
-@@ -77,7 +77,7 @@ void BluetoothMetricsProvider::GetBluetoothAvailability() {
-     return;
-   }
  
--#if BUILDFLAG(IS_CHROMEOS) || BUILDFLAG(IS_LINUX)
-+#if BUILDFLAG(IS_CHROMEOS) || (BUILDFLAG(IS_LINUX) && defined(USE_DBUS))
-   bool is_initialized;
- 
-   if (floss::features::IsFlossEnabled()) {
-@@ -91,7 +91,7 @@ void BluetoothMetricsProvider::GetBluetoothAvailability() {
-   // startup.
-   if (!is_initialized)
-     return;
--#endif  // BUILDFLAG(IS_CHROMEOS) || BUILDFLAG(IS_LINUX)
-+#endif  // BUILDFLAG(IS_CHROMEOS) || (BUILDFLAG(IS_LINUX) && defined(USE_DBUS))
- 
-   if (!device::BluetoothAdapterFactory::Get()->IsBluetoothSupported()) {
-     bluetooth_availability_ = BluetoothAvailability::BLUETOOTH_NOT_SUPPORTED;
+ }  // namespace metrics
 diff --git a/chrome/browser/platform_util_linux.cc b/chrome/browser/platform_util_linux.cc
 index 06890f8..ce34986 100644
 --- a/chrome/browser/platform_util_linux.cc
