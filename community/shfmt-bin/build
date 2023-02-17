@@ -1,0 +1,6 @@
+#!/bin/sh -e
+
+mkdir -p "$1/usr/bin"
+cp "./shfmt_v$2_linux_amd64" "$1/usr/bin/shfmt"
+
+chmod +x "$1/usr/bin/shfmt"
