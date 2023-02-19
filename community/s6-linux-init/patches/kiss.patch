@@ -1,0 +1,42 @@
+diff --git a/skel/rc.init b/skel/rc.init
+index 4c7211f..2bf340b 100755
+--- a/skel/rc.init
++++ b/skel/rc.init
+@@ -24,7 +24,7 @@ shift
+ 
+ ### If your services are managed by s6-rc:
+ ### (replace /run/service with your scandir)
+-# s6-rc-init /run/service
++s6-rc-init -c /etc/s6-rc/rc/compiled /run/service
+ 
+ 
+ ### 2. Starting the wanted set of services
+@@ -35,7 +35,7 @@ shift
+ ### Numeric arguments from 1 to 5 on the kernel command line will
+ ### override the default.
+ 
+-# exec /etc/s6-linux-init/current/scripts/runlevel "$rl"
++exec /etc/s6-linux-init/current/scripts/runlevel "$rl"
+ 
+ 
+ ### If this script is run in a container, then 1. and 2. above do not
+diff --git a/skel/rc.shutdown b/skel/rc.shutdown
+index 0b6bf4b..5a5a013 100755
+--- a/skel/rc.shutdown
++++ b/skel/rc.shutdown
+@@ -27,4 +27,4 @@
+ # exec /sbin/openrc shutdown
+ 
+ ### If your services are managed by s6-rc:
+-# exec s6-rc -v2 -bDa change
++exec s6-rc -v2 -bDa change
+diff --git a/skel/runlevel b/skel/runlevel
+index 8ca2fd1..d266171 100755
+--- a/skel/runlevel
++++ b/skel/runlevel
+@@ -15,4 +15,4 @@ test "$#" -gt 0 || { echo 'runlevel: fatal: too few arguments' 1>&2 ; exit 100 ;
+ # exec /sbin/openrc "$1"
+ 
+ ### If your services are managed by s6-rc:
+-# exec s6-rc -v2 -up change "$1"
++exec s6-rc -v2 -up change "$1"

@@ -1,1 +1,2 @@
 https://www.skarnet.org/software/s6-linux-init/s6-linux-init-VERSION.tar.gz
+patches/kiss.patch
