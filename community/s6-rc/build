@@ -1,5 +1,7 @@
 #!/bin/sh -e
 
+patch -p1 < ensure-livedir-lock.patch
+
 ./configure \
     --prefix=/usr \
     --libexecdir=/usr/lib
