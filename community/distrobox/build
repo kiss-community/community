@@ -1,0 +1,3 @@
+#!/bin/sh -e
+
+./install -P "$1/usr"
