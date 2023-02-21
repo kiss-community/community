@@ -1,2 +1,1 @@
 https://skarnet.org/software/s6-rc/s6-rc-VERSION.tar.gz
-patches/ensure-livedir-lock.patch
