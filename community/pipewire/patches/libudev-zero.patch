@@ -32,3 +32,16 @@
  		udev_device_unref(dev);
  	}
  	udev_enumerate_unref(enumerate);
+diff --git a/spa/plugins/alsa/alsa-udev.c b/spa/plugins/alsa/alsa-udev.c
+index f89d863..778642e 100644
+--- a/spa/plugins/alsa/alsa-udev.c
++++ b/spa/plugins/alsa/alsa-udev.c
+@@ -754,7 +754,7 @@ static void impl_on_fd_events(struct spa_source *source)
+ 
+ 	start_inotify(this);
+ 
+-	if (spa_streq(action, "change")) {
++	if (spa_streq(action, "change") || spa_streq(action, "add")) {
+ 		process_device(this, ACTION_ADD, dev);
+ 	} else if (spa_streq(action, "remove")) {
+ 		process_device(this, ACTION_REMOVE, dev);
