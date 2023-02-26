@@ -15,6 +15,7 @@ meson \
     -Dcompose=false \
     -Dstemming=false \
     -Dgir=false \
+    -Dsystemd=false \
     . output
 
 ninja -C output
