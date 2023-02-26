@@ -33,13 +33,6 @@ export CGO_LDFLAGS="$LDFLAGS"
 )
 
 (
-    out "Building docker-proxy"
-
-    cdgopath libnetwork github.com/docker/libnetwork
-    go build -ldflags="-linkmode=external" github.com/docker/libnetwork/cmd/proxy
-)
-
-(
     out "Building docker-init"
 
     cdgopath tini github.com/krallin/tini
@@ -54,9 +47,9 @@ export CGO_LDFLAGS="$LDFLAGS"
 
 mkdir -p "$1/usr/bin"
 
-cp libnetwork/proxy "$1/usr/bin/docker-proxy"
 cp tini/build/tini-static "$1/usr/bin/docker-init"
 cp moby/bundles/dynbinary-daemon/dockerd "$1/usr/bin/dockerd"
+cp moby/bundles/dynbinary-daemon/docker-proxy "$1/usr/bin/docker-proxy"
 cp cli/build/docker "$1/usr/bin/docker"
 
 mkdir -p "$1/etc/sv/docker"
