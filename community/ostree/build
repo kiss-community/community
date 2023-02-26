@@ -8,6 +8,7 @@ EOF
 
 ./configure \
     --prefix=/usr \
+    --libexecdir=/usr/lib \
     --sysconfdir=/etc \
     --disable-man \
     --disable-rofiles-fuse \
