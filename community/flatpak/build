@@ -16,6 +16,7 @@ export PYTHONPATH
 
 sh ./configure \
     --prefix=/usr \
+    --libexecdir=/usr/lib \
     --sysconfdir=/etc \
     --with-system-bubblewrap \
     --enable-seccomp \
