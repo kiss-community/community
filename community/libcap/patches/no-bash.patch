@@ -1,5 +1,5 @@
 diff --git a/progs/mkcapshdoc.sh b/progs/mkcapshdoc.sh
-index 8421685..9c3f10e 100755
+index d2ee4bd..3f14d40 100755
 --- a/progs/mkcapshdoc.sh
 +++ b/progs/mkcapshdoc.sh
 @@ -1,4 +1,4 @@
@@ -14,7 +14,6 @@ index 8421685..9c3f10e 100755
  
 -let x=0
 -while [ -f "../doc/values/${x}.txt" ]; do
--    name=$(fgrep ",${x}}" ../libcap/cap_names.list.h|sed -e 's/{"//' -e 's/",/ = /' -e 's/},//')
 +num_files=-1
 +
 +for _ in ../doc/values/*.txt; do
@@ -22,7 +21,7 @@ index 8421685..9c3f10e 100755
 +done
 +
 +for x in $(seq 0 "${num_files}"); do
-+    name=$(grep -F ",${x}}" ../libcap/cap_names.list.h|sed -e 's/{"//' -e 's/",/ = /' -e 's/},//')
+     name=$(grep -F ",${x}}" ../libcap/cap_names.list.h|sed -e 's/{"//' -e 's/",/ = /' -e 's/},//')
      echo "static const char *explanation${x}[] = {  /* ${name} */"
      sed -e 's/"/\\"/g' -e 's/^/    "/' -e 's/$/",/' "../doc/values/${x}.txt"
 -    let x=1+${x}
