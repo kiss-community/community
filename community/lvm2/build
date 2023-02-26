@@ -17,6 +17,7 @@ udev=disable
 
 ./configure \
     --prefix=/usr \
+    --with-libexecdir=/usr/lib \
     --sbindir=/usr/bin \
     --sysconfdir=/etc \
     --localstatedir=/var \
