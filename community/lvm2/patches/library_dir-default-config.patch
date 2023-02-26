@@ -1,0 +1,12 @@
+diff --git a/conf/example.conf.in b/conf/example.conf.in
+index 923d238..73e3cc9 100644
+--- a/conf/example.conf.in
++++ b/conf/example.conf.in
+@@ -1044,6 +1044,7 @@ global {
+ 	# Configuration option global/library_dir.
+ 	# Search this directory first for shared libraries.
+ 	# This configuration option does not have a default value defined.
++	library_dir="/lib/device-mapper"
+ 
+ 	# Configuration option global/abort_on_internal_errors.
+ 	# Abort a command that encounters an internal error.

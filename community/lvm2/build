@@ -36,9 +36,4 @@ udev=disable
 make DESTDIR="$1" install
 
 # Make all libraries and binaries writable.
-chmod u+w "$1/usr/lib/"* \
-          "$1/usr/include/"* \
-          "$1/usr/bin/"*
-
-# Remove *.static binaries
-rm -rf "$1/usr/sbin"
+chmod -R u+w "$1/usr/lib/" "$1/usr/bin/" "$1/usr/sbin/"
