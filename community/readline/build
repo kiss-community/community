@@ -2,8 +2,14 @@
 
 export CFLAGS="$CFLAGS -fPIC"
 
+for patch in readline82-00* ; do
+    patch -p0 < "$patch"
+done
+
 ./configure \
     --prefix=/usr
 
 make SHLIB_LIBS=-lncurses
 make DESTDIR="$1" install
+
+rmdir "$1/usr/bin"
