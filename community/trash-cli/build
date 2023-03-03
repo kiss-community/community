@@ -1,5 +1,9 @@
 #!/bin/sh -e
 
+# Fix pip check reporting missing typing dependency.
+sed 's/typing/typing;python_version<"3.5"/g' setup.cfg > _
+mv -f _ setup.cfg
+
 python setup.py build
 python setup.py install \
     --prefix=/usr \
