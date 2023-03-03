@@ -1,0 +1,5 @@
+#!/bin/sh -e
+
+pip install . \
+    --prefix=/usr \
+    --root="$1"
