@@ -1,5 +1,7 @@
 #!/bin/sh -e
 
+patch -p1 < ffmpeg6.patch
+
 ./configure \
     prefix=/usr
 
