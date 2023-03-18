@@ -2,15 +2,9 @@ diff --git a/go-current/src/make.bash b/go-current/src/make.bash
 index 9acf079..2b18196 100755
 --- a/go-current/src/make.bash
 +++ b/go-current/src/make.bash
-@@ -1,4 +1,4 @@
--#!/usr/bin/env bash
-+#!/usr/bin/sh
- # Copyright 2009 The Go Authors. All rights reserved.
- # Use of this source code is governed by a BSD-style
- # license that can be found in the LICENSE file.
-@@ -164,7 +164,7 @@ fi
- export GOROOT_BOOTSTRAP
+@@ -154,7 +154,7 @@ fi
  
+ export GOROOT_BOOTSTRAP=${GOROOT_BOOTSTRAP:-$HOME/go1.4}
  export GOROOT="$(cd .. && pwd)"
 -IFS=$'\n'; for go_exe in $(type -ap go); do
 +for go_exe in $(command -v go); do
