@@ -12,45 +12,23 @@ export CC="${CC:-cc}"
 export GOARCH=amd64
 export GO_LDFLAGS="-w -s"
 
-[ -f "$KISS_ROOT/var/db/kiss/installed/go/manifest" ] || {
-    export GOROOT="$PWD/go1.4-bootstrap"
-    export GOROOT_FINAL="$PWD/lib/go-bootstrap"
-
-    mkdir -p lib/go-bootstrap
-
-    cd "$GOROOT/src"
-    ./make.bash
-    cd ..
-    cp -a bin pkg src ../lib/go-bootstrap
-    cd ..
-}
-
-export GOROOT_FINAL=/usr/lib/go
-
-if [ -d "$GOROOT_FINAL" ]; then
-    export GOROOT_BOOTSTRAP=/usr/lib/go
-else
-    export GOROOT_BOOTSTRAP="$PWD/lib/go-bootstrap"
-fi
-
-export GOROOT="$PWD/go-current"
+export GOROOT_BOOTSTRAP="/usr/lib/go1.17.13"
+export GOROOT="$PWD"
+export GOROOT_FINAL="/usr/lib/go"
 
 (
-    cd "$GOROOT/src"
+    cd src
     ./make.bash --no-clean -v
 )
 
 cd "$GOROOT"
 
-mkdir -p "$1/usr/bin" "$1/usr/lib/go/bin"
+mkdir -p "$1/usr/bin" "$1/usr/lib/go"
 
-install -m755 "bin/go"    "$1/usr/lib/go/bin/go"
-install -m755 "bin/gofmt" "$1/usr/lib/go/bin/gofmt"
+ln -s ../lib/go/bin/go    "$1/usr/bin"
+ln -s ../lib/go/bin/gofmt "$1/usr/bin"
 
-ln -s "/usr/lib/go/bin/go"    "$1/usr/bin"
-ln -s "/usr/lib/go/bin/gofmt" "$1/usr/bin"
-
-cp -a misc pkg src lib "$1/usr/lib/go"
+cp -pPR misc bin pkg src lib "$1/usr/lib/go"
 
 # Remove unneeded files.
 rm -f  "$1/usr/share/go/doc/articles/wiki/get.bin"
@@ -66,7 +44,6 @@ do
     find "$path" -type f -a -name \*.bat     -depth -exec rm {} +
     find "$path" -type f -a -name \*.rc      -depth -exec rm {} +
 done
-
 
 find . -type d -a -name testdata |
     while read -r dir; do

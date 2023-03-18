@@ -1,0 +1,43 @@
+#!/bin/sh -e
+
+# Disable stripping of binaries.
+# This breaks Go.
+:> nostrip
+
+for p in *.patch; do
+    patch -p1 < "$p"
+done
+
+export CC="${CC:-cc}"
+export GOARCH=amd64
+export GO_LDFLAGS="-w -s"
+
+(
+    export GOROOT="$PWD/go1.4-bootstrap"
+    export GOROOT_FINAL="$PWD/lib/go-bootstrap"
+
+    mkdir -p "$GOROOT_FINAL"
+
+    cd "$GOROOT"
+
+    (
+        cd src
+        ./make.bash
+    )
+
+    cp -pPR bin pkg src "$GOROOT_FINAL"
+)
+
+export GOROOT_BOOTSTRAP="$PWD/lib/go-bootstrap"
+export GOROOT="$PWD/go-current"
+export GOROOT_FINAL="/usr/lib/go$2"
+
+(
+    cd "$GOROOT/src"
+    ./make.bash --no-clean -v
+)
+
+cd "$GOROOT"
+
+mkdir -p "$1/$GOROOT_FINAL"
+cp -pPR pkg src bin "$1/$GOROOT_FINAL"

@@ -10,8 +10,8 @@ Subject: [PATCH 3/3] cmd/go: disable Google's proxy and sumdb
 
 diff --git a/go-current/src/cmd/go/internal/cfg/cfg.go b/go-current/src/cmd/go/internal/cfg/cfg.go
 index 57a3c1ff6f..e56c60e591 100644
---- a/go-current/src/cmd/go/internal/cfg/cfg.go
-+++ b/go-current/src/cmd/go/internal/cfg/cfg.go
+--- a/src/cmd/go/internal/cfg/cfg.go
++++ b/src/cmd/go/internal/cfg/cfg.go
 @@ -266,8 +266,8 @@ var (
  	GOPPC64  = envOr("GOPPC64", fmt.Sprintf("%s%d", "power", buildcfg.GOPPC64))
  	GOWASM   = envOr("GOWASM", fmt.Sprint(buildcfg.GOWASM))
