@@ -1,0 +1,13 @@
+#!/bin/sh -e
+
+meson setup \
+    --prefix=/usr \
+    -Ddefault-wallpaper=false \
+    -Dzsh-completions=false \
+    -Dbash-completions=false \
+    -Dfish-completions=false \
+    -Dxwayland=disabled \
+    . build
+
+ninja -C build
+ninja -C build install
