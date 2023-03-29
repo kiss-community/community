@@ -1,5 +1,5 @@
-https://commondatastorage.googleapis.com/chromium-browser-official/chromium-111.0.5563.110.tar.xz
-https://github.com/ungoogled-software/ungoogled-chromium/archive/111.0.5563.110-1.tar.gz ungoogled-chromium
+https://commondatastorage.googleapis.com/chromium-browser-official/chromium-111.0.5563.146.tar.xz
+https://github.com/ungoogled-software/ungoogled-chromium/archive/111.0.5563.146-1.tar.gz ungoogled-chromium
 files/chromium.sh
 patches/chromium-103-VirtualCursor-std-layout.patch
 patches/chromium-110-compiler.patch
