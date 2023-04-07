@@ -1,0 +1,39 @@
+From 91d06a6fef303834cddc54f069f76f9113247a6a Mon Sep 17 00:00:00 2001
+From: psykose <alice@ayaya.dev>
+Date: Sat, 1 Apr 2023 03:02:01 +0000
+Subject: [PATCH] USAC: fix usage of NULL in memset
+
+NULL in c++ is not defined to always be 0, it can also be std::nullptr_t.
+
+it is not valid to pass std::nullptr_t to memset, so pass 0 explicitly.
+---
+ Source/MediaInfo/Audio/File_Usac.cpp | 2 +-
+ Source/MediaInfo/Audio/File_Usac.h   | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/MediaInfoLib/Source/MediaInfo/Audio/File_Usac.cpp b/MediaInfoLib/Source/MediaInfo/Audio/File_Usac.cpp
+index 1d724b640..41ab07893 100644
+--- a/MediaInfoLib/Source/MediaInfo/Audio/File_Usac.cpp
++++ b/MediaInfoLib/Source/MediaInfo/Audio/File_Usac.cpp
+@@ -3158,7 +3158,7 @@ void File_Usac::arithData(size_t ch, int16u N, int16u lg, int16u lg_max, bool ar
+     // arith_map_context
+     {
+         if (arith_reset_flag || C.arithContext[ch].previous_window_size==(int16u)-1)
+-            memset(&C.arithContext[ch].q, NULL, sizeof(C.arithContext[ch].q));
++            memset(&C.arithContext[ch].q, 0, sizeof(C.arithContext[ch].q));
+         else if (N != C.arithContext[ch].previous_window_size)
+         {
+             if (!N)
+diff --git a/MediaInfoLib/Source/MediaInfo/Audio/File_Usac.h b/MediaInfoLib/Source/MediaInfo/Audio/File_Usac.h
+index 759c05fdb..389c446e9 100644
+--- a/MediaInfoLib/Source/MediaInfo/Audio/File_Usac.h
++++ b/MediaInfoLib/Source/MediaInfo/Audio/File_Usac.h
+@@ -305,7 +305,7 @@ public :
+ 
+         arith_context() :           previous_window_size((int16u)-1)
+         {
+-            memset(&q, NULL, sizeof(q));
++            memset(&q, 0, sizeof(q));
+         }
+     };
+ 

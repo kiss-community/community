@@ -3,6 +3,9 @@
 # Set prefix=/usr in build script CLI_Compile.sh
 patch -p1 < fix_configure.patch
 
+# Fix https://github.com/MediaArea/MediaInfo/issues/696
+patch -p1 < fix_mediainfolib.patch
+
 ./CLI_Compile.sh
 
 cd MediaInfo/Project/GNU/CLI
