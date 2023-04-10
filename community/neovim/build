@@ -16,8 +16,7 @@ find .deps/ -type f -name \*no-extract |
 
 make \
     CMAKE_BUILD_TYPE=Release \
-    CMAKE_INSTALL_PREFIX=/usr \
-    -Wno-dev
+    CMAKE_INSTALL_PREFIX=/usr
 
 make DESTDIR="$1" install
 
