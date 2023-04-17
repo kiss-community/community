@@ -1,8 +1,11 @@
+musl does not implement mallinfo()/mallinfo2()
+(or rather, malloc-ng, musl's allocator, doesn't)
+--
 diff --git a/base/trace_event/malloc_dump_provider.cc b/base/trace_event/malloc_dump_provider.cc
-index 1e36f87..1159ecf 100644
+index 6e64aed..d962ae2 100644
 --- a/base/trace_event/malloc_dump_provider.cc
 +++ b/base/trace_event/malloc_dump_provider.cc
-@@ -196,7 +196,6 @@ void ReportMallinfoStats(ProcessMemoryDump* pmd,
+@@ -198,7 +198,6 @@ void ReportMallinfoStats(ProcessMemoryDump* pmd,
  #define MALLINFO2_FOUND_IN_LIBC
    struct mallinfo2 info = mallinfo2();
  #endif
@@ -10,7 +13,7 @@ index 1e36f87..1159ecf 100644
  #if !defined(MALLINFO2_FOUND_IN_LIBC)
    struct mallinfo info = mallinfo();
  #endif
-@@ -218,6 +217,7 @@ void ReportMallinfoStats(ProcessMemoryDump* pmd,
+@@ -220,6 +219,7 @@ void ReportMallinfoStats(ProcessMemoryDump* pmd,
                                MemoryAllocatorDump::kUnitsBytes,
                                total_allocated_size);
    }
@@ -18,7 +21,7 @@ index 1e36f87..1159ecf 100644
  }
  #endif
  
-@@ -356,7 +356,7 @@ bool MallocDumpProvider::OnMemoryDump(const MemoryDumpArgs& args,
+@@ -358,7 +358,7 @@ bool MallocDumpProvider::OnMemoryDump(const MemoryDumpArgs& args,
                       &allocated_objects_count);
  #elif BUILDFLAG(IS_FUCHSIA)
  // TODO(fuchsia): Port, see https://crbug.com/706592.
@@ -27,8 +30,8 @@ index 1e36f87..1159ecf 100644
    ReportMallinfoStats(/*pmd=*/nullptr, &total_virtual_size, &resident_size,
                        &allocated_objects_size, &allocated_objects_count);
  #endif
---- ./base/process/process_metrics_posix.cc.orig
-+++ ./base/process/process_metrics_posix.cc
+--- a/base/process/process_metrics_posix.cc
++++ b/base/process/process_metrics_posix.cc
 @@ -105,7 +105,7 @@
  
  #endif  // !BUILDFLAG(IS_FUCHSIA)
@@ -60,7 +63,7 @@ index 1e36f87..1159ecf 100644
    return 0;
  #endif
 diff --git a/third_party/tflite/src/tensorflow/lite/profiling/memory_info.cc b/third_party/tflite/src/tensorflow/lite/profiling/memory_info.cc
-index 4f1d517..0afd270 100644
+index 9a4428e..e3c2379 100644
 --- a/third_party/tflite/src/tensorflow/lite/profiling/memory_info.cc
 +++ b/third_party/tflite/src/tensorflow/lite/profiling/memory_info.cc
 @@ -38,7 +38,7 @@ bool MemoryUsage::IsSupported() {
@@ -72,11 +75,13 @@ index 4f1d517..0afd270 100644
    rusage res;
    if (getrusage(RUSAGE_SELF, &res) == 0) {
      result.mem_footprint_kb = res.ru_maxrss;
---- ./third_party/swiftshader/third_party/llvm-subzero/lib/Support/Unix/Process.inc
-+++ ./third_party/swiftshader/third_party/llvm-subzero/lib/Support/Unix/Process.inc
-@@ -86,11 +86,11 @@
+diff --git a/third_party/swiftshader/third_party/llvm-subzero/lib/Support/Unix/Process.inc b/third_party/swiftshader/third_party/llvm-subzero/lib/Support/Unix/Process.inc
+index 1a767bc..1ba48de 100644
+--- a/third_party/swiftshader/third_party/llvm-subzero/lib/Support/Unix/Process.inc
++++ b/third_party/swiftshader/third_party/llvm-subzero/lib/Support/Unix/Process.inc
+@@ -86,11 +86,11 @@ unsigned Process::getPageSize() {
  }
-
+ 
  size_t Process::GetMallocUsage() {
 -#if defined(HAVE_MALLINFO2)
 +#if defined(HAVE_MALLINFO2) && defined(__GLIBC__)
@@ -88,7 +93,6 @@ index 4f1d517..0afd270 100644
    struct mallinfo mi;
    mi = ::mallinfo();
    return mi.uordblks;
-
 diff --git a/third_party/swiftshader/third_party/llvm-10.0/configs/linux/include/llvm/Config/config.h b/third_party/swiftshader/third_party/llvm-10.0/configs/linux/include/llvm/Config/config.h
 index 7392898..0bf7c4a 100644
 --- a/third_party/swiftshader/third_party/llvm-10.0/configs/linux/include/llvm/Config/config.h
@@ -103,25 +107,29 @@ index 7392898..0bf7c4a 100644
  
  /* Define to 1 if you have the <malloc/malloc.h> header file. */
  /* #undef HAVE_MALLOC_MALLOC_H */
-diff --git a/base/allocator/allocator_shim_default_dispatch_to_partition_alloc.cc b/base/allocator/allocator_shim_default_dispatch_to_partition_alloc.cc
-index 3a34f62..e4f3e1b 100644
+diff --git a/base/allocator/partition_allocator/shim/allocator_shim_default_dispatch_to_partition_alloc.cc b/base/allocator/partition_allocator/shim/allocator_shim_default_dispatch_to_partition_alloc.cc
+index 49e8f25..53046bc 100644
 --- a/base/allocator/partition_allocator/shim/allocator_shim_default_dispatch_to_partition_alloc.cc
 +++ b/base/allocator/partition_allocator/shim/allocator_shim_default_dispatch_to_partition_alloc.cc
-@@ -735,7 +735,7 @@ SHIM_ALWAYS_EXPORT int mallopt(int cmd, int value) __THROW {
+@@ -797,7 +797,7 @@ SHIM_ALWAYS_EXPORT int mallopt(int cmd, int value) __THROW {
  
  #endif  // !BUILDFLAG(IS_APPLE) && !BUILDFLAG(IS_ANDROID)
  
 -#if BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_CHROMEOS)
-+#if defined(__GLIBC__)
++#if 0
  SHIM_ALWAYS_EXPORT struct mallinfo mallinfo(void) __THROW {
    partition_alloc::SimplePartitionStatsDumper allocator_dumper;
    Allocator()->DumpStats("malloc", true, &allocator_dumper);
-@@ -785,7 +785,7 @@ SHIM_ALWAYS_EXPORT struct mallinfo mallinfo(void) __THROW {
+diff --git a/base/allocator/partition_allocator/shim/allocator_shim_default_dispatch_to_partition_alloc_unittest.cc b/base/allocator/partition_allocator/shim/allocator_shim_default_dispatch_to_partition_alloc_unittest.cc
+index 0dcc19c..c0daee0 100644
+--- a/base/allocator/partition_allocator/shim/allocator_shim_default_dispatch_to_partition_alloc_unittest.cc
++++ b/base/allocator/partition_allocator/shim/allocator_shim_default_dispatch_to_partition_alloc_unittest.cc
+@@ -25,7 +25,7 @@ namespace allocator_shim::internal {
+ #if BUILDFLAG(USE_PARTITION_ALLOC_AS_MALLOC)
  
-   return info;
- }
--#endif  // BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_CHROMEOS)
-+#endif  // defined(__GLIBC__)
+ // Platforms on which we override weak libc symbols.
+-#if BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_CHROMEOS)
++#if (BUILDFLAG(IS_LINUX) && defined(__GLIBC__)) || BUILDFLAG(IS_CHROMEOS)
  
- }  // extern "C"
- 
+ PA_NOINLINE void FreeForTest(void* data) {
+   free(data);

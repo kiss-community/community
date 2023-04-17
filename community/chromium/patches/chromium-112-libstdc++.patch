@@ -1,0 +1,67 @@
+diff --git a/third_party/blink/public/web/web_local_frame_client.h b/third_party/blink/public/web/web_local_frame_client.h
+index d6bb896..246d2ff 100644
+--- a/third_party/blink/public/web/web_local_frame_client.h
++++ b/third_party/blink/public/web/web_local_frame_client.h
+@@ -674,9 +674,7 @@ class BLINK_EXPORT WebLocalFrameClient {
+     return nullptr;
+   }
+ 
+-  virtual std::unique_ptr<URLLoader> CreateURLLoaderForTesting() {
+-    return nullptr;
+-  }
++  virtual std::unique_ptr<URLLoader> CreateURLLoaderForTesting();
+ 
+   virtual void OnStopLoading() {}
+ 
+diff --git a/third_party/blink/renderer/core/frame/web_local_frame_client.cc b/third_party/blink/renderer/core/frame/web_local_frame_client.cc
+index a3617af..3adcd7c 100644
+--- a/third_party/blink/renderer/core/frame/web_local_frame_client.cc
++++ b/third_party/blink/renderer/core/frame/web_local_frame_client.cc
+@@ -7,6 +7,7 @@
+ #include "mojo/public/cpp/bindings/pending_remote.h"
+ #include "third_party/blink/public/common/associated_interfaces/associated_interface_provider.h"
+ #include "third_party/blink/public/common/browser_interface_broker_proxy.h"
++#include "third_party/blink/renderer/platform/loader/fetch/url_loader/url_loader.h"
+ 
+ namespace blink {
+ 
+@@ -25,4 +26,9 @@ WebLocalFrameClient::GetRemoteNavigationAssociatedInterfaces() {
+   // have this implementation in the base class.
+   return AssociatedInterfaceProvider::GetEmptyAssociatedInterfaceProvider();
+ }
++
++std::unique_ptr<URLLoader> WebLocalFrameClient::CreateURLLoaderForTesting() {
++  return nullptr;
++}
++
+ }  // namespace blink
+diff --git a/ui/linux/BUILD.gn b/ui/linux/BUILD.gn
+index eb72461..8662261 100644
+--- a/ui/linux/BUILD.gn
++++ b/ui/linux/BUILD.gn
+@@ -52,6 +52,7 @@ component("linux_ui_factory") {
+   deps = [
+     "//base",
+     "//ui/base:buildflags",
++    "//ui/base/ime/linux:linux",
+     "//ui/events:dom_keyboard_layout",
+     "//ui/gfx",
+     "//ui/native_theme",
+diff --git a/ui/linux/fallback_linux_ui.cc b/ui/linux/fallback_linux_ui.cc
+index ee3e7b9..5f5abee 100644
+--- a/ui/linux/fallback_linux_ui.cc
++++ b/ui/linux/fallback_linux_ui.cc
+@@ -5,11 +5,13 @@
+ #include "ui/linux/fallback_linux_ui.h"
+ 
+ #include "base/time/time.h"
++#include "ui/base/ime/linux/linux_input_method_context.h"
+ #include "ui/events/keycodes/dom/dom_keyboard_layout_map.h"
+ #include "ui/gfx/color_palette.h"
+ #include "ui/gfx/geometry/size.h"
+ #include "ui/gfx/image/image.h"
+ #include "ui/gfx/platform_font.h"
++#include "ui/linux/nav_button_provider.h"
+ #include "ui/native_theme/native_theme.h"
+ #include "ui/shell_dialogs/select_file_policy.h"
+ #include "ui/views/controls/textfield/textfield.h"

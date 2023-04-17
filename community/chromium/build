@@ -106,7 +106,6 @@ conf="
     custom_toolchain=\"//build/toolchain/linux/unbundle:default\"
     disable_fieldtrial_testing_config=true
     enable_hangout_services_extension=false
-    enable_js_type_check=false
     enable_mdns=false
     enable_mse_mpeg2ts_stream_parser=true
     enable_nacl=false
@@ -176,6 +175,8 @@ ulimit -n 4096 2>/dev/null || {
     exit 1
 }
 
+ninja -C out/Release \
+    gen/components/feed/core/proto/v2/wire/chrome_feed_response_metadata.pb.h
 ninja -C out/Release chrome
 
 # Package the monster.
