@@ -2,6 +2,7 @@ https://commondatastorage.googleapis.com/chromium-browser-official/chromium-112.
 https://github.com/ungoogled-software/ungoogled-chromium/archive/112.0.5615.165-1.tar.gz ungoogled-chromium
 files/chromium.sh
 patches/chromium-103-VirtualCursor-std-layout.patch
+patches/chromium-111-InkDropHost-crash.patch
 patches/chromium-112-compiler.patch
 patches/chromium-112-libstdc++.patch
 patches/chromium-EnumTable-crash.patch
