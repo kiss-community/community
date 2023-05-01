@@ -1,0 +1,5 @@
+#!/bin/sh -e
+
+patch -p1 < portability.patch
+
+make DESTDIR="$1" install

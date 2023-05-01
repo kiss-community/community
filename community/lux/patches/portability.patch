@@ -1,0 +1,34 @@
+diff --git a/lux.sh b/lux.sh
+index dafc4f6..76be49d 100755
+--- a/lux.sh
++++ b/lux.sh
+@@ -92,29 +92,6 @@ check_perm() {
+             exit
+         fi
+     fi
+-
+-    if [ "$(id -u)" -eq 0 ]; then
+-        if ! cut -d: -f1 /etc/group | grep video >/dev/null 2>&1; then
+-            echo "Group ~video~ does not exist."
+-            exit 1
+-        fi
+-
+-        if [ -z "$(find "${_ctrl}" -name 'brightness' -group video)" ]; then
+-            if [ ! -f "${udev_rule}" ] ; then
+-                echo "${udev_rule}: missing file."
+-                exit 1
+-            fi
+-            udevadm control -R
+-            udevadm trigger -c add -s backlight
+-        fi
+-
+-        if ! id -nG "${SUDO_USER}" | grep video >/dev/null 2>&1; then
+-            usermod -a -G video "${SUDO_USER}"
+-            echo "User has been added to ~video~ group."
+-            echo "To setup the group permissions permanently, you need to logout/login."
+-            exit
+-        fi
+-    fi
+ }
+ 
+ main() {

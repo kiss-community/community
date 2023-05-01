@@ -1,0 +1,8 @@
+#!/bin/sh
+
+cat <<EOF
+The following rule can be added to /etc/mdev.conf to automatically setup
+permissions in /sys/class/backlight:
+
+SUBSYSTEM=backlight;.* root:root 600 @chgrp video /sys/class/\$SUBSYSTEM/\$MDEV/brightness; chmod 660 /sys/class/\$SUBSYSTEM/\$MDEV/brightness
+EOF
