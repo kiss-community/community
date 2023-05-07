@@ -1,10 +1,13 @@
-https://commondatastorage.googleapis.com/chromium-browser-official/chromium-112.0.5615.165.tar.xz
-https://github.com/ungoogled-software/ungoogled-chromium/archive/112.0.5615.165-1.tar.gz ungoogled-chromium
+https://commondatastorage.googleapis.com/chromium-browser-official/chromium-113.0.5672.63.tar.xz
+https://github.com/ungoogled-software/ungoogled-chromium/archive/113.0.5672.63-1.tar.gz ungoogled-chromium
+https://dev.gentoo.org/~sam/distfiles/www-client/chromium/chromium-112-gcc-13-patches.tar.xz gcc-13-patches
 files/chromium.sh
 patches/chromium-103-VirtualCursor-std-layout.patch
 patches/chromium-111-InkDropHost-crash.patch
-patches/chromium-112-compiler.patch
-patches/chromium-112-libstdc++.patch
+patches/chromium-113-compiler.patch
+patches/chromium-113-gcc-13-0001-vulkanmemoryallocator.patch
+patches/chromium-113-std-monospace.patch
+patches/chromium-113-swiftshader-cstdint.patch
 patches/chromium-EnumTable-crash.patch
 patches/chromium-angle-wayland-include.patch
 patches/chromium-credentials-sys-types-header.patch
@@ -15,6 +18,7 @@ patches/chromium-partition-atfork.patch
 patches/chromium-roll-src-third_party-ffmpeg-102.patch
 patches/chromium-roll-src-third_party-ffmpeg-106.patch
 patches/chromium-xdg-basedir.patch
+patches/disable-GlobalMediaControlsCastStartStop.patch
 patches/musl-fstatat-32bit.patch
 patches/musl-import-version.patch
 patches/musl-no-execinfo.patch

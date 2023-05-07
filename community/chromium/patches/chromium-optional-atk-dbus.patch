@@ -121,7 +121,7 @@ index f028473..98db098 100644
    adapter_info->floss = floss::features::IsFlossEnabled();
  #endif
 diff --git a/device/bluetooth/bluetooth_adapter_factory.cc b/device/bluetooth/bluetooth_adapter_factory.cc
-index 4b76da7..54760d0 100644
+index cf3e7bf..efd9815 100644
 --- a/device/bluetooth/bluetooth_adapter_factory.cc
 +++ b/device/bluetooth/bluetooth_adapter_factory.cc
 @@ -42,7 +42,7 @@ bool BluetoothAdapterFactory::IsBluetoothSupported() {
@@ -130,7 +130,7 @@ index 4b76da7..54760d0 100644
      return true;
 -#if BUILDFLAG(IS_ANDROID) || BUILDFLAG(IS_WIN) || BUILDFLAG(IS_LINUX) || \
 +#if BUILDFLAG(IS_ANDROID) || BUILDFLAG(IS_WIN) || (BUILDFLAG(IS_LINUX) && defined(USE_DBUS)) || \
-     BUILDFLAG(IS_CHROMEOS) || BUILDFLAG(IS_MAC)
+     BUILDFLAG(IS_CHROMEOS) || BUILDFLAG(IS_APPLE)
    return true;
  #else
 @@ -55,7 +55,7 @@ bool BluetoothAdapterFactory::IsLowEnergySupported() {
@@ -139,7 +139,7 @@ index 4b76da7..54760d0 100644
  
 -#if BUILDFLAG(IS_ANDROID) || BUILDFLAG(IS_CHROMEOS) || BUILDFLAG(IS_LINUX) || \
 +#if BUILDFLAG(IS_ANDROID) || BUILDFLAG(IS_CHROMEOS) || (BUILDFLAG(IS_LINUX) && defined(USE_DBUS)) || \
-     BUILDFLAG(IS_MAC) || BUILDFLAG(IS_WIN)
+     BUILDFLAG(IS_APPLE) || BUILDFLAG(IS_WIN)
    return true;
  #else
 @@ -112,7 +112,7 @@ void BluetoothAdapterFactory::GetClassicAdapter(AdapterCallback callback) {

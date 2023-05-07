@@ -2,7 +2,13 @@
 
 printf "NOTE: It is HIGHLY recommended to build this package with sane build flags and 'ccache' enabled!\n"
 
-for patch in chromium-*.patch; do
+for p in chromium-112-gcc-13-0002-perfetto.patch \
+         chromium-112-gcc-13-0012-webrtc-base64.patch \
+         chromium-112-gcc-13-0013-quiche.patch; do
+    rm -f "gcc-13-patches/$p"
+done
+
+for patch in chromium-*.patch gcc-13-patches/*.patch; do
     patch -p1 < "$patch"
 done
 
