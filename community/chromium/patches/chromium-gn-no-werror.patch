@@ -1,0 +1,14 @@
+diff --git a/tools/gn/build/gen.py b/tools/gn/build/gen2.py
+index 2d109ed..faa4f19 100755
+--- a/tools/gn/build/gen.py
++++ b/tools/gn/build/gen.py
+@@ -430,9 +430,6 @@ def WriteGNNinja(path, platform, host, options, args_list):
+         cflags.extend(['-flto', '-fwhole-program-vtables'])
+         ldflags.extend(['-flto', '-fwhole-program-vtables'])
+ 
+-    if not options.allow_warnings:
+-      cflags.append('-Werror')
+-
+     cflags.extend([
+         '-D_FILE_OFFSET_BITS=64',
+         '-D__STDC_CONSTANT_MACROS', '-D__STDC_FORMAT_MACROS',

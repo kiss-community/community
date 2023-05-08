@@ -11,14 +11,15 @@ patches/chromium-113-swiftshader-cstdint.patch
 patches/chromium-EnumTable-crash.patch
 patches/chromium-angle-wayland-include.patch
 patches/chromium-credentials-sys-types-header.patch
+patches/chromium-disable-GlobalMediaControlsCastStartStop.patch
 patches/chromium-fc-cache-version.patch
 patches/chromium-fix-missing-cmath-include.patch
+patches/chromium-gn-no-werror.patch
 patches/chromium-optional-atk-dbus.patch
 patches/chromium-partition-atfork.patch
 patches/chromium-roll-src-third_party-ffmpeg-102.patch
 patches/chromium-roll-src-third_party-ffmpeg-106.patch
 patches/chromium-xdg-basedir.patch
-patches/disable-GlobalMediaControlsCastStartStop.patch
 patches/musl-fstatat-32bit.patch
 patches/musl-import-version.patch
 patches/musl-no-execinfo.patch
