@@ -11,7 +11,7 @@ sed -i 's/tinfow tinfo/tinfow tinfo terminfo/g;/Unable to find xsltproc/d;
     --ssl \
     --sasl \
     --disable-nls \
-    --disable-idn \
+    --disable-idn2 \
     --zlib
 
 # Don't actually build the docs (some of the xsltproc html stuff requires
