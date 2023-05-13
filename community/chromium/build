@@ -2,13 +2,7 @@
 
 printf "NOTE: It is HIGHLY recommended to build this package with sane build flags and 'ccache' enabled!\n"
 
-for p in chromium-112-gcc-13-0002-perfetto.patch \
-         chromium-112-gcc-13-0012-webrtc-base64.patch \
-         chromium-112-gcc-13-0013-quiche.patch; do
-    rm -f "gcc-13-patches/$p"
-done
-
-for patch in chromium-*.patch gcc-13-patches/*.patch; do
+for patch in chromium-*.patch; do
     patch -p1 < "$patch"
 done
 
@@ -181,8 +175,6 @@ ulimit -n 4096 2>/dev/null || {
     exit 1
 }
 
-ninja -C out/Release \
-    gen/components/feed/core/proto/v2/wire/chrome_feed_response_metadata.pb.h
 ninja -C out/Release chrome
 
 # Package the monster.
