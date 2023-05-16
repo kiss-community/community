@@ -7,6 +7,7 @@ meson \
 	-Dbackend-x11=disabled \
 	-Dbackend-wayland=enabled \
 	-Dplugin-mpd=disabled \
+	--warnlevel 0 \
 	. build
 ninja -C build
 ninja -C build install
