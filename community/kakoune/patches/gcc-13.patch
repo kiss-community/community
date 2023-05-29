@@ -1,0 +1,43 @@
+From 894e44fdbff4221549d358faa4a73ea43e1283a5 Mon Sep 17 00:00:00 2001
+From: ioh <mujo@sdf.org>
+Date: Tue, 28 Feb 2023 19:36:44 -0800
+Subject: [PATCH] Fix new gcc errors for missing types.
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Errors when building with gcc 13:
+ranked_match.hh:10:21: error: ‘uint64_t’ does not name a type
+   10 | using UsedLetters = uint64_t;
+      |                     ^~~~~~~~
+---
+ src/keys.hh         | 2 ++
+ src/ranked_match.hh | 2 ++
+ 2 files changed, 4 insertions(+)
+
+diff --git a/src/keys.hh b/src/keys.hh
+index 0af1a5a8f9..ccafe336d3 100644
+--- a/src/keys.hh
++++ b/src/keys.hh
+@@ -9,6 +9,8 @@
+ #include "unicode.hh"
+ #include "vector.hh"
+ 
++#include <cstdint>
++
+ namespace Kakoune
+ {
+ 
+diff --git a/src/ranked_match.hh b/src/ranked_match.hh
+index ec7fe626cb..62d6b8f033 100644
+--- a/src/ranked_match.hh
++++ b/src/ranked_match.hh
+@@ -4,6 +4,8 @@
+ #include "string.hh"
+ #include "meta.hh"
+ 
++#include <cstdint>
++
+ namespace Kakoune
+ {
+ 
