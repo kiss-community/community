@@ -2,7 +2,10 @@
 
 ./configure \
     --prefix=/usr \
-    --without-python
+    --without-python \
+    --without-debugger \
+    --without-debug \
+    --without-crypto
 
 make
 make DESTDIR="$1" install
