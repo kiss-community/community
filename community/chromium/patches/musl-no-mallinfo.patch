@@ -75,13 +75,11 @@ index 9a4428e..e3c2379 100644
    rusage res;
    if (getrusage(RUSAGE_SELF, &res) == 0) {
      result.mem_footprint_kb = res.ru_maxrss;
-diff --git a/third_party/swiftshader/third_party/llvm-subzero/lib/Support/Unix/Process.inc b/third_party/swiftshader/third_party/llvm-subzero/lib/Support/Unix/Process.inc
-index 1a767bc..1ba48de 100644
---- a/third_party/swiftshader/third_party/llvm-subzero/lib/Support/Unix/Process.inc
-+++ b/third_party/swiftshader/third_party/llvm-subzero/lib/Support/Unix/Process.inc
-@@ -86,11 +86,11 @@ unsigned Process::getPageSize() {
+--- ./third_party/swiftshader/third_party/llvm-subzero/lib/Support/Unix/Process.inc.orig
++++ ./third_party/swiftshader/third_party/llvm-subzero/lib/Support/Unix/Process.inc
+@@ -86,11 +86,11 @@
  }
- 
+
  size_t Process::GetMallocUsage() {
 -#if defined(HAVE_MALLINFO2)
 +#if defined(HAVE_MALLINFO2) && defined(__GLIBC__)
@@ -93,6 +91,7 @@ index 1a767bc..1ba48de 100644
    struct mallinfo mi;
    mi = ::mallinfo();
    return mi.uordblks;
+
 diff --git a/third_party/swiftshader/third_party/llvm-10.0/configs/linux/include/llvm/Config/config.h b/third_party/swiftshader/third_party/llvm-10.0/configs/linux/include/llvm/Config/config.h
 index 7392898..0bf7c4a 100644
 --- a/third_party/swiftshader/third_party/llvm-10.0/configs/linux/include/llvm/Config/config.h
@@ -108,10 +107,10 @@ index 7392898..0bf7c4a 100644
  /* Define to 1 if you have the <malloc/malloc.h> header file. */
  /* #undef HAVE_MALLOC_MALLOC_H */
 diff --git a/base/allocator/partition_allocator/shim/allocator_shim_default_dispatch_to_partition_alloc.cc b/base/allocator/partition_allocator/shim/allocator_shim_default_dispatch_to_partition_alloc.cc
-index 49e8f25..53046bc 100644
+index 4f7a87d..016a4bb 100644
 --- a/base/allocator/partition_allocator/shim/allocator_shim_default_dispatch_to_partition_alloc.cc
 +++ b/base/allocator/partition_allocator/shim/allocator_shim_default_dispatch_to_partition_alloc.cc
-@@ -797,7 +797,7 @@ SHIM_ALWAYS_EXPORT int mallopt(int cmd, int value) __THROW {
+@@ -744,7 +744,7 @@ SHIM_ALWAYS_EXPORT int mallopt(int cmd, int value) __THROW {
  
  #endif  // !BUILDFLAG(IS_APPLE) && !BUILDFLAG(IS_ANDROID)
  

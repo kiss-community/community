@@ -15,4 +15,8 @@ SUID sandbox should be built instead:
     'ninja -C out/Release chrome chrome_sandbox'
 * Package the sandbox:
     'install -Dm4755 out/Release/chrome_sandbox "\$1/usr/lib/chromium/chrome-sandbox"'
+
+NOTE: There seems to be some window alignment issues when running under wayland
+and/or wlroots. This can be fixed by simply adjusting (and then restoring) the
+window size.
 EOF

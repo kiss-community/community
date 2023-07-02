@@ -136,7 +136,6 @@ conf="
     safe_browsing_mode=0
     symbol_level=0
     treat_warnings_as_errors=false
-    use_allocator=\"none\"
     use_atk=false
     use_bluez=false
     use_cfi_icall=false

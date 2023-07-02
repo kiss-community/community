@@ -1,9 +1,8 @@
-they fixed the import to be glibc conditional, but now nothing is imported so
-all the string functions are missing.
---
+diff --git a/chrome/browser/metrics/chrome_browser_main_extra_parts_metrics.cc b/chrome/browser/metrics/chrome_browser_main_extra_parts_metrics.cc
+index 6dfb719..e71fbb9 100644
 --- a/chrome/browser/metrics/chrome_browser_main_extra_parts_metrics.cc
 +++ b/chrome/browser/metrics/chrome_browser_main_extra_parts_metrics.cc
-@@ -61,8 +61,7 @@
+@@ -66,8 +66,7 @@
  
  // TODO(crbug.com/1052397): Revisit the macro expression once build flag switch
  // of lacros-chrome is complete.

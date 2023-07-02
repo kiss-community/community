@@ -1,0 +1,108 @@
+diff --git a/chrome/browser/resource_coordinator/decision_details.h b/chrome/browser/resource_coordinator/decision_details.h
+index 5ac93a4..bb2f8b1 100644
+--- a/chrome/browser/resource_coordinator/decision_details.h
++++ b/chrome/browser/resource_coordinator/decision_details.h
+@@ -5,6 +5,7 @@
+ #ifndef CHROME_BROWSER_RESOURCE_COORDINATOR_DECISION_DETAILS_H_
+ #define CHROME_BROWSER_RESOURCE_COORDINATOR_DECISION_DETAILS_H_
+ 
++#include <cstdint>
+ #include <string>
+ #include <vector>
+ 
+diff --git a/components/autofill/core/browser/strike_databases/strike_database_base.h b/components/autofill/core/browser/strike_databases/strike_database_base.h
+index 30761ce..5604c19 100644
+--- a/components/autofill/core/browser/strike_databases/strike_database_base.h
++++ b/components/autofill/core/browser/strike_databases/strike_database_base.h
+@@ -5,6 +5,7 @@
+ #ifndef COMPONENTS_AUTOFILL_CORE_BROWSER_STRIKE_DATABASES_STRIKE_DATABASE_BASE_H_
+ #define COMPONENTS_AUTOFILL_CORE_BROWSER_STRIKE_DATABASES_STRIKE_DATABASE_BASE_H_
+ 
++#include <cstdint>
+ #include <map>
+ #include <string>
+ #include <vector>
+diff --git a/components/dom_distiller/core/url_utils.h b/components/dom_distiller/core/url_utils.h
+index 4b37325..298b5e0 100644
+--- a/components/dom_distiller/core/url_utils.h
++++ b/components/dom_distiller/core/url_utils.h
+@@ -5,6 +5,7 @@
+ #ifndef COMPONENTS_DOM_DISTILLER_CORE_URL_UTILS_H_
+ #define COMPONENTS_DOM_DISTILLER_CORE_URL_UTILS_H_
+ 
++#include <cstdint>
+ #include <string>
+ 
+ #include "base/strings/string_piece_forward.h"
+diff --git a/gpu/config/gpu_driver_bug_workarounds.h b/gpu/config/gpu_driver_bug_workarounds.h
+index 1951c8b..befb28a 100644
+--- a/gpu/config/gpu_driver_bug_workarounds.h
++++ b/gpu/config/gpu_driver_bug_workarounds.h
+@@ -5,6 +5,7 @@
+ #ifndef GPU_CONFIG_GPU_DRIVER_BUG_WORKAROUNDS_H_
+ #define GPU_CONFIG_GPU_DRIVER_BUG_WORKAROUNDS_H_
+ 
++#include <cstdint>
+ #include <vector>
+ 
+ #include "build/build_config.h"
+diff --git a/media/base/video_transformation.h b/media/base/video_transformation.h
+index ee80059..37054ae 100644
+--- a/media/base/video_transformation.h
++++ b/media/base/video_transformation.h
+@@ -5,6 +5,7 @@
+ #ifndef MEDIA_BASE_VIDEO_TRANSFORMATION_H_
+ #define MEDIA_BASE_VIDEO_TRANSFORMATION_H_
+ 
++#include <cstdint>
+ #include <string>
+ 
+ #include "base/numerics/math_constants.h"
+diff --git a/third_party/blink/public/common/page_state/page_state.h b/third_party/blink/public/common/page_state/page_state.h
+index b90061b..358e21d 100644
+--- a/third_party/blink/public/common/page_state/page_state.h
++++ b/third_party/blink/public/common/page_state/page_state.h
+@@ -5,6 +5,7 @@
+ #ifndef THIRD_PARTY_BLINK_PUBLIC_COMMON_PAGE_STATE_PAGE_STATE_H_
+ #define THIRD_PARTY_BLINK_PUBLIC_COMMON_PAGE_STATE_PAGE_STATE_H_
+ 
++#include <cstdint>
+ #include <string>
+ #include <vector>
+ 
+diff --git a/third_party/openscreen/src/platform/base/error.h b/third_party/openscreen/src/platform/base/error.h
+index af7df84..3cd6ebb 100644
+--- a/third_party/openscreen/src/platform/base/error.h
++++ b/third_party/openscreen/src/platform/base/error.h
+@@ -6,6 +6,7 @@
+ #define PLATFORM_BASE_ERROR_H_
+ 
+ #include <cassert>
++#include <cstdint>
+ #include <ostream>
+ #include <string>
+ #include <utility>
+diff --git a/third_party/s2cellid/src/s2/s1angle.h b/third_party/s2cellid/src/s2/s1angle.h
+index 79110ef..e89ffb7 100644
+--- a/third_party/s2cellid/src/s2/s1angle.h
++++ b/third_party/s2cellid/src/s2/s1angle.h
+@@ -24,6 +24,7 @@
+ #define S2_S1ANGLE_H_
+ 
+ #include <math.h>
++#include <cstdint>
+ #include <limits>
+ #include <ostream>
+ #include <type_traits>
+diff --git a/third_party/webrtc/rtc_base/system/file_wrapper.h b/third_party/webrtc/rtc_base/system/file_wrapper.h
+index 5e1e3d6..6ac6f0d 100644
+--- a/third_party/webrtc/rtc_base/system/file_wrapper.h
++++ b/third_party/webrtc/rtc_base/system/file_wrapper.h
+@@ -14,6 +14,7 @@
+ #include <stddef.h>
+ #include <stdio.h>
+ 
++#include <cstdint>
+ #include <string>
+ 
+ #include "absl/strings/string_view.h"
