@@ -6,7 +6,8 @@
 ./configure \
 	--prefix=/usr \
 	--enable-all \
-	--disable-uefi-aarch64
+	--disable-uefi-aarch64 \
+	--disable-uefi-riscv64
 	
 make
 make DESTDIR="$1" install
