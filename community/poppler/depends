@@ -2,3 +2,4 @@ cmake make
 fontconfig
 openjpeg2
 pkgconf make
+zlib
