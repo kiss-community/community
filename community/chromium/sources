@@ -1,21 +1,16 @@
-https://commondatastorage.googleapis.com/chromium-browser-official/chromium-114.0.5735.198.tar.xz
-https://github.com/ungoogled-software/ungoogled-chromium/archive/114.0.5735.198-1.tar.gz ungoogled-chromium
+https://commondatastorage.googleapis.com/chromium-browser-official/chromium-115.0.5790.98.tar.xz
+https://github.com/ungoogled-software/ungoogled-chromium/archive/115.0.5790.98-1.tar.gz ungoogled-chromium
+https://github.com/stha09/chromium-patches/releases/download/chromium-115-patchset-2/chromium-115-patchset-2.tar.xz
 files/chromium.sh
-patches/chromium-112-gcc-13-0003-ruy.patch
-patches/chromium-112-gcc-13-0005-tensorflow-tflite.patch
-patches/chromium-112-gcc-13-0006-vulkanmemoryallocator.patch
-patches/chromium-112-gcc-13-0014-maldoca.patch
-patches/chromium-114-compiler.patch
 patches/chromium-114-gcc12.patch
-patches/chromium-114-sigsegv-dom.patch
 patches/chromium-EnumTable-crash.patch
 patches/chromium-disable-GlobalMediaControlsCastStartStop.patch
-patches/chromium-download-bubble-typename.patch
 patches/chromium-fc-cache-version.patch
 patches/chromium-gn-no-werror.patch
 patches/chromium-libstdc++13.patch
 patches/chromium-optional-atk-dbus.patch
 patches/chromium-quiche-array.patch
+patches/chromium-random-fixes.patch
 patches/chromium-roll-src-third_party-ffmpeg-102.patch
 patches/chromium-roll-src-third_party-ffmpeg-106.patch
 patches/chromium-xdg-basedir.patch

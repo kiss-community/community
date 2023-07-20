@@ -30,18 +30,20 @@ index 6e64aed..d962ae2 100644
    ReportMallinfoStats(/*pmd=*/nullptr, &total_virtual_size, &resident_size,
                        &allocated_objects_size, &allocated_objects_count);
  #endif
+diff --git a/base/process/process_metrics_posix.cc b/base/process/process_metrics_posix.cc
+index a836cdc..c43e512 100644
 --- a/base/process/process_metrics_posix.cc
 +++ b/base/process/process_metrics_posix.cc
-@@ -105,7 +105,7 @@
+@@ -106,7 +106,7 @@ void IncreaseFdLimitTo(unsigned int max_descriptors) {
  
- #endif  // !BUILDFLAG(IS_FUCHSIA)
+ #endif  // !BUILDFLAG(IS_FUCHSIA) && BUILDFLAG(USE_BLINK)
  
 -#if BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_CHROMEOS) || BUILDFLAG(IS_ANDROID)
 +#if (BUILDFLAG(IS_LINUX) && defined(__GLIBC__)) || BUILDFLAG(IS_CHROMEOS) || BUILDFLAG(IS_ANDROID)
  namespace {
  
  size_t GetMallocUsageMallinfo() {
-@@ -123,7 +123,7 @@
+@@ -124,7 +124,7 @@ size_t GetMallocUsageMallinfo() {
  }
  
  }  // namespace
@@ -50,7 +52,7 @@ index 6e64aed..d962ae2 100644
          // BUILDFLAG(IS_ANDROID)
  
  size_t ProcessMetrics::GetMallocUsage() {
-@@ -131,9 +131,9 @@
+@@ -132,9 +132,9 @@ size_t ProcessMetrics::GetMallocUsage() {
    malloc_statistics_t stats = {0};
    malloc_zone_statistics(nullptr, &stats);
    return stats.size_in_use;
