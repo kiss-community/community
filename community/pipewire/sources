@@ -3,3 +3,4 @@ https://gitlab.freedesktop.org/pipewire/wireplumber/-/archive/IDENT/wireplumber-
 patches/autostart-session-manager.patch
 patches/libudev-zero.patch
 patches/no-dbus.patch
+patches/pipewire-0.3.75-add_missing_header.patch
