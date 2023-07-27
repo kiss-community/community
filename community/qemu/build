@@ -4,6 +4,10 @@
 sed 's/SHELL = bash -o pipefail/SHELL = sh/g' Makefile > _
 mv -f _ Makefile
 
+for p in *.patch; do
+    patch -p1 < "$p"
+done
+
 ./configure \
     --prefix=/usr \
     --localstatedir=/var \
