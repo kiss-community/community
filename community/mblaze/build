@@ -1,4 +1,5 @@
 #!/bin/sh -e
 
+export CFLAGS="$CFLAGS -D_LARGEFILE64_SOURCE"
 make all
 make DESTDIR="$1" PREFIX=/usr install
