@@ -13,6 +13,8 @@ export GOARCH=amd64
 export GO_LDFLAGS="-w -s"
 
 (
+    # Subshell is used to not corrupt parent's environment.
+    # shellcheck disable=2030
     export GOROOT="$PWD/go1.4-bootstrap"
     export GOROOT_FINAL="$PWD/lib/go-bootstrap"
 
@@ -29,6 +31,9 @@ export GO_LDFLAGS="-w -s"
 )
 
 export GOROOT_BOOTSTRAP="$PWD/lib/go-bootstrap"
+
+# No variable change is lost since it's intentionally separate environment.
+# shellcheck disable=2031
 export GOROOT="$PWD/go-current"
 export GOROOT_FINAL="/usr/lib/go$2"
 
