@@ -1,7 +1,5 @@
 #!/bin/sh -e
 
-patch -p1 < gcc-13.patch
-
 cd src/
 make \
     DESTDIR="$1" \
