@@ -1,0 +1,67 @@
+#!/bin/sh -e
+
+export DESTDIR="$1"
+
+# Enable '-no-pie' as it can fix a seg fault in `temacs`.
+# Also, override any user provided CFLAGS, as they can also cause seg faults.
+export CFLAGS="-no-pie"
+
+# libgccjit check.
+case $("$CC" -print-file-name=libgccjit.so) in */*)
+    conf="--with-native-compilation"
+esac
+
+# Tree Sitter Check.
+pkg-config --exists tree-sitter && conf="${conf:-} --with-tree-sitter"
+
+# librsvg check.
+if ! pkg-config --exists librsvg-2.0; then
+    svg="out"
+fi
+
+if pkg-config --exists x11; then
+    # x11 variant.
+    conf="${conf:-} --with-x --with-x-toolkit=gtk3"
+elif pkg-config --exists wayland-client; then
+    # pgtk variant.
+    conf="${conf:-} --with-pgtk"
+fi
+
+# Intended behavior.
+# shellcheck disable=2086
+./configure \
+    ${conf:-} \
+    --prefix=/usr \
+    --with-modules \
+    --without-dbus \
+    --without-gconf \
+    --without-gsettings \
+    --with${svg}-rsvg \
+    --without-compress-install \
+    --without-xpm \
+    --without-tiff \
+    --without-gif \
+    --with-gnutls=yes
+
+mkdir -p "$1/usr/share/emacs/site-lisp"
+cat << EOF > "$1/usr/share/emacs/site-lisp/site-start.el"
+;; Better security defaults
+(with-eval-after-load 'gnutls
+  (setq
+   gnutls-verify-error t
+   gnutls-min-prime-bits 2048
+   gnutls-trustfiles '("/etc/ssl/cert.pem")))
+
+;; Needed unless KISS Linux gains librsvg support
+(setq-default shr-blocked-images ".*\.svg$")
+EOF
+
+# Disable ASLR for the build procedure, as it can lead to seg faults.
+case "$(uname -m)" in
+    x86_64) _arch=linux64 ;;
+    i*86) _arch=linux32 ;;
+esac
+setarch "$_arch" -R make
+make install
+
+rm -rf "$1/usr/lib/systemd"

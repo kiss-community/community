@@ -1,0 +1,7 @@
+gnutls
+gtk+3
+libjpeg-turbo
+libpng
+libxml2
+ncurses
+pkgconf make
