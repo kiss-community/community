@@ -22,6 +22,18 @@ index 30761ce..5604c19 100644
  #include <map>
  #include <string>
  #include <vector>
+diff --git a/components/bookmarks/common/url_load_stats.h b/components/bookmarks/common/url_load_stats.h
+index b4d975b..b157ad0 100644
+--- a/components/bookmarks/common/url_load_stats.h
++++ b/components/bookmarks/common/url_load_stats.h
+@@ -5,6 +5,7 @@
+ #ifndef COMPONENTS_BOOKMARKS_COMMON_URL_LOAD_STATS_H_
+ #define COMPONENTS_BOOKMARKS_COMMON_URL_LOAD_STATS_H_
+ 
++#include <cstddef>
+ #include <cstdint>
+ #include <vector>
+ 
 diff --git a/components/dom_distiller/core/url_utils.h b/components/dom_distiller/core/url_utils.h
 index 4b37325..298b5e0 100644
 --- a/components/dom_distiller/core/url_utils.h

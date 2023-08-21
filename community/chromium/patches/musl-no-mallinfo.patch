@@ -31,12 +31,12 @@ index 6e64aed..d962ae2 100644
                        &allocated_objects_size, &allocated_objects_count);
  #endif
 diff --git a/base/process/process_metrics_posix.cc b/base/process/process_metrics_posix.cc
-index a836cdc..c43e512 100644
+index 9a25ea7..eb294ba 100644
 --- a/base/process/process_metrics_posix.cc
 +++ b/base/process/process_metrics_posix.cc
 @@ -106,7 +106,7 @@ void IncreaseFdLimitTo(unsigned int max_descriptors) {
  
- #endif  // !BUILDFLAG(IS_FUCHSIA) && BUILDFLAG(USE_BLINK)
+ #endif  // !BUILDFLAG(IS_FUCHSIA)
  
 -#if BUILDFLAG(IS_LINUX) || BUILDFLAG(IS_CHROMEOS) || BUILDFLAG(IS_ANDROID)
 +#if (BUILDFLAG(IS_LINUX) && defined(__GLIBC__)) || BUILDFLAG(IS_CHROMEOS) || BUILDFLAG(IS_ANDROID)

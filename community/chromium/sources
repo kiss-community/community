@@ -1,8 +1,7 @@
-https://commondatastorage.googleapis.com/chromium-browser-official/chromium-115.0.5790.110.tar.xz
-https://github.com/ungoogled-software/ungoogled-chromium/archive/115.0.5790.110-1.tar.gz ungoogled-chromium
-https://github.com/stha09/chromium-patches/releases/download/chromium-115-patchset-2/chromium-115-patchset-2.tar.xz
+https://commondatastorage.googleapis.com/chromium-browser-official/chromium-116.0.5845.96.tar.xz
+https://github.com/ungoogled-software/ungoogled-chromium/archive/116.0.5845.96-1.tar.gz ungoogled-chromium
+https://github.com/stha09/chromium-patches/releases/download/chromium-116-patchset-2/chromium-116-patchset-2.tar.xz
 files/chromium.sh
-patches/chromium-114-gcc12.patch
 patches/chromium-EnumTable-crash.patch
 patches/chromium-disable-GlobalMediaControlsCastStartStop.patch
 patches/chromium-fc-cache-version.patch
