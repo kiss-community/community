@@ -1,6 +1,0 @@
-#!/bin/sh -e
-
-make
-
-# No 'DESTDIR' because the Makefile doesn't support it.
-make PREFIX="/usr" install
