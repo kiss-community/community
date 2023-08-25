@@ -1,5 +1,5 @@
-https://gitlab.freedesktop.org/pipewire/pipewire/-/archive/MAJOR.MINOR.PATCH/pipewire-MAJOR.MINOR.PATCH.tar.gz
-https://gitlab.freedesktop.org/pipewire/wireplumber/-/archive/IDENT/wireplumber-IDENT.tar.gz subprojects/wireplumber
+https://gitlab.freedesktop.org/pipewire/pipewire/-/archive/0.3.75/pipewire-0.3.75.tar.gz
+https://gitlab.freedesktop.org/pipewire/wireplumber/-/archive/0.4.14/wireplumber-0.4.14.tar.gz subprojects/wireplumber
 patches/autostart-session-manager.patch
 patches/libudev-zero.patch
 patches/no-dbus.patch

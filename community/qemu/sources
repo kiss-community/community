@@ -1,4 +1,4 @@
-https://download.qemu.org/qemu-VERSION.tar.xz
+https://download.qemu.org/qemu-8.0.3.tar.xz
 patches/0006-linux-user-signal.c-define-__SIGRTMIN-MAX-for-non-GN.patch
 patches/CVE-2021-20255.patch
 patches/lfs64.patch
