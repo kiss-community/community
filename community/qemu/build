@@ -1,9 +1,5 @@
 #!/bin/sh -e
 
-# Don't use bash
-sed 's/SHELL = bash -o pipefail/SHELL = sh/g' Makefile > _
-mv -f _ Makefile
-
 for p in *.patch; do
     patch -p1 < "$p"
 done

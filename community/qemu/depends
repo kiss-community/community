@@ -1,4 +1,5 @@
 alsa-lib
+bash make
 bzip2
 curl
 glib
