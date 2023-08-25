@@ -1,7 +1,5 @@
 #!/bin/sh -e
 
-patch -p1 < wrong-member-name.patch
-
 ./configure \
     --prefix=/usr \
     --without-nettle \
