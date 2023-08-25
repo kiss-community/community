@@ -1,1 +1,2 @@
-https://gnupg.org/ftp/gcrypt/gpgme/gpgme-1.21.0.tar.bz2
+https://gnupg.org/ftp/gcrypt/gpgme/gpgme-1.22.0.tar.bz2
+patches/lfs64.patch

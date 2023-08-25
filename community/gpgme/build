@@ -1,5 +1,7 @@
 #!/bin/sh -e
 
+patch -p1 < lfs64.patch
+
 ./configure \
     --prefix=/usr \
     --disable-nls \
