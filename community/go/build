@@ -18,7 +18,7 @@ export GOROOT_FINAL="/usr/lib/go"
 
 (
     cd src
-    ./make.bash --no-clean -v
+    ./make.bash -v
 )
 
 cd "$GOROOT"

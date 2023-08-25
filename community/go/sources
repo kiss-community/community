@@ -1,3 +1,2 @@
-https://golang.org/dl/go1.20.6.src.tar.gz
-patches/disable-google-proxy-and-sumdb.patch
+https://golang.org/dl/go1.21.0.src.tar.gz
 patches/posix-build.patch
