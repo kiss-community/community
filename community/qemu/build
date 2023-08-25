@@ -47,4 +47,4 @@ done
     --disable-debug-info
 
 make
-make PREFIX=/usr install
+make DESTDIR="$1" PREFIX=/usr install

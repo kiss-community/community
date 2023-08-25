@@ -2,6 +2,8 @@
 
 : > completions/meson.build
 
+export DESTDIR="$1"
+
 meson \
     --prefix=/usr \
     --buildtype=release \
