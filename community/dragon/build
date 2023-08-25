@@ -1,4 +1,0 @@
-#!/bin/sh -e
-
-make
-install -Dm 755 -t "$1/usr/bin" dragon

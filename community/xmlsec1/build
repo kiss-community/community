@@ -1,8 +1,0 @@
-#!/bin/sh -e
-
-./configure \
-  --prefix=/usr \
-  --enable-docs=no
-
-make
-make DESTDIR="$1" install

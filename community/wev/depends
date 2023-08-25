@@ -1,5 +1,0 @@
-libxkbcommon
-pkgconf make
-scdoc make
-wayland
-wayland-protocols make
