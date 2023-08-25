@@ -1,0 +1,6 @@
+#!/bin/sh -e
+
+cargo build --release
+
+mkdir -p "$1/usr/bin"
+cp target/release/wl-screenrec "$1/usr/bin/"
