@@ -11,7 +11,7 @@ Upstream: https://limine-bootloader.org/
 ________________________________________________________________________________
 
 * Installation ........................................................... [001]
-* Setup .................................................................. [002]
+* BIOS Systems ........................................................... [002]
 * UEFI Systems ........................................................... [003]
 * Configuration file: limine.cfg ......................................... [004]
 * Packaging .............................................................. [005]
@@ -28,24 +28,24 @@ ________________________________________________________________________________
 +------------------------------------------------------------------------------+
 
 
-[002] Setup
+[002] BIOS Systems
 ________________________________________________________________________________
 
-After the installation, the file "limine.sys" must be copied to root or the 
+After the installation, the file "limine-bios.sys" must be copied to root or the 
 /boot directory of any partition on the disk onto which limine will be deployed,
 as long as the filesystem is supported.
 
 +------------------------------------------------------------------------------+
 |                                                                              |
-|  # cp /usr/share/limine/limine.sys /boot                                     |
+|  # cp /usr/share/limine/limine-bios.sys /boot                                |
 |                                                                              |
 +------------------------------------------------------------------------------+
 
-Then stage 1 and 2 must be deployed with the limine-deploy utility.
+Then stage 1 and 2 must be deployed with the limine utility.
 
 +------------------------------------------------------------------------------+
 |                                                                              |
-|  # limine-deploy /dev/sdX                                                    |
+|  # limine bios-install /dev/sdX                                              |
 |                                                                              |
 +------------------------------------------------------------------------------+
 
@@ -102,6 +102,8 @@ position with
 
 where XXXX, YYYY and ZZZZ are the bootnumbers.
 
+After limine has been installed, the configuration file limine.cfg
+must be created, see [004].
 
 [004] Configuration file: limine.cfg
 ________________________________________________________________________________
