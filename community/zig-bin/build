@@ -1,0 +1,6 @@
+#!/bin/sh -e
+
+mkdir -p "$1/opt/zig" "$1/usr/bin"
+mv -f ./* "$1/opt/zig/"
+
+ln -sf ../../opt/zig/zig "$1/usr/bin/zig"
