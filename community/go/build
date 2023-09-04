@@ -28,7 +28,7 @@ mkdir -p "$1/usr/bin" "$1/usr/lib/go"
 ln -s ../lib/go/bin/go    "$1/usr/bin"
 ln -s ../lib/go/bin/gofmt "$1/usr/bin"
 
-cp -pPR misc bin pkg src lib "$1/usr/lib/go"
+cp -pPR misc bin pkg src lib go.env "$1/usr/lib/go"
 
 # Remove unneeded files.
 rm -f  "$1/usr/share/go/doc/articles/wiki/get.bin"
