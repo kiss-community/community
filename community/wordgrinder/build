@@ -1,6 +1,0 @@
-#!/bin/sh -e
-
-patch -p1 < fixes-musl.patch
-
-make PREFIX=/usr
-make DESTDIR="$1" install
