@@ -1,5 +1,8 @@
 #!/bin/sh -e
 
+# A system luarocks installation can interfere with the build.
+unset LUA_CPATH
+
 # Due to some changes in the package manager/pigz, we have to...
 unset DESTDIR
 mkdir -p bin
