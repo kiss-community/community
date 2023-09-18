@@ -1,0 +1,42 @@
+#!/bin/sh -e
+
+./configure \
+    --prefix=/usr \
+    --without-libbsd \
+    --disable-shared
+
+make -C libmisc
+make -C lib
+make -C libsubid
+
+make -C src newuidmap newgidmap getsubids
+
+mkdir -p \
+    "$1/usr/bin" \
+    "$1/usr/share/man/man1" \
+    "$1/usr/share/man/man5"
+
+(
+    cd src
+
+    cp \
+        newuidmap newgidmap getsubids \
+        "$1/usr/bin/"
+
+    cd "$1/usr/bin"
+
+    chmod u+s \
+        newuidmap newgidmap
+)
+
+(
+    cd man
+
+    cp \
+        man1/getsubids.1 man1/newgidmap.1 man1/newuidmap.1 \
+        "$1/usr/share/man/man1/"
+
+    cp \
+        man5/subgid.5 man5/subuid.5 \
+        "$1/usr/share/man/man5/"
+)
