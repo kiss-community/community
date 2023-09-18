@@ -1,12 +1,17 @@
-https://commondatastorage.googleapis.com/chromium-browser-official/chromium-116.0.5845.187.tar.xz
-https://github.com/ungoogled-software/ungoogled-chromium/archive/116.0.5845.187-1.tar.gz ungoogled-chromium
-https://github.com/stha09/chromium-patches/releases/download/chromium-116-patchset-2/chromium-116-patchset-2.tar.xz
+https://commondatastorage.googleapis.com/chromium-browser-official/chromium-117.0.5938.88.tar.xz
+https://github.com/ungoogled-software/ungoogled-chromium/archive/117.0.5938.88-1.tar.gz ungoogled-chromium
 files/chromium.sh
+patches/chromium-114-maldoca-include.patch
+patches/chromium-114-ruy-include.patch
+patches/chromium-114-vk_mem_alloc-include.patch
+patches/chromium-116-compiler.patch
 patches/chromium-EnumTable-crash.patch
 patches/chromium-disable-GlobalMediaControlsCastStartStop.patch
 patches/chromium-fc-cache-version.patch
 patches/chromium-gn-no-werror.patch
+patches/chromium-ipcz-include.patch
 patches/chromium-libstdc++13.patch
+patches/chromium-material-color-include.patch
 patches/chromium-optional-atk-dbus.patch
 patches/chromium-quiche-array.patch
 patches/chromium-random-fixes.patch

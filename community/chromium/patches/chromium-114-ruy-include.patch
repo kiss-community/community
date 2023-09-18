@@ -1,0 +1,24 @@
+From b1ccdf228c3f9c1553e2f598d0ada247f333155e Mon Sep 17 00:00:00 2001
+From: Stephan Hartmann <stha09@googlemail.com>
+Date: Fri, 31 Mar 2023 14:58:38 +0000
+Subject: [PATCH] IWYU: add string for std::string in ruy
+
+---
+ third_party/ruy/src/ruy/profiler/instrumentation.h | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/third_party/ruy/src/ruy/profiler/instrumentation.h b/third_party/ruy/src/ruy/profiler/instrumentation.h
+index c4df1e6..2b15ae3 100644
+--- a/third_party/ruy/src/ruy/profiler/instrumentation.h
++++ b/third_party/ruy/src/ruy/profiler/instrumentation.h
+@@ -19,6 +19,7 @@ limitations under the License.
+ #ifdef RUY_PROFILER
+ #include <cstdio>
+ #include <mutex>
++#include <string>
+ #include <vector>
+ #endif
+ 
+-- 
+2.39.2
+

@@ -1,0 +1,24 @@
+add missing memory import in ipcz
+
+See: https://github.com/chromium/chromium/tree/117.0.5938.62/third_party/ipcz
+
+--- a/third_party/ipcz/src/ipcz/router.cc
++++ b/third_party/ipcz/src/ipcz/router.cc
+@@ -8,6 +8,7 @@
+ #include <cstddef>
+ #include <cstring>
+ #include <utility>
++#include <memory>
+ 
+ #include "ipcz/ipcz.h"
+ #include "ipcz/local_router_link.h"
+--- a/third_party/ipcz/src/ipcz/router_link.h
++++ b/third_party/ipcz/src/ipcz/router_link.h
+@@ -9,6 +9,7 @@
+ #include <functional>
+ #include <string>
+ #include <utility>
++#include <memory>
+ 
+ #include "ipcz/fragment_ref.h"
+ #include "ipcz/link_type.h"
