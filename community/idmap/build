@@ -1,5 +1,10 @@
 #!/bin/sh -e
 
+# Work around glibc-isms
+case "$(ldd --version 2>&1)" in
+    *musl*) export CFLAGS="-include stdio.h -include stddef.h -D__BEGIN_DECLS= -D__END_DECLS=" ;;
+esac
+
 ./configure \
     --prefix=/usr \
     --without-libbsd \
