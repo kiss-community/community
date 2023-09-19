@@ -1,5 +1,7 @@
 #!/bin/sh -e
 
+patch -p1 < bump-libc.patch
+
 cargo build \
     --release \
     --no-default-features \
