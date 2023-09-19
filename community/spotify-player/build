@@ -1,0 +1,8 @@
+#!/bin/sh -e
+
+cargo build \
+    --release \
+    --no-default-features \
+    --features alsa-backend,streaming,lyric-finder
+
+install -Dm755 target/release/spotify_player "$1/usr/bin/spotify-player"
