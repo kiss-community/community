@@ -1,0 +1,7 @@
+#!/bin/sh -e
+
+patch -p1 < hide-image.patch
+
+go build -ldflags "-s -w"
+
+install -Dm755 gspt "$1/usr/bin/gspt"

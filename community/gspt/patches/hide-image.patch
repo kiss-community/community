@@ -1,0 +1,13 @@
+diff --git a/config/flags.go b/config/flags.go
+index 1f5daef..5a7059f 100644
+--- a/config/flags.go
++++ b/config/flags.go
+@@ -19,7 +19,7 @@ type Flag struct {
+ func parseFlags() {
+ 	flag.StringVar(&Flags.ConfigPath, "c", UserConfigPath,
+ 		"Specify The Directory to check for config.yml file.")
+-	flag.BoolVar(&Flags.HideImage, "hide-image", Config.HideImage,
++	flag.BoolVar(&Flags.HideImage, "hide-image", true,
+ 		"Do not display the cover art image.")
+ 	flag.BoolVar(&Flags.Version, "v", false,
+ 		"Do not display the cover art image.")
