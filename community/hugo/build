@@ -1,0 +1,5 @@
+#!/bin/sh -e
+
+go build 
+
+install -Dm755 hugo "$1/usr/bin/hugo"
