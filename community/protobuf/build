@@ -1,7 +1,18 @@
 #!/bin/sh -e
 
-./configure --prefix=/usr
-make
+export DESTDIR="$1"
 
-make DESTDIR="$1" install
+# https://github.com/protocolbuffers/protobuf/issues/12016
+rmdir third_party/abseil-cpp
+ln -s ../abseil-cpp third_party/abseil-cpp
+
+cmake -B build \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -Dprotobuf_BUILD_SHARED_LIBS=ON \
+    -Dprotobuf_BUILD_TESTS=OFF
+
+cmake --build   build
+cmake --install build
+
 install -Dm 644 editors/proto.vim  -t "$1/usr/share/vim/vimfiles/syntax"

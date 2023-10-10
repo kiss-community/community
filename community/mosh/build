@@ -1,7 +1,12 @@
 #!/bin/sh -e
 
-sed '/perl -Mdiagnostics/d' scripts/Makefile.in > _
-mv _ scripts/Makefile.in
+# Protobuf requires c++17
+# Mosh hasn't made a release since they fixed this:
+# https://github.com/mobile-shell/mosh/commit/eee1a8cf413051c2a9104e8158e699028ff56b26
+patch -p1 < use_cxx17.patch
+
+sed '/perl -Mdiagnostics/d' scripts/Makefile.am > _
+mv _ scripts/Makefile.am
 
 ./configure \
     --prefix=/usr \
