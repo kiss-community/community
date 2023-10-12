@@ -1,8 +1,8 @@
 diff --git a/Makefile b/Makefile
-index 8a17d61..602df52 100644
+index 7d1819c..436d816 100644
 --- a/Makefile
 +++ b/Makefile
-@@ -32,7 +32,7 @@ DBM_INCLUDE:=$(DESTDIR)/usr/include
+@@ -33,7 +33,7 @@ DBM_INCLUDE:=$(DESTDIR)/usr/include
  
  SHARED_LIBS = y
  
@@ -28,7 +28,7 @@ index ba4c5a7..cb197af 100644
  
  clean:
 diff --git a/tc/q_netem.c b/tc/q_netem.c
-index 26402e9..f917ca8 100644
+index 8ace2b6..95f0eb3 100644
 --- a/tc/q_netem.c
 +++ b/tc/q_netem.c
 @@ -130,7 +130,7 @@ static int get_distribution(const char *type, __s16 *data, int maxdata)
@@ -41,10 +41,10 @@ index 26402e9..f917ca8 100644
  	if (f == NULL) {
  		fprintf(stderr, "No distribution data for %s (%s: %s)\n",
 diff --git a/tc/tc_util.c b/tc/tc_util.c
-index d262206..ad24171 100644
+index 8c0e19e..b54a797 100644
 --- a/tc/tc_util.c
 +++ b/tc/tc_util.c
-@@ -31,6 +31,10 @@
+@@ -26,6 +26,10 @@
  #define LIBDIR "/usr/lib"
  #endif
  
@@ -54,8 +54,8 @@ index d262206..ad24171 100644
 +
  static struct db_names *cls_names;
  
- #define NAMES_DB "/etc/iproute2/tc_cls"
-@@ -72,6 +76,17 @@ const char *get_tc_lib(void)
+ #define NAMES_DB_USR CONF_USR_DIR "/tc_cls"
+@@ -75,6 +79,17 @@ const char *get_tc_lib(void)
  	return lib_dir;
  }
  
@@ -74,7 +74,7 @@ index d262206..ad24171 100644
  {
  	unsigned long maj;
 diff --git a/tc/tc_util.h b/tc/tc_util.h
-index a3fa736..a65f8b4 100644
+index c535dcc..9faaeb3 100644
 --- a/tc/tc_util.h
 +++ b/tc/tc_util.h
 @@ -71,6 +71,7 @@ struct exec_util {

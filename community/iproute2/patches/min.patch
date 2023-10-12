@@ -1,8 +1,8 @@
 diff --git a/ip/ipstats.c b/ip/ipstats.c
-index 5cdd15a..7ccfae8 100644
+index 3f94ff1..944fe89 100644
 --- a/ip/ipstats.c
 +++ b/ip/ipstats.c
-@@ -6,6 +6,8 @@
+@@ -11,6 +11,8 @@
  #include "utils.h"
  #include "ip_common.h"
  
