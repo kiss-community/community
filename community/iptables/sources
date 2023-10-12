@@ -1,2 +1,2 @@
-https://www.netfilter.org/projects/iptables/files/iptables-1.8.9.tar.xz
+https://www.netfilter.org/projects/iptables/files/iptables-1.8.10.tar.xz
 patches/use-sh-iptables-apply.patch
