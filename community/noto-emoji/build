@@ -1,3 +1,0 @@
-#!/bin/sh -e
-
-install -Dm644 fonts/NotoColorEmoji.ttf "$1/usr/share/fonts/TTF/NotoEmoji/NotoColorEmoji.ttf"
