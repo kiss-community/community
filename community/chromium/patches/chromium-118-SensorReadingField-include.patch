@@ -1,0 +1,36 @@
+From e3cec7e4af731f27b39773671a9951ebcb97a0d1 Mon Sep 17 00:00:00 2001
+From: Ivan Murashov <ivan.murashov@lge.com>
+Date: Wed, 06 Sep 2023 19:40:47 +0000
+Subject: [PATCH] IWYU: Add includes for size_t and int64_t usage into sensor_reading.h
+
+Otherwise build fails when building with use_custom_libcxx=false.
+The errors example:
+services/device/public/cpp/generic_sensor/sensor_reading.h:17:40:
+error: use of undeclared identifier 'int64_t'
+services/device/public/cpp/generic_sensor/sensor_reading.h:35:5:
+error: unknown type name 'int64_t'
+services/device/public/cpp/generic_sensor/sensor_reading.h:58:20:
+error: unknown type name 'size_t'; did you mean 'std::size_t'?
+
+Bug: 957519
+Change-Id: Iec9bb821eb6284cf38d93c1cec90846e2f615fab
+Reviewed-on: https://chromium-review.googlesource.com/c/chromium/src/+/4838935
+Reviewed-by: Reilly Grant <reillyg@chromium.org>
+Commit-Queue: Ivan Murashov <ivan.murashov@lge.com>
+Cr-Commit-Position: refs/heads/main@{#1193203}
+---
+
+diff --git a/services/device/public/cpp/generic_sensor/sensor_reading.h b/services/device/public/cpp/generic_sensor/sensor_reading.h
+index 7df8278..c653bec 100644
+--- a/services/device/public/cpp/generic_sensor/sensor_reading.h
++++ b/services/device/public/cpp/generic_sensor/sensor_reading.h
+@@ -5,6 +5,9 @@
+ #ifndef SERVICES_DEVICE_PUBLIC_CPP_GENERIC_SENSOR_SENSOR_READING_H_
+ #define SERVICES_DEVICE_PUBLIC_CPP_GENERIC_SENSOR_SENSOR_READING_H_
+ 
++#include <stddef.h>
++#include <stdint.h>
++
+ #include <type_traits>
+ 
+ namespace device {

@@ -1,0 +1,133 @@
+From 3c2c77cff5f7965d6ef3b55a18400533f640b0e1 Mon Sep 17 00:00:00 2001
+From: Ivan Murashov <ivan.murashov@lge.com>
+Date: Fri, 08 Sep 2023 15:43:18 +0000
+Subject: [PATCH] GCC: Put attributes before function name in partition_root.h
+
+By GCC attributes are not allowed to be placed after function name
+in a function definition. This breaks compilation in GCC.
+
+The error example:
+base/allocator/partition_allocator/partition_alloc_forward.h:80:27:
+error: attributes are not allowed on a function-definition
+base/allocator/partition_allocator/partition_root.h:467:7:
+note: in expansion of macro 'PA_MALLOC_ALIGNED'
+
+Bug: 819294
+Change-Id: Ife233d6fe7c2bab0cd503dad5c284879d896936d
+Reviewed-on: https://chromium-review.googlesource.com/c/chromium/src/+/4853717
+Reviewed-by: Bartek Nowierski <bartekn@chromium.org>
+Commit-Queue: Ivan Murashov <ivan.murashov@lge.com>
+Cr-Commit-Position: refs/heads/main@{#1194132}
+
+(rebased to M118)
+---
+
+diff --git a/base/allocator/partition_allocator/partition_root.h b/base/allocator/partition_allocator/partition_root.h
+index d5c4e07..886ed71 100644
+--- a/base/allocator/partition_allocator/partition_root.h
++++ b/base/allocator/partition_allocator/partition_root.h
+@@ -462,15 +462,15 @@ struct PA_ALIGNAS(64) PA_COMPONENT_EXPORT(PARTITION_ALLOC) PartitionRoot {
+   // increasing cache footprint). Set PA_NOINLINE on the "basic" top-level
+   // functions to mitigate that for "vanilla" callers.
+   template <unsigned int flags = 0>
+-  PA_NOINLINE PA_MALLOC_FN void* Alloc(size_t requested_size,
+-                                       const char* type_name)
+-      PA_MALLOC_ALIGNED {
++  PA_NOINLINE PA_MALLOC_FN PA_MALLOC_ALIGNED void* Alloc(
++      size_t requested_size,
++      const char* type_name) {
+     return AllocInline<flags>(requested_size, type_name);
+   }
+   template <unsigned int flags = 0>
+-  PA_ALWAYS_INLINE PA_MALLOC_FN void* AllocInline(size_t requested_size,
+-                                                  const char* type_name)
+-      PA_MALLOC_ALIGNED {
++  PA_ALWAYS_INLINE PA_MALLOC_FN PA_MALLOC_ALIGNED void* AllocInline(
++      size_t requested_size,
++      const char* type_name) {
+     static_assert((flags & AllocFlags::kNoHooks) == 0);  // Internal only.
+     return AllocInternal<flags>(requested_size, internal::PartitionPageSize(),
+                                 type_name);
+@@ -482,10 +482,10 @@ struct PA_ALIGNAS(64) PA_COMPONENT_EXPORT(PARTITION_ALLOC) PartitionRoot {
+   // alignment, otherwise a sub-optimal allocation strategy is used to
+   // guarantee the higher-order alignment.
+   template <unsigned int flags>
+-  PA_ALWAYS_INLINE PA_MALLOC_FN void* AllocInternal(size_t requested_size,
+-                                                    size_t slot_span_alignment,
+-                                                    const char* type_name)
+-      PA_MALLOC_ALIGNED;
++  PA_ALWAYS_INLINE PA_MALLOC_FN PA_MALLOC_ALIGNED void* AllocInternal(
++      size_t requested_size,
++      size_t slot_span_alignment,
++      const char* type_name);
+   // Same as |Alloc()|, but bypasses the allocator hooks.
+   //
+   // This is separate from Alloc() because other callers of
+@@ -496,15 +496,15 @@ struct PA_ALIGNAS(64) PA_COMPONENT_EXPORT(PARTITION_ALLOC) PartitionRoot {
+   // for the malloc() case, the compiler correctly removes the branch, since
+   // this is marked |PA_ALWAYS_INLINE|.
+   template <unsigned int flags = 0>
+-  PA_ALWAYS_INLINE PA_MALLOC_FN void* AllocNoHooks(size_t requested_size,
+-                                                   size_t slot_span_alignment)
+-      PA_MALLOC_ALIGNED;
++  PA_ALWAYS_INLINE PA_MALLOC_FN PA_MALLOC_ALIGNED void* AllocNoHooks(
++      size_t requested_size,
++      size_t slot_span_alignment);
+   // Deprecated compatibility method.
+   // TODO(mikt): remove this once all third party usage is gone.
+-  PA_ALWAYS_INLINE PA_MALLOC_FN void* AllocWithFlags(unsigned int flags,
+-                                                     size_t requested_size,
+-                                                     const char* type_name)
+-      PA_MALLOC_ALIGNED {
++  PA_ALWAYS_INLINE PA_MALLOC_FN PA_MALLOC_ALIGNED void* AllocWithFlags(
++      unsigned int flags,
++      size_t requested_size,
++      const char* type_name) {
+     // These conditional branching should be optimized away.
+     if (flags == (AllocFlags::kReturnNull)) {
+       return AllocInline<AllocFlags::kReturnNull>(requested_size, type_name);
+@@ -520,28 +520,28 @@ struct PA_ALIGNAS(64) PA_COMPONENT_EXPORT(PARTITION_ALLOC) PartitionRoot {
+   }
+ 
+   template <unsigned int flags = 0>
+-  PA_NOINLINE void* Realloc(void* ptr,
+-                            size_t new_size,
+-                            const char* type_name) PA_MALLOC_ALIGNED {
++  PA_NOINLINE PA_MALLOC_ALIGNED void* Realloc(void* ptr,
++                                              size_t new_size,
++                                              const char* type_name) {
+     return ReallocInline<flags>(ptr, new_size, type_name);
+   }
+   template <unsigned int flags = 0>
+-  PA_ALWAYS_INLINE void* ReallocInline(void* ptr,
+-                                       size_t new_size,
+-                                       const char* type_name) PA_MALLOC_ALIGNED;
++  PA_ALWAYS_INLINE PA_MALLOC_ALIGNED void* ReallocInline(void* ptr,
++                                                         size_t new_size,
++                                                         const char* type_name);
+   // Overload that may return nullptr if reallocation isn't possible. In this
+   // case, |ptr| remains valid.
+-  PA_NOINLINE void* TryRealloc(void* ptr,
+-                               size_t new_size,
+-                               const char* type_name) PA_MALLOC_ALIGNED {
++  PA_NOINLINE PA_MALLOC_ALIGNED void* TryRealloc(void* ptr,
++                                                 size_t new_size,
++                                                 const char* type_name) {
+     return ReallocInline<AllocFlags::kReturnNull>(ptr, new_size, type_name);
+   }
+   // Deprecated compatibility method.
+   // TODO(mikt): remove this once all third party usage is gone.
+-  PA_NOINLINE void* ReallocWithFlags(unsigned int flags,
+-                                     void* ptr,
+-                                     size_t new_size,
+-                                     const char* type_name) PA_MALLOC_ALIGNED {
++  PA_NOINLINE PA_MALLOC_ALIGNED void* ReallocWithFlags(unsigned int flags,
++                                                       void* ptr,
++                                                       size_t new_size,
++                                                       const char* type_name) {
+     PA_CHECK(flags == AllocFlags::kReturnNull);
+     return ReallocInline<AllocFlags::kReturnNull>(ptr, new_size, type_name);
+   }
+-- 
+2.41.0
+

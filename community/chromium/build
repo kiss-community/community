@@ -146,7 +146,6 @@ conf="
     use_cups=false
     use_custom_libcxx=false
     use_dbus=false
-    use_gnome_keyring=false
     use_gold=false
     use_kerberos=false
     use_libpci=false

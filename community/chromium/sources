@@ -1,10 +1,15 @@
-https://commondatastorage.googleapis.com/chromium-browser-official/chromium-117.0.5938.149.tar.xz
-https://github.com/ungoogled-software/ungoogled-chromium/archive/117.0.5938.149-1.tar.gz ungoogled-chromium
+https://commondatastorage.googleapis.com/chromium-browser-official/chromium-118.0.5993.70.tar.xz
+https://github.com/ungoogled-software/ungoogled-chromium/archive/118.0.5993.70-1.tar.gz ungoogled-chromium
 files/chromium.sh
 patches/chromium-114-maldoca-include.patch
 patches/chromium-114-ruy-include.patch
 patches/chromium-114-vk_mem_alloc-include.patch
-patches/chromium-116-compiler.patch
+patches/chromium-118-LightweightDetector-include.patch
+patches/chromium-118-SensorReadingField-include.patch
+patches/chromium-118-autofill_i18n_parsing-constexpr.patch
+patches/chromium-118-compiler.patch
+patches/chromium-118-partition_root-attribute.patch
+patches/chromium-118-system-freetype.patch
 patches/chromium-EnumTable-crash.patch
 patches/chromium-disable-GlobalMediaControlsCastStartStop.patch
 patches/chromium-fc-cache-version.patch

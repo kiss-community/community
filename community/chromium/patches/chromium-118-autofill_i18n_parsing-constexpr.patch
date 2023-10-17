@@ -1,0 +1,117 @@
+From 3a05767c2bbba5ee75c9adf0a5971258405520a8 Mon Sep 17 00:00:00 2001
+From: Jose Dapena Paz <jdapena@igalia.com>
+Date: Mon, 18 Sep 2023 17:18:31 +0000
+Subject: [PATCH] GCC: workaround constexpr and raw_ptr issues in autofill
+
+First, we workaround the problem with some constexpr destructors
+declared to use default implementation, that are not properly
+resolved when used.
+
+Then, apparently GCC cannot resolve raw_ptr to a constexpr.
+
+Bug: 819294
+Change-Id: I7746e059a288a3250e8126b87bde5f96c3832199
+Reviewed-on: https://chromium-review.googlesource.com/c/chromium/src/+/4866025
+Commit-Queue: José Dapena Paz <jdapena@igalia.com>
+Reviewed-by: Dominic Battre <battre@chromium.org>
+Cr-Commit-Position: refs/heads/main@{#1197890}
+---
+
+diff --git a/components/autofill/core/browser/data_model/autofill_i18n_parsing_expression_components.h b/components/autofill/core/browser/data_model/autofill_i18n_parsing_expression_components.h
+index fcc3f16..2609de2f 100644
+--- a/components/autofill/core/browser/data_model/autofill_i18n_parsing_expression_components.h
++++ b/components/autofill/core/browser/data_model/autofill_i18n_parsing_expression_components.h
+@@ -39,7 +39,7 @@
+   AutofillParsingProcess(const AutofillParsingProcess& other) = delete;
+   AutofillParsingProcess& operator=(const AutofillParsingProcess& right) =
+       delete;
+-  virtual ~AutofillParsingProcess() = default;
++  virtual constexpr ~AutofillParsingProcess() = default;
+ 
+   // Parses `value` and returns the extracted field type matches.
+   virtual ValueParsingResults Parse(std::string_view value) const = 0;
+@@ -60,7 +60,7 @@
+         anchor_end_(anchor_end) {}
+   Decomposition(const Decomposition&) = delete;
+   Decomposition& operator=(const Decomposition&) = delete;
+-  ~Decomposition() override = default;
++  constexpr ~Decomposition() override;
+ 
+   ValueParsingResults Parse(std::string_view value) const override;
+ 
+@@ -70,6 +70,8 @@
+   const bool anchor_end_ = true;
+ };
+ 
++constexpr Decomposition::~Decomposition() = default;
++
+ // A DecompositionCascade enables us to try one Decomposition after the next
+ // until we have found a match. It can be fitted with a condition to only use it
+ // in case the condition is fulfilled. The lack of a condition is expressed by
+@@ -84,7 +86,7 @@
+       : condition_regex_(condition_regex), alternatives_(alternatives) {}
+   DecompositionCascade(const DecompositionCascade&) = delete;
+   DecompositionCascade& operator=(const DecompositionCascade&) = delete;
+-  ~DecompositionCascade() override = default;
++  constexpr ~DecompositionCascade() override;
+ 
+   ValueParsingResults Parse(std::string_view value) const override;
+ 
+@@ -93,6 +95,8 @@
+   const base::span<const AutofillParsingProcess* const> alternatives_;
+ };
+ 
++constexpr DecompositionCascade::~DecompositionCascade() = default;
++
+ // An ExtractPart parsing process attempts to match a string to a
+ // parsing expression, and then extracts the captured field type values. It can
+ // be fitted with a condition to only use it in case the condition is fulfilled.
+@@ -110,7 +114,7 @@
+ 
+   ExtractPart(const ExtractPart&) = delete;
+   ExtractPart& operator=(const ExtractPart&) = delete;
+-  ~ExtractPart() override = default;
++  constexpr ~ExtractPart() override;
+ 
+   ValueParsingResults Parse(std::string_view value) const override;
+ 
+@@ -119,6 +123,8 @@
+   const std::string_view parsing_regex_;
+ };
+ 
++constexpr ExtractPart::~ExtractPart() = default;
++
+ // Unlike for a DecompositionCascade, ExtractParts does not follow the "the
+ // first match wins" principle but applies all matching attempts in sequence so
+ // the last match wins. This also enables extracting different data (e.g. an
+@@ -134,7 +140,7 @@
+       : condition_regex_(condition_regex), pieces_(pieces) {}
+   ExtractParts(const ExtractParts&) = delete;
+   ExtractParts& operator=(const ExtractParts&) = delete;
+-  ~ExtractParts() override = default;
++  constexpr ~ExtractParts() override;
+ 
+   ValueParsingResults Parse(std::string_view value) const override;
+ 
+@@ -143,6 +149,8 @@
+   const base::span<const ExtractPart* const> pieces_;
+ };
+ 
++constexpr ExtractParts::~ExtractParts() = default;
++
+ }  // namespace autofill::i18n_model_definition
+ 
+ #endif  // COMPONENTS_AUTOFILL_CORE_BROWSER_DATA_MODEL_AUTOFILL_I18N_PARSING_EXPRESSION_COMPONENTS_H_
+diff --git a/components/autofill/core/browser/data_model/autofill_i18n_parsing_expressions.h b/components/autofill/core/browser/data_model/autofill_i18n_parsing_expressions.h
+index af0c4b0e..02b1a24 100644
+--- a/components/autofill/core/browser/data_model/autofill_i18n_parsing_expressions.h
++++ b/components/autofill/core/browser/data_model/autofill_i18n_parsing_expressions.h
+@@ -174,7 +174,7 @@
+ 
+ // A lookup map for parsing expressions for countries and field types.
+ constexpr auto kAutofillParsingRulesMap =
+-    base::MakeFixedFlatMap<CountryAndFieldType, raw_ptr<const AutofillParsingProcess>>({
++    base::MakeFixedFlatMap<CountryAndFieldType, const AutofillParsingProcess*>({
+       {{"BR", NAME_FULL}, &kDecompositionCascade_3},
+       {{"BR", ADDRESS_HOME_STREET_LOCATION}, &kDecompositionList[8]},
+       {{"BR", ADDRESS_HOME_SUBPREMISE}, &kExtractParts_0},
