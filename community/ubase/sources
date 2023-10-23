@@ -1,3 +1,2 @@
 git+git://git.suckless.org/ubase
-patches/f3aa4b156360ce4a18e4a3897f883b663771ba24.patch
-patches/fix-mount.patch
+patches/mount-fix-mount-o-move.patch

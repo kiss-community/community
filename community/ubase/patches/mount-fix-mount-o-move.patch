@@ -1,0 +1,25 @@
+From 72f4c69adb1946497b039a2596012ec361058cb2 Mon Sep 17 00:00:00 2001
+From: illiliti <illiliti@protonmail.com>
+Date: Fri, 3 Apr 2020 02:20:27 +0000
+Subject: [PATCH 2/4] mount: fix mount -o move
+
+while trying to move mount point using 'move' option, old mount point stay mounted. this patch fixes this behaviour
+---
+ mount.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/mount.c b/mount.c
+index 0d77471..d413168 100644
+--- a/mount.c
++++ b/mount.c
+@@ -34,6 +34,7 @@ struct {
+ 	{ "mand",       "nomand",       MS_MANDLOCK    },
+ 	{ "relatime",   "norelatime",   MS_RELATIME    },
+ 	{ "bind",       NULL,           MS_BIND        },
++	{ "move",       NULL,           MS_MOVE        },
+ 	{ NULL,         NULL,           0              }
+ };
+ 
+-- 
+2.42.0
+
