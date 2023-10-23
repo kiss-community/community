@@ -1,0 +1,4 @@
+#!/bin/sh -e
+
+make
+install -Dm755 out/minikube "$1/usr/bin/minikube"
