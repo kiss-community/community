@@ -1,0 +1,37 @@
+From 20afd541eb419edae709e04fc3bcf77f8b7b01b8 Mon Sep 17 00:00:00 2001
+From: hovercats <hovercatswithlasereyes@protonmail.com>
+Date: Mon, 23 Oct 2023 19:01:39 +0200
+Subject: [PATCH] dont use scripts/mkproto to install sbase-box. revert to
+ previously working install segment for sbase-box-install
+
+---
+ Makefile | 13 ++++++++++---
+ 1 file changed, 10 insertions(+), 3 deletions(-)
+
+diff --git a/Makefile b/Makefile
+index 8da0106..7e20885 100644
+--- a/Makefile
++++ b/Makefile
+@@ -223,9 +223,16 @@ install uninstall:
+ 	scripts/$@ proto
+ 
+ sbase-box-install: sbase-box
+-	scripts/mkproto $@ $(DESTDIR)$(PREFIX) $(DESTDIR)$(MANPREFIX) proto
+-	scripts/$@ proto
+-	$(DESTDIR)$(PREFIX)/bin/sbase-box -i $(DESTDIR)$(PREFIX)/bin/
++	mkdir -p $(DESTDIR)$(PREFIX)/bin
++	cp -f sbase-box $(DESTDIR)$(PREFIX)/bin
++	chmod 755 $(DESTDIR)$(PREFIX)/bin/sbase-box
++	for f in $(BIN); do ln -sf sbase-box $(DESTDIR)$(PREFIX)/bin/"$$f"; done
++	ln -sf sbase-box $(DESTDIR)$(PREFIX)/bin/[
++	mv -f $(DESTDIR)$(PREFIX)/bin/xinstall $(DESTDIR)$(PREFIX)/bin/install
++	mkdir -p $(DESTDIR)$(MANPREFIX)/man1
++	for m in $(MAN); do sed "s/^\.Os sbase/.Os sbase $(VERSION)/g" < "$$m" > $(DESTDIR)$(MANPREFIX)/man1/"$$m"; done
++	cd $(DESTDIR)$(MANPREFIX)/man1 && chmod 644 $(MAN)
++	mv -f $(DESTDIR)$(MANPREFIX)/man1/xinstall.1 $(DESTDIR)$(MANPREFIX)/man1/install.1
+ 
+ sbase-box-uninstall: sbase-box
+ 	$(DESTDIR)$(PREFIX)/bin/sbase-box -d $(DESTDIR)$(PREFIX)/bin/
+-- 
+2.42.0
+

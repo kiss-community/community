@@ -1,10 +1,8 @@
 #!/bin/sh -e
 
-# Make sbase tar accept arguments without dash
-patch -p1 < tar-dash-remove.patch
+for p in *.patch; do
+    patch -p1 < "$p"
+done
 
 make LDFLAGS="$LDFLAGS -static" sbase-box
 make DESTDIR="$1" PREFIX=/usr   sbase-box-install
-
-# Unlink sed, because '-i' is widely used
-unlink "$1/usr/bin/sed"
