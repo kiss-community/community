@@ -1,5 +1,5 @@
-https://commondatastorage.googleapis.com/chromium-browser-official/chromium-118.0.5993.88.tar.xz
-https://github.com/ungoogled-software/ungoogled-chromium/archive/118.0.5993.88-1.tar.gz ungoogled-chromium
+https://commondatastorage.googleapis.com/chromium-browser-official/chromium-118.0.5993.117.tar.xz
+https://github.com/ungoogled-software/ungoogled-chromium/archive/118.0.5993.117-1.tar.gz ungoogled-chromium
 files/chromium.sh
 patches/chromium-114-maldoca-include.patch
 patches/chromium-114-ruy-include.patch
