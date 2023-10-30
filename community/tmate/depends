@@ -1,0 +1,6 @@
+automake make
+libevent
+libssh
+libutemper
+msgpack-c
+ncurses
