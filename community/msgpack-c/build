@@ -1,0 +1,14 @@
+#!/bin/sh -e
+
+export DESTDIR="$1"
+
+cmake -B build \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DMSGPACK_BUILD_EXAMPLES=OFF \
+    -DMSGPACK_BUILD_TESTS=OFF
+
+cmake --build build
+cmake --install build
+
+ln -sf msgpack-c.pc "$1/usr/lib/pkgconfig/msgpack.pc"
