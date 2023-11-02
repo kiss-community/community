@@ -1,0 +1,11 @@
+#!/bin/sh
+
+grep ^usb: /etc/group >/dev/null 2>&1 || addgroup -S usb
+
+cat <<EOF
+NOTE: Add your user to the 'usb' group to access usb devices
+
+NOTE: The following line must be added to /etc/mdev.conf
+
+SUBSYSTEM=usb;DEVTYPE=usb_device;.* root:root 660 */usr/lib/mdev/dev-bus-usb
+EOF

@@ -1,0 +1,54 @@
+#!/bin/sh
+
+# Takes care of /dev/bus/usb devices.
+#
+# The mdev.conf gives us limited options on how to handle ownership, so a fix has come as script.
+#
+# Features:
+# - If Android device is plugged in, make it possible for users in plugdev group to open them (mtp, fastboot, adb etc)
+# - Old mdev+kernel used to keep USB devices in root of /dev, relocate them into a place where they are expected..
+
+umask 022
+
+sys_path="/sys/${DEVPATH}"
+usb_group="usb"
+
+case "${ACTION}" in
+'add')
+	[ "${BUSNUM}" ] || return 1
+	[ "${DEVNUM}" ] || return 1
+	[ "${MAJOR}" ] || return 1
+	[ "${MINOR}" ] || return 1
+	mkdir -p "/dev/bus/usb/${BUSNUM}"
+
+	# $MDEV will be exported when running `mdev -s`
+	# $DEVNAME and $DEVPATH will be when we poke uevent files with add in init script.
+
+	if [ "/dev/${MDEV}" != "/dev/bus/usb/${BUSNUM}/${DEVNUM}" ]; then
+		mv "/dev/${MDEV}" "/dev/bus/usb/${BUSNUM}/${DEVNUM}"
+	fi
+
+	if ! [ "${DEVPATH}" ]; then
+		return 1
+	fi
+
+	if [ -f "${sys_path}/product" ]; then
+		idVendor="$(cat ${sys_path}/idVendor)"
+		case "${idVendor}" in
+		# Android devices.
+		'0bb4' | '18d1' | '22b8' | '0fce' | '19d2' | '04e8' | '2717' | '05c6')
+			chgrp "${usb_group}" "/dev/bus/usb/${BUSNUM}/${DEVNUM}" 2>/dev/null && chmod 660 "/dev/bus/usb/${BUSNUM}/${DEVNUM}"
+			;;
+		esac
+	fi
+	;;
+'remove')
+	[ "${BUSNUM}" ] || return 1
+	[ "${DEVNUM}" ] || return 1
+	[ "${MAJOR}" ] || return 1
+	[ "${MINOR}" ] || return 1
+	rm "/dev/bus/usb/${BUSNUM}/${DEVNUM}"
+	rmdir "/dev/bus/usb/${BUSNUM}" 2>/dev/null
+	rmdir "/dev/bus/usb" 2>/dev/null
+	;;
+esac

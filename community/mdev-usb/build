@@ -1,0 +1,4 @@
+#!/bin/sh -e
+
+mkdir -p "$1/usr/lib/mdev"
+cp dev-bus-usb "$1/usr/lib/mdev/"
