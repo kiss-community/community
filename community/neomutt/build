@@ -1,5 +1,9 @@
 #!/bin/sh -e
 
+# This is a somewhat minimal build of neomutt. If you want more features
+# like header cache and PGP support, you can view my personal package for
+# an example: http://git.bvnf.space/kiss-repo/file/neomutt/build.html
+
 # enable building with netbsd-curses
 sed -i 's/tinfow tinfo/tinfow tinfo terminfo/g;/Unable to find xsltproc/d;
     s@xmlcatalog@/bin/true@' \
