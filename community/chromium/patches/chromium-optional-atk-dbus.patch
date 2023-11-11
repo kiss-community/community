@@ -215,7 +215,7 @@ index 1637134..059e94a 100644
    android_library("java") {
      # Conceptually, this should be visible only to //services/device:java.
 diff --git a/ui/shell_dialogs/BUILD.gn b/ui/shell_dialogs/BUILD.gn
-index 3c75b8f..fbc55db 100644
+index 6655ef1..10da0d3 100644
 --- a/ui/shell_dialogs/BUILD.gn
 +++ b/ui/shell_dialogs/BUILD.gn
 @@ -55,7 +55,6 @@ component("shell_dialogs") {
@@ -226,15 +226,11 @@ index 3c75b8f..fbc55db 100644
        "//ui/linux:linux_ui",
      ]
      if (use_dbus) {
-@@ -64,7 +63,10 @@ component("shell_dialogs") {
-         "select_file_dialog_linux_portal.cc",
+@@ -65,6 +64,7 @@ component("shell_dialogs") {
          "select_file_dialog_linux_portal.h",
        ]
--      deps += [ "//dbus" ]
-+      deps += [
+       deps += [
 +        "//components/dbus/thread_linux",
-+        "//dbus",
-+      ]
-     }
-   }
- 
+         "//dbus",
+         "//ui/views",
+       ]
