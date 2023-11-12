@@ -1,18 +1,18 @@
 diff --git a/subprojects/wireplumber/src/config/bluetooth.lua.d/50-bluez-config.lua b/subprojects/wireplumber/src/config/bluetooth.lua.d/50-bluez-config.lua
-index d5727d3..a983b3a 100644
+index 5549c95..64a854a 100644
 --- a/subprojects/wireplumber/src/config/bluetooth.lua.d/50-bluez-config.lua
 +++ b/subprojects/wireplumber/src/config/bluetooth.lua.d/50-bluez-config.lua
-@@ -43,7 +43,7 @@ bluez_monitor.properties = {
+@@ -57,7 +57,7 @@ bluez_monitor.properties = {
    -- pipewire and wireplumber).
    -- This requires access to the D-Bus user session; disable if you are running
    -- a system-wide instance of wireplumber.
 -  ["with-logind"] = true,
 +  ["with-logind"] = false,
- }
  
- bluez_monitor.rules = {
+   -- The settings below can be used to override feature enabled status. By default
+   -- all of them are enabled. They may also be disabled via the hardware quirk
 diff --git a/subprojects/wireplumber/src/config/main.lua.d/50-alsa-config.lua b/subprojects/wireplumber/src/config/main.lua.d/50-alsa-config.lua
-index 059191c..a345b2f 100644
+index e47ca36..4b3ac28 100644
 --- a/subprojects/wireplumber/src/config/main.lua.d/50-alsa-config.lua
 +++ b/subprojects/wireplumber/src/config/main.lua.d/50-alsa-config.lua
 @@ -10,7 +10,7 @@ alsa_monitor.properties = {
