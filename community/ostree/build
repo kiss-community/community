@@ -6,8 +6,6 @@ cat >> src/libotutil/otutil.h <<EOF
 #endif
 EOF
 
-patch -p1 < include.patch
-
 ./configure \
     --prefix=/usr \
     --libexecdir=/usr/lib \
