@@ -1,5 +1,4 @@
 #!/bin/sh -e
 
-mkdir -p         "$1/usr/bin/" "$1/usr/share/man/man1/"
-cp offpunk.py    "$1/usr/bin/offpunk"
-cp man/offpunk.1 "$1/usr/share/man/man1/"
+python -m pip install . \
+    --root="$1"
