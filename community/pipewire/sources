@@ -1,5 +1,5 @@
-https://gitlab.freedesktop.org/pipewire/pipewire/-/archive/0.3.85/pipewire-0.3.85.tar.gz
-https://gitlab.freedesktop.org/pipewire/wireplumber/-/archive/0.4.15/wireplumber-0.4.15.tar.gz subprojects/wireplumber
+https://gitlab.freedesktop.org/pipewire/pipewire/-/archive/1.0.0/pipewire-1.0.0.tar.gz
+https://gitlab.freedesktop.org/pipewire/wireplumber/-/archive/0.4.16/wireplumber-0.4.16.tar.gz subprojects/wireplumber
 patches/autostart-session-manager.patch
 patches/libudev-zero.patch
 patches/no-dbus.patch
