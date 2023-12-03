@@ -1,5 +1,5 @@
-https://commondatastorage.googleapis.com/chromium-browser-official/chromium-119.0.6045.159.tar.xz
-https://github.com/ungoogled-software/ungoogled-chromium/archive/119.0.6045.159-1.tar.gz ungoogled-chromium
+https://commondatastorage.googleapis.com/chromium-browser-official/chromium-119.0.6045.199.tar.xz
+https://github.com/ungoogled-software/ungoogled-chromium/archive/119.0.6045.199-1.tar.gz ungoogled-chromium
 files/chromium.sh
 patches/chromium-114-ruy-include.patch
 patches/chromium-114-vk_mem_alloc-include.patch
