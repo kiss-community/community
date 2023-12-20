@@ -1,0 +1,10 @@
+#!/bin/sh -e
+
+mkdir -p "$1/opt/tinygo" "$1/usr/bin"
+mv ./* "$1/opt/tinygo"
+
+:>nostrip
+
+for bin in tinygo wasm-opt; do
+    ln -sf "../../opt/tinygo/bin/$bin" "$1/usr/bin/$bin"
+done
