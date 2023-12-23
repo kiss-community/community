@@ -5,7 +5,7 @@ export DESTDIR="$1"
 cmake -B build \
     -DCMAKE_INSTALL_PREFIX=/usr \
     -DCMAKE_BUILD_TYPE=Release \
-    -DCMAKE_CXX_FLAGS="$CXXFLAGS" \
+    -DCMAKE_CXX_FLAGS="$CXXFLAGS -D_LARGEFILE64_SOURCE" \
     -DCMAKE_C_FLAGS="$CFLAGS"
 
 cmake --build build
