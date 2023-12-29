@@ -12,3 +12,4 @@ libseccomp
 libxml2
 ostree
 python make
+python-packaging make
