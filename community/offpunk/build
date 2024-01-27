@@ -1,4 +1,0 @@
-#!/bin/sh -e
-
-python -m pip install . \
-    --root="$1"
