@@ -7,6 +7,10 @@ mv -f _ icu4c/source/configure
 sed 's/clang++ g++ c++/c++ clang++ g++/g' icu4c/source/configure > _
 mv -f _ icu4c/source/configure
 
+# license installation seems to give us a symolic link loop, which breaks the install
+sed '/LICENSE/d' icu4c/source/Makefile.in > _
+mv -f _ icu4c/source/Makefile.in
+
 sh icu4c/source/configure \
     --prefix=/usr \
     --sbindir=/usr/bin
