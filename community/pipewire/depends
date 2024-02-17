@@ -7,3 +7,4 @@ lua make
 meson make
 ncurses
 pkgconf make
+python-packaging make
