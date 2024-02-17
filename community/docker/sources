@@ -1,4 +1,4 @@
-https://github.com/docker/cli/archive/v24.0.7.tar.gz cli
-https://github.com/moby/moby/archive/refs/tags/v24.0.7.tar.gz moby
+https://github.com/docker/cli/archive/v25.0.3.tar.gz cli
+https://github.com/moby/moby/archive/refs/tags/v25.0.3.tar.gz moby
 https://github.com/krallin/tini/archive/de40ad007797e0dcd8b7126f27bb87401d224240.tar.gz tini
 files/run
