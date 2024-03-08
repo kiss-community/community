@@ -17,6 +17,8 @@ export CGO_CFLAGS="$CFLAGS"
 export CGO_CXXFLAGS="$CXXFLAGS"
 export CGO_LDFLAGS="$LDFLAGS"
 
+patch -p1 < tini-basename.patch
+
 (
     out "Building cli"
 

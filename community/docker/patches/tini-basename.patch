@@ -1,0 +1,13 @@
+diff --git a/tini/src/tini.c b/tini/src/tini.c
+index eb62015..3b76aea 100644
+--- a/tini/src/tini.c
++++ b/tini/src/tini.c
+@@ -14,6 +14,7 @@
+ #include <stdlib.h>
+ #include <unistd.h>
+ #include <stdbool.h>
++#include <libgen.h>
+ 
+ #include "tiniConfig.h"
+ #include "tiniLicense.h"
+
