@@ -1,0 +1,10 @@
+#!/bin/sh -e
+
+patch -p1 < binutils-2.41.patch
+
+./bootstrap
+./configure \
+    --prefix=/usr
+
+make
+make DESTDIR="$1" install
