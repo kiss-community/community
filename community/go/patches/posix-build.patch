@@ -1,10 +1,10 @@
 diff --git a/src/make.bash b/src/make.bash
-index 755b3b0..d297689 100755
+index 76ad516..cf8c151 100755
 --- a/src/make.bash
 +++ b/src/make.bash
 @@ -1,4 +1,4 @@
 -#!/usr/bin/env bash
-+#!/usr/bin/sh
++#!/usr/bin/env sh
  # Copyright 2009 The Go Authors. All rights reserved.
  # Use of this source code is governed by a BSD-style
  # license that can be found in the LICENSE file.
@@ -14,6 +14,7 @@ index 755b3b0..d297689 100755
  export GOROOT="$(cd .. && pwd)"
 -IFS=$'\n'; for go_exe in $(type -ap go); do
 +for go_exe in $(command -v go); do
- 	if [ ! -x "$GOROOT_BOOTSTRAP/bin/go" ]; then
+ 	if [[ ! -x "$GOROOT_BOOTSTRAP/bin/go" ]]; then
  		goroot=$(GOROOT= nogoenv "$go_exe" env GOROOT)
- 		if [ "$goroot" != "$GOROOT" ]; then
+ 		if [[ "$goroot" != "$GOROOT" ]]; then
+

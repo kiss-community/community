@@ -4,20 +4,15 @@
 # This breaks Go.
 :> nostrip
 
-for p in *.patch; do
-    patch -p1 < "$p"
-done
+patch -p1 < posix-build.patch
 
 export CC="${CC:-cc}"
 export GOARCH=amd64
 export GO_LDFLAGS="-w -s"
 
-(
-    # Subshell is used to not corrupt parent's environment.
-    # shellcheck disable=2030
-    export GOROOT="$PWD/go1.4-bootstrap" GOROOT_FINAL="$PWD/lib/go-bootstrap"
-
-    mkdir -p "$GOROOT_FINAL"
+mk() (
+    export GOROOT="$1"
+    export GOROOT_FINAL="$2"
 
     cd "$GOROOT"
 
@@ -26,21 +21,14 @@ export GO_LDFLAGS="-w -s"
         ./make.bash
     )
 
+    mkdir -p "$GOROOT_FINAL"
     cp -pPR bin pkg src "$GOROOT_FINAL"
 )
 
-export GOROOT_BOOTSTRAP="$PWD/lib/go-bootstrap"
+mk "$PWD/go1.4-bootstrap" "$PWD/lib/go1.4-bootstrap"
 
-# No variable change is lost since it's intentionally separate environment.
-# shellcheck disable=2031
-export GOROOT="$PWD/go-current" GOROOT_FINAL="/usr/lib/go$2"
+GOROOT_BOOTSTRAP="$PWD/lib/go1.4-bootstrap" \
+    mk "$PWD/go1.17.13" "$PWD/lib/go1.17.13"
 
-(
-    cd "$GOROOT/src"
-    ./make.bash --no-clean -v
-)
-
-cd "$GOROOT"
-
-mkdir -p "$1/$GOROOT_FINAL"
-cp -pPR pkg src bin "$1/$GOROOT_FINAL"
+GOROOT_BOOTSTRAP="$PWD/lib/go1.17.13" \
+    mk "$PWD/go$2" "$1/usr/lib/go$2"

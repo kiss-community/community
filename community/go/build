@@ -4,15 +4,13 @@
 # This breaks Go.
 :> nostrip
 
-for p in *.patch; do
-    patch -p1 < "$p"
-done
+patch -p1 < posix-build.patch
 
 export CC="${CC:-cc}"
 export GOARCH=amd64
 export GO_LDFLAGS="-w -s"
 
-export GOROOT_BOOTSTRAP="/usr/lib/go1.17.13"
+export GOROOT_BOOTSTRAP="/usr/lib/go1.20.6"
 export GOROOT="$PWD"
 export GOROOT_FINAL="/usr/lib/go"
 
