@@ -10,6 +10,7 @@ for p in *.patch; do
 done
 
 make \
+    DESTDIR="$1" \
     prefix=/usr \
     shared=yes \
     build=release \

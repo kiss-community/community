@@ -34,7 +34,7 @@ export CFLAGS="$CFLAGS -DNO_POSIX_2008_LOCALE -D_GNU_SOURCE"
     -Dd_static_inline
 
 make
-make install
+make DESTDIR="$1" install
 
 # Remove all unneeded files.
 find "$1" -name \*.pod       -exec rm -f {} +

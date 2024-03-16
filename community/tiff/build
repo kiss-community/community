@@ -8,7 +8,7 @@
     --without-x
 
 make
-make install
+make DESTDIR="$1" install
 
 # Remove HTML documentation.
 rm -rf "$1/usr/share/doc"
