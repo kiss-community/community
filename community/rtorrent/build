@@ -1,0 +1,11 @@
+#!/bin/sh -e
+
+./configure \
+    --prefix=/usr \
+    --sysconfdir=/etc \
+    --localstatedir=/var \
+    --enable-ipv6 \
+    --disable-debug
+
+make
+make DESTDIR="$1" PREFIX=/usr install
