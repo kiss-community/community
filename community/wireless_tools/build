@@ -1,0 +1,9 @@
+#!/bin/sh -e
+
+make
+make \
+    INSTALL_DIR="$1/usr/bin" \
+    INSTALL_LIB="$1/usr/lib" \
+    INSTALL_INC="$1/usr/include" \
+    INSTALL_MAN="$1/usr/share/man" \
+    install
