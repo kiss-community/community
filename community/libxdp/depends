@@ -1,0 +1,6 @@
+clang
+libbpf
+libelf
+libpcap
+linux-headers
+llvm
