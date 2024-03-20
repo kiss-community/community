@@ -1,0 +1,4 @@
+#!/bin/sh -e
+
+make -C src
+make -C src DESTDIR="$1" LIBSUBDIR=lib install install_headers
