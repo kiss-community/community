@@ -1,9 +1,7 @@
 #!/bin/sh -e
 
-cd libtorrent
-
 ./configure \
     --prefix=/usr 
 
 make
-make DESTDIR="$1" install
+make DESTDIR="$1" PREFIX=/usr install
