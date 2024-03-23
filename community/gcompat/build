@@ -1,0 +1,12 @@
+#!/bin/sh -e
+
+make \
+	LINKER_PATH="/lib/ld-musl-x86_64.so.1" \
+	LOADER_NAME="ld-linux-x86-64.so.2" \
+
+make \
+	LINKER_PATH="/lib/ld-musl-x86_64.so.1" \
+	LOADER_NAME="ld-linux-x86-64.so.2" \
+	DESTDIR="$1" \
+	PREFIX=/usr \
+	install
