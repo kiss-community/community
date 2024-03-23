@@ -1,2 +1,2 @@
 https://pwmt.org/projects/zathura-pdf-mupdf/download/zathura-pdf-mupdf-0.4.1.tar.xz
-patches/meson.patch
+patches/fix-meson.build.patch

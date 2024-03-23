@@ -2,7 +2,7 @@
 
 export DESTDIR="$1"
 
-patch -p1 < meson.patch
+patch -p1 < fix-meson.build.patch
 
 meson setup \
     -Dprefix=/usr \
