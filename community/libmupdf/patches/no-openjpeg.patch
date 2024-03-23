@@ -40,3 +40,20 @@ index ac54f6f..af430d6 100644
  # --- FREEGLUT ---
  
  GLUT_CFLAGS += -Ithirdparty/freeglut/include
+diff --git a/source/fitz/encode-jpx.c b/source/fitz/encode-jpx.c
+index 40cca5a..e38604f 100644
+--- a/source/fitz/encode-jpx.c
++++ b/source/fitz/encode-jpx.c
+@@ -22,10 +22,10 @@
+ 
+ #include "mupdf/fitz.h"
+ 
+-#include <openjpeg.h>
+-
+ #if FZ_ENABLE_JPX
+ 
++#include <openjpeg.h>
++
+ static opj_image_t *
+ image_from_pixmap(fz_context *ctx, fz_pixmap *pix)
+ {

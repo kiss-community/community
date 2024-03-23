@@ -1,4 +1,5 @@
-https://www.mupdf.com/downloads/archive/mupdf-1.23.11-source.tar.gz
+https://www.mupdf.com/downloads/archive/mupdf-1.24.0-source.tar.gz
+files/mupdf.pc.in
 patches/no-gumbo.patch
 patches/no-openjpeg.patch
 patches/objcopy.patch

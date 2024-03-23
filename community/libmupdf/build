@@ -20,4 +20,8 @@ make \
     HAVE_GLUT=no \
     install
 
-ln -s libmupdf.so "$1/usr/lib/libmupdf.so.0"
+mkdir -p "$1/usr/lib/pkgconfig"
+sed "s/@@VERSION@@/$2/" mupdf.pc.in > "$1/usr/lib/pkgconfig/mupdf.pc"
+
+cd "$1/usr/lib"
+find . -name '*.so*' -exec ln -sf {} libmupdf.so \;
