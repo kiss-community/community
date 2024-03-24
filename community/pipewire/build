@@ -11,9 +11,8 @@ meson \
     --libexecdir=/usr/lib \
     -Ddbus=disabled \
     -Dsndfile=enabled \
-    -Dpipewire-jack=enabled \
-    -Djack-devel=true \
-    -Dlibjack-path=/usr/lib \
+    -Djack=disabled \
+    -Dpipewire-jack=disabled \
     -Dtests=disabled \
     -Dudev=enabled \
     -Dudevrulesdir=/usr/lib/udev/rules.d \
