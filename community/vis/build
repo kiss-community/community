@@ -1,5 +1,7 @@
 #!/bin/sh -e
 
+patch -p1 < wl-clipboard.patch
+
 ./configure \
     --prefix=/usr \
     --enable-lua \

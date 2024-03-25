@@ -1,1 +1,2 @@
-git+https://github.com/martanne/vis
+https://github.com/martanne/vis/archive/faa4089aea22ed390326f8d07b129ede04995087.tar.gz
+patches/wl-clipboard.patch
