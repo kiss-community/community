@@ -1,4 +1,5 @@
 libxkbcommon
+ncurses
 pango
 wayland
 wayland-protocols make
