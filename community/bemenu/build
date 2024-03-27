@@ -1,4 +1,4 @@
 #!/bin/sh -e
 
-make PREFIX=/usr clients wayland
+make PREFIX=/usr clients wayland curses
 make DESTDIR="$1" PREFIX=/usr install
