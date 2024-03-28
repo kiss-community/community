@@ -1,0 +1,22 @@
+diff --git a/configure b/configure
+index 857ce4e..a53b55f 100755
+--- a/configure
++++ b/configure
+@@ -158,15 +158,8 @@ set -u
+ # Enable tracing, will end up in config.log.
+ set -x
+ 
+-if (LDFLAGS=-lcurses check_curses); then
+-	HAVE_CURSES=1
+-	LDFLAGS="${LDFLAGS} -lcurses"
+-elif (LDFLAGS=-lncursesw check_curses); then
+-	HAVE_NCURSESW=1
+-	LDFLAGS="${LDFLAGS} -lncursesw"
+-else
+-	fatal "curses library not found"
+-fi
++LDFLAGS="${LDFLAGS} $(pkg-config --libs ncurses)"
++HAVE_CURSES=1
+ 
+ check_dead __dead && HAVE_DEAD=1
+ check_dead __dead2 && HAVE_DEAD2=1
