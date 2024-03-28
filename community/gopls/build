@@ -1,0 +1,6 @@
+#!/bin/sh -e
+
+cd gopls
+
+mkdir -p "$1/usr/bin/"
+go build -v -o "$1/usr/bin/gopls"
