@@ -7,7 +7,7 @@ cargo-fmt cargo-clippy clippy-driver cargo-miri
 
 mkdir -p "$1/usr/bin"
 
-cp rustup-init "$1/usr/bin/rustup"
+cp "rustup-$2/rustup-init" "$1/usr/bin/rustup"
 chmod +x "$1/usr/bin/rustup"
 
 for bin in $bins; do
