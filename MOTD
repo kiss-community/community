@@ -1,3 +1,0 @@
-NOTE: libinih have been renamed to inih. If you have this package installed
-      please fix your packages and run:
-      KISS_FORCE=1 kiss r libinih; kiss b inih
