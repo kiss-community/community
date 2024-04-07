@@ -1,0 +1,12 @@
+#!/bin/sh -e
+
+mod_dir="/usr/lib/node_modules/typescript-language-server"
+mkdir -p "$1/usr/bin/" "$1/$mod_dir"
+
+yarn --frozen-lockfile
+yarn build
+
+chmod +x lib/cli.mjs
+
+cp -R lib package.json "$1/$mod_dir"
+ln -s "$mod_dir/lib/cli.mjs" "$1/usr/bin/typescript-language-server"
