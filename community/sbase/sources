@@ -1,3 +1,2 @@
 git+git://git.suckless.org/sbase
 patches/tar-dash-remove.patch
-patches/fix-sbase-box-install.patch
