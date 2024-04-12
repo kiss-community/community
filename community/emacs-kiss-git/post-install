@@ -1,0 +1,37 @@
+#!/bin/sh -e
+
+cat << EOF
+
+Included with this package is a CLI wrapper 'elkiss', which you
+can use like you would the standard kiss command.
+
+kiss.el is an alternative package manager for kiss linux.
+
+NOTE: kiss.el is *not* bug-for-bug compatible with kiss!
+
+kiss.el supports a much richer configuration compared to kiss,
+you can read about the configruations options available in:
+
+> /usr/share/doc/elkiss/README.org
+
+-or-
+
+> https://github.com/echawk/kiss.el/blob/master/README.org 
+
+
+If you would like to use the library portion of kiss.el, you can
+simply write the following in your "init.el":
+
+---
+
+(require 'kiss)
+
+-or-
+
+(use-package kiss :ensure nil)
+
+---
+
+Please report any issues/bugs to: https://github.com/echawk/kiss.el
+
+EOF

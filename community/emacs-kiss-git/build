@@ -1,0 +1,19 @@
+#!/bin/sh -e
+
+mkdir -p "$1/usr/share/emacs/site-lisp/kiss/"
+
+emacs -batch -q -no-site-file -L . \
+    -f batch-byte-compile \
+    ./kiss.el
+
+cp kiss.el kiss.elc "$1/usr/share/emacs/site-lisp/kiss/"
+
+mkdir -p "$1/usr/bin/"
+cp elkiss "$1/usr/bin/"
+
+mkdir -p "$1/usr/share/doc/elkiss/"
+cp README.org "$1/usr/share/doc/elkiss/"
+
+cd "$1/usr/share/emacs/site-lisp/kiss/"
+emacs -batch -q -no-site-file \
+    -eval "(loaddefs-generate \".\" \"kiss-loaddefs.el\")"
