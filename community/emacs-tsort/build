@@ -1,0 +1,11 @@
+#!/bin/sh -e
+
+mkdir -p "$1/usr/share/emacs/site-lisp/tsort/"
+emacs -batch -q -no-site-file -L . \
+    -f batch-byte-compile \
+    ./*.el
+
+cp ./*.el ./*.elc "$1/usr/share/emacs/site-lisp/tsort/"
+cd "$1/usr/share/emacs/site-lisp/tsort/"
+emacs -batch -q -no-site-file \
+    -eval "(loaddefs-generate \".\" \"tsort-loaddefs.el\")"
