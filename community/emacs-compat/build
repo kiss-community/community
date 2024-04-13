@@ -1,0 +1,13 @@
+#!/bin/sh -e
+
+mkdir -p "$1/usr/share/emacs/site-lisp/compat/"
+
+emacs -batch -q -no-site-file -L . \
+    -eval '(setq compat-strict t byte-ocmpile-error-on-warn t)' \
+    -f batch-byte-compile \
+    ./*.el
+
+cp ./*.el ./*.elc  "$1/usr/share/emacs/site-lisp/compat/"
+cd "$1/usr/share/emacs/site-lisp/compat/"
+emacs -batch -q -no-site-file \
+    -eval "(loaddefs-generate \".\" \"compat-loaddefs.el\")"
