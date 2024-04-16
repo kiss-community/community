@@ -1,0 +1,6 @@
+#!/bin/sh
+exec 2>&1
+
+nsd-control-setup -d /etc/nsd/
+nsd-checkconf /etc/nsd/nsd.conf
+exec chpst -Unsd nsd -d -c /etc/nsd/nsd.conf

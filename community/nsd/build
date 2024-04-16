@@ -1,0 +1,29 @@
+#!/bin/sh -e
+
+export LDFLAGS="$LDFLAGS -static" 
+
+./configure \
+    --prefix=/usr \
+    --sbindir=/usr/bin \
+    --sysconfdir=/etc \
+    --mandir=/usr/share/man \
+    --localstatedir=/var \
+    --with-user=nsd \
+    --with-xfrdir=/etc/nsd \
+    --with-chroot=/etc/nsd \
+    --with-pidfile="" \
+    --with-ssl \
+    --with-libevent=yes \
+    --enable-recvmmsg \
+    --enable-pie \
+    --enable-relro-now \
+    --enable-ratelimit \
+    --disable-dnstap
+
+make
+make DESTDIR="$1" install
+
+# Install runit services.
+mkdir -p "$1/etc/sv/nsd"
+cp -f nsd.run "$1/etc/sv/nsd/run"
+ln -sf /run/runit/supervise.nsd "$1/etc/sv/nsd/supervise"
