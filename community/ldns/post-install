@@ -1,0 +1,9 @@
+#!/bin/sh -e
+
+cat <<EOF
+
+NOTE:
+
+DNSSEC queries require DNS Root Trust Anchor from IANA at /etc/root.key
+
+EOF

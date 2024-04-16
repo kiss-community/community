@@ -1,0 +1,11 @@
+#!/bin/sh -e
+
+./configure \
+    --prefix=/usr \
+    --sysconfdir=/etc \
+    --localstatedir=/var \
+    --with-drill \
+    --with-trust-anchor=/etc/root.key 
+
+make
+make DESTDIR="$1" install
