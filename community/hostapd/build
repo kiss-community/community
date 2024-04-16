@@ -1,0 +1,41 @@
+#!/bin/sh -e
+
+cd hostapd
+
+sed -i -e "s:/etc/hostapd:/etc/hostapd/hostapd:g" hostapd.conf
+
+sed \
+    -e '$ a CONFIG_SAE=y' \
+    -e '/^#CONFIG_DRIVER_NL80211=y/s/^#//' \
+    -e '/^#CONFIG_DRIVER_WIRED=y/s/^#//' \
+    -e '/^#CONFIG_DRIVER_NONE=y/s/^#//' \
+    -e '/^#CONFIG_IEEE80211N=y/s/^#//' \
+    -e '/^#CONFIG_IEEE80211R=y/s/^#//' \
+    -e '/^#CONFIG_IEEE80211AC=y/s/^#//' \
+    -e '/^#CONFIG_IEEE80211AX=y/s/^#//' \
+    -e '/^#CONFIG_LIBNL32=y/s/^#//' \
+    -e '/^#CONFIG_ACS=y/s/^#//' \
+    -e '/^#CONFIG_OCV=y/s/^#//' \
+    -e '/^#CONFIG_OWE=y/s/^#//' \
+    < defconfig > .config
+
+make LIBDIR=/usr/lib BINDIR=/usr/bin
+make \
+    DESTDIR="$1" \
+    LIBDIR=/usr/lib \
+    BINDIR=/usr/bin \
+    install
+
+mkdir -p \
+    "$1/etc/hostapd" \
+    "$1/usr/share/man/man1" \
+    "$1/usr/share/man/man8"
+
+cp -f hostapd_cli.1 "$1/usr/share/man/man1"
+cp -f hostapd.8 "$1/usr/share/man/man8"
+
+
+# Install runit service.
+mkdir -p "$1/etc/sv/hostapd"
+cp -f hostapd.run "$1/etc/sv/hostapd/run"
+ln -sf /run/runit/supervise.hostapd "$1/etc/sv/hostapd/supervise"
