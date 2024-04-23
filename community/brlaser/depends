@@ -1,0 +1,4 @@
+cmake make
+cups
+cups-filters
+ghostscript
