@@ -1,0 +1,12 @@
+#!/bin/sh -e
+
+./configure \
+    --prefix=/usr \
+    --sysconfdir=/etc \
+    --localstatedir=/var \
+    --disable-maintainer-mode \
+    --disable-docs \
+    --with-openssl
+
+make
+make DESTDIR="$1" install
