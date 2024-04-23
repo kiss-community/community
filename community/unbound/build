@@ -1,0 +1,26 @@
+#!/bin/sh -e
+
+./configure \
+    --prefix=/usr \
+    --bindir=/usr/bin \
+    --sbindir=/usr/bin \
+    --sysconfdir=/etc \
+    --mandir=/usr/share/man \
+    --with-pidfile=/run/unbound.pid \
+    --with-conf-file=/etc/unbound/unbound.conf \
+    --with-rootkey-file=/etc/unbound/root.key \
+    --with-username=unbound \
+    --with-libevent \
+    --with-pthreads \
+    --disable-shared \
+    --enable-pie \
+    --enable-relro-now \
+    --enable-fully-static 
+
+make
+make DESTDIR="$1" install
+
+# Install the runit service
+mkdir -p "$1/etc/sv/unbound"
+cp -f unbound.run "$1/etc/sv/unbound/run"
+ln -sf /run/runit/supervise.unbound "$1/etc/sv/unbound/supervise"

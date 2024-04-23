@@ -1,0 +1,8 @@
+#!/bin/sh
+exec 2>&1
+
+unbound-control-setup -d /etc/unbound
+unbound-anchor -S -a /etc/unbound/root.key
+chown unbound:unbound /etc/unbound/root.key
+unbound-checkconf
+exec chpst -Uunbound unbound -dp
