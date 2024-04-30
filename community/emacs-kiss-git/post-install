@@ -12,7 +12,7 @@ NOTE: kiss.el is *not* bug-for-bug compatible with kiss!
 kiss.el supports a much richer configuration compared to kiss,
 you can read about the configruations options available in:
 
-> /usr/share/doc/elkiss/README.org
+> /usr/share/doc/kiss.el/README.org
 
 -or-
 

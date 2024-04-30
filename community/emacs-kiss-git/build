@@ -11,8 +11,8 @@ cp kiss.el kiss.elc "$1/usr/share/emacs/site-lisp/kiss/"
 mkdir -p "$1/usr/bin/"
 cp elkiss "$1/usr/bin/"
 
-mkdir -p "$1/usr/share/doc/elkiss/"
-cp README.org "$1/usr/share/doc/elkiss/"
+mkdir -p "$1/usr/share/doc/kiss.el/"
+cp README.org "$1/usr/share/doc/kiss.el/"
 
 cd "$1/usr/share/emacs/site-lisp/kiss/"
 emacs -batch -q -no-site-file \
