@@ -1,6 +1,7 @@
 appstream
 bubblewrap
 curl
+fuse
 gdk-pixbuf
 glib
 gpgme
