@@ -1,10 +1,13 @@
 #!/bin/sh -e
 
-./configure \
-    --prefix=/usr \
-    --localstatedir=/var \
-    --with-priv-mode=none \
-    --disable-man
+export DESTDIR="$1"
 
-make
-make DESTDIR="$1" install
+meson setup \
+    -Dprefix=/usr \
+    -Dlocalstatedir=/var \
+    -Dbash_completion=disabled \
+    -Dtests=false \
+    build
+
+ninja -C build
+ninja -C build install
