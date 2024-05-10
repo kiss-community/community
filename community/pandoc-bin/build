@@ -1,3 +1,4 @@
 #!/bin/sh -e
 
-install -Dm755 bin/pandoc "$1/usr/bin/pandoc"
+mkdir -p "$1/usr/bin"
+cp bin/pandoc "$1/usr/bin"
