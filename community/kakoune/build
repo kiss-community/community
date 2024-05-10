@@ -1,6 +1,5 @@
 #!/bin/sh -e
 
-cd src/
 make \
     DESTDIR="$1" \
     PREFIX=/usr \
