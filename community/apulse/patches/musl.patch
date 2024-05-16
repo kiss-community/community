@@ -1,0 +1,22 @@
+From d0c4ba7e561953a54b91ead87a3ff6c9c90efcee Mon Sep 17 00:00:00 2001
+From: Alexey Sokolov <sokolov@google.com>
+Date: Thu, 4 Apr 2024 00:08:22 +0100
+Subject: [PATCH] Fix build with musl 1.2.5
+
+---
+ src/apulse-misc.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/src/apulse-misc.c b/src/apulse-misc.c
+index cc36000..5312c58 100644
+--- a/src/apulse-misc.c
++++ b/src/apulse-misc.c
+@@ -22,6 +22,8 @@
+  * SOFTWARE.
+  */
+ 
++#include <libgen.h>
++
+ #include "apulse.h"
+ #include "trace.h"
+ #include "util.h"
