@@ -1,0 +1,15 @@
+#!/bin/sh -e
+
+./configure \
+    --prefix=/usr \
+    --with-bash-completion-dir=no \
+    --with-fish-completion-dir=no \
+    --with-zsh-completion-dir=no
+
+make
+make DESTDIR="$1" install
+
+ln -s ugrep "$1/usr/bin/grep"
+ln -s ugrep "$1/usr/bin/fgrep"
+ln -s ugrep "$1/usr/bin/egrep"
+ln -s ugrep "$1/usr/bin/pgrep"
