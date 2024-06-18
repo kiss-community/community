@@ -1,4 +1,8 @@
-bash    make
+cairo
+freetype-harfbuzz
+gdk-pixbuf
+glib
 gtk+3
 libwebp
+pango
 pkgconf make

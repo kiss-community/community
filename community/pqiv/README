@@ -1,0 +1,44 @@
+pqiv
+________________________________________________________________________________
+
+pqiv is a powerful GTK 3 based command-line image viewer with a minimal UI.
+It is highly customizable, can be fully controlled from scripts, and has
+support for various file formats including PDF, Postscript, video files
+and archives. It is optimized to be quick and responsive.
+
+Upstream: https://github.com/phillipberndt/pqiv
+
+[000] Index
+________________________________________________________________________________
+
+* Installation ........................................................... [001]
+* Usage .................................................................. [002]
+* Packaging .............................................................. [003]
+* References ............................................................. [004]
+
+
+[001] Installation
+________________________________________________________________________________
+
++------------------------------------------------------------------------------+
+|                                                                              |
+|  $ kiss b pqiv                                                               |
+|                                                                              |
++------------------------------------------------------------------------------+
+
+[002] Usage 
+________________________________________________________________________________
+
+Refer to the manual pages and command help output.
+
+
+[003] Packaging
+________________________________________________________________________________
+
+The file "config.make" is written by the build file in order to avoid the
+bash dependency. [0]
+
+[004] References
+________________________________________________________________________________
+
+[0] https://codeberg.org/kiss-community/community/pulls/1625

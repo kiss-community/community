@@ -1,7 +1,14 @@
 #!/bin/sh -e
 
-./configure \
-    --prefix=/usr
-	
+# Create the file config.make to remove the bash dependency 
+cat <<EOF > config.make
+DESTDIR="$1"
+PREFIX=/usr
+GTK_VERSION=3
+BACKENDS_BUILD=static
+CFLAGS=$CFLAGS
+BACKENDS=$(make get_available_backends | cut -c 11-)
+EOF
+
 make
 make DESTDIR="$1" install
