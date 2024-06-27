@@ -2,4 +2,5 @@ https://downloads.sourceforge.net/infozip/zip30.tar.gz
 patches/zip-3.0-currdir.patch
 patches/zip-3.0-exec-shield.patch
 patches/zip-3.0-format-security.patch
+patches/zip-3.0-gcc-14.patch
 patches/zipnote.patch
