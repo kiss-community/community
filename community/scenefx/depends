@@ -1,0 +1,7 @@
+libdrm
+mesa
+meson make
+pixman
+wayland
+wayland-protocols
+wlroots
