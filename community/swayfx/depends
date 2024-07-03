@@ -11,6 +11,7 @@ pango
 pcre2
 pixman
 pkgconf make
+scenefx
 wayland
 wayland-protocols make
 wlroots
