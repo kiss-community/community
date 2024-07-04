@@ -1,3 +1,5 @@
 cmake make
+gnutls
 libjpeg-turbo
+openssl
 zlib
