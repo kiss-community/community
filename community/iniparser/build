@@ -1,9 +1,12 @@
 #!/bin/sh -e
 
-make
+make PREFIX=/usr
 
-install -Dm 644 src/iniparser.h   "$1/usr/include/iniparser.h"
-install -Dm 644 src/dictionary.h  "$1/usr/include/dictionary.h"
-install -Dm 755 libiniparser.so.1 "$1/usr/lib/libiniparser.so.1"
+# 'make install' doesn't create the directory.
+mkdir -p "$1/usr/include"
+cp src/dictionary.h "$1/usr/include/dictionary.h"
+cp src/iniparser.h  "$1/usr/include/iniparser.h"
+
+mkdir -p "$1/usr/lib"
+cp libiniparser.so.1    "$1/usr/lib/libiniparser.so.1"
 ln -s libiniparser.so.1 "$1/usr/lib/libiniparser.so"
-
