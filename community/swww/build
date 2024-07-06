@@ -1,7 +1,7 @@
 #!/bin/sh -e
 
-cargo build \
-    --release 
+cargo build --release 
 
-install -Dm755 target/release/swww "$1/usr/bin/swww"
-install -Dm755 target/release/swww-daemon "$1/usr/bin/swww-daemon"
+mkdir -p "$1/usr/bin"
+cp target/release/swww        "$1/usr/bin/swww"
+cp target/release/swww-daemon "$1/usr/bin/swww-daemon"
