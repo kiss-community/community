@@ -6,6 +6,7 @@
     --localstatedir=/var \
     --sysconfdir=/etc \
     --disable-rpath \
+    --without-gphoto2 \
     --disable-nls 
 	
 make
