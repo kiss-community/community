@@ -11,6 +11,8 @@
 rm -f Completion/Linux/Command/_pkgtool
 rm -f Completion/Linux/Command/_rpmbuild
 
+patch -p1 < zsh-Avoid-incompatible-pointer-types-in-terminfo-g.patch
+
 ./configure \
     --prefix=/usr \
     --enable-function-subdirs \

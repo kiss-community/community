@@ -1,2 +1,3 @@
 https://sourceforge.net/projects/zsh/files/zsh/5.9/zsh-5.9.tar.xz
+patches/zsh-Avoid-incompatible-pointer-types-in-terminfo-g.patch
 files/zprofile
