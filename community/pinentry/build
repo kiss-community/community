@@ -3,6 +3,7 @@
 ./configure \
     --prefix=/usr \
     --disable-pinentry-qt5 \
+    --disable-pinentry-gtk2 \
     --enable-pinentry-tty
 
 make
