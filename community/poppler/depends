@@ -1,5 +1,15 @@
+cairo
 cmake make
+curl
 fontconfig
+freetype-harfbuzz
+glib
+lcms
+libjpeg-turbo
+libpng
+nspr
+nss
 openjpeg2
 pkgconf make
+tiff
 zlib
