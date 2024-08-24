@@ -24,4 +24,4 @@ mkdir -p "$1/usr/lib/pkgconfig"
 sed "s/@@VERSION@@/$2/" mupdf.pc.in > "$1/usr/lib/pkgconfig/mupdf.pc"
 
 cd "$1/usr/lib"
-find . -name '*.so*' -exec ln -sf {} libmupdf.so \;
+find . -name '*.so.*' -exec ln -sf {} libmupdf.so \;
