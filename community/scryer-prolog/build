@@ -1,0 +1,10 @@
+#!/bin/sh -e
+
+export CARGO_PROFILE_RELEASE_CODEGEN_UNITS=1
+export CARGO_PROFILE_RELEASE_OPT_LEVEL="s"
+
+cargo fetch
+cargo build --release
+
+mkdir -p "$1/usr/bin/"
+cp target/release/scryer-prolog "$1/usr/bin/"
