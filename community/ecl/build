@@ -1,0 +1,12 @@
+#!/bin/sh -e
+
+export DESTDIR="$1"
+
+./configure \
+    --prefix=/usr
+
+make
+make install
+
+# Remove the info pages.
+rm -rf "$1/usr/share/info/"
