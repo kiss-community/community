@@ -1,0 +1,17 @@
+#!/bin/sh -e
+
+export DESTDIR="$1"
+
+echo "\"$2\"" > version.lisp-expr
+
+# If you already have sbcl installed, build with sbcl instead.
+if command -v sbcl > /dev/null; then
+    ./make.sh --xc-host=sbcl --prefix=/usr --fancy
+elif command -v ccl > /dev/null; then
+    ./make.sh --xc-host=ccl --prefix=/usr
+elif command -v clisp > /dev/null; then
+    ./make.sh --xc-host=clisp --prefix=/usr
+else
+    ./make.sh --xc-host=ecl --prefix=/usr
+fi
+INSTALL_ROOT="$1/usr" ./install.sh
