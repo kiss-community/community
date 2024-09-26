@@ -1,22 +1,10 @@
 #!/bin/sh -e
 
-# Disable check for TTF font. 
-sed -i 's/as_fn_error.*font file/: "/' configure
-
-# Fix for qpdf 11.3.0
-export CFLAGS="$CFLAGS -std=c++17"
-export CXXFLAGS="$CXXFLAGS -std=c++17"
-
 ./configure  \
     --prefix=/usr \
     --sbindir=/usr/bin \
     --sysconfdir=/etc \
-    --without-php \
-    --disable-avahi \
     --disable-mutool \
-    --disable-dbus \
-    --disable-braille \
-    --without-rcdir 
-	
+
 make
-make DESTDIR="$1" install
+make DESTDIR="$1" MAKEFLAGS="-j1" install
