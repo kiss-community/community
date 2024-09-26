@@ -1,0 +1,10 @@
+#!/bin/sh -e
+
+./configure  \
+    --prefix=/usr \
+    --disable-dbus \
+    --disable-mutool \
+    --disable-exif
+
+make
+make DESTDIR="$1" MAKEFLAGS="-j1" install
