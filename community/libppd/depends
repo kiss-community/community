@@ -1,0 +1,10 @@
+cups
+freetype-harfbuzz
+ghostscript
+glib
+lcms make
+libcupsfilters
+libexif
+pkgconf make
+poppler
+qpdf
