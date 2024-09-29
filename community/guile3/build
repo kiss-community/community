@@ -1,0 +1,21 @@
+#!/bin/sh -e
+
+: > nostrip
+
+export DESTDIR="$1"
+
+./configure \
+    --prefix=/usr \
+    --program-suffix=3 \
+    --enable-posix \
+    --disable-error-on-warning \
+    --enable-jit \
+    --enable-netowrking \
+    --disable-nls \
+    --enable-regex \
+    --with-threads
+
+make
+make install
+
+rm -rf "$1/usr/share/info"
