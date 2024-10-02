@@ -6,7 +6,9 @@ cmake -B build \
     -DCMAKE_INSTALL_PREFIX=/usr \
     -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_CXX_FLAGS="$CXXFLAGS -D_LARGEFILE64_SOURCE" \
-    -DCMAKE_C_FLAGS="$CFLAGS"
+    -DCMAKE_C_FLAGS="$CFLAGS" \
+    -DANDROID_TOOLS_LIBUSB_ENABLE_UDEV=OFF \
+    -DANDROID_TOOLS_USE_BUNDLED_LIBUSB=ON
 
 cmake --build build
 cmake --install build

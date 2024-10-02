@@ -1,8 +1,8 @@
 brotli
 cmake make
+fmt make
 go make
 gtest make
-libusb
 linux-headers make
 lz4
 pcre2
