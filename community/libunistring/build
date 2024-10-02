@@ -8,4 +8,4 @@ make
 make install
 
 # Remove info pages and docs.
-rm -rf "$1/usr/share/"
+rm -rf "${1:?}/usr/share/"
