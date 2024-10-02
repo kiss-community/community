@@ -5,5 +5,5 @@ make install PREFIX=/usr DESTDIR="$1"
 
 # Create these symlinks ourselves as luajit relies
 # on ldconfig to do so and musl does not provide it.
-ln -sf libluajit-5.1.so.2.0.5 "$1/usr/lib/libluajit-5.1.so"
-ln -sf libluajit-5.1.so.2.0.5 "$1/usr/lib/libluajit-5.1.so.2"
+ln -sf libluajit-5.1.so.2.1.1725453128 "$1/usr/lib/libluajit-5.1.so"
+ln -sf libluajit-5.1.so.2.1.1725453128 "$1/usr/lib/libluajit-5.1.so.2"
