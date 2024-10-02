@@ -1,4 +1,4 @@
-https://download.qemu.org/qemu-9.0.0.tar.xz
+https://download.qemu.org/qemu-9.1.0.tar.xz
 patches/CVE-2021-20255.patch
 patches/lfs64.patch
 patches/musl-initialise-msghdr.patch
