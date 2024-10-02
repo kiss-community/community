@@ -1,4 +1,4 @@
-https://gitlab.freedesktop.org/pipewire/pipewire/-/archive/1.0.6/pipewire-1.0.6.tar.gz
-https://gitlab.freedesktop.org/pipewire/wireplumber/-/archive/0.5.2/wireplumber-0.5.2.tar.gz subprojects/wireplumber
+https://gitlab.freedesktop.org/pipewire/pipewire/-/archive/1.2.5/pipewire-1.2.5.tar.gz
+https://gitlab.freedesktop.org/pipewire/wireplumber/-/archive/0.5.6/wireplumber-0.5.6.tar.gz subprojects/wireplumber
 patches/autostart-session-manager.patch
 patches/libudev-zero.patch
