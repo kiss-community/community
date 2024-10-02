@@ -1,5 +1,5 @@
 diff --git a/Makefile b/Makefile
-index 7d1819c..436d816 100644
+index 2b2c3de..ce73e1e 100644
 --- a/Makefile
 +++ b/Makefile
 @@ -33,7 +33,7 @@ DBM_INCLUDE:=$(DESTDIR)/usr/include
@@ -28,10 +28,10 @@ index ba4c5a7..cb197af 100644
  
  clean:
 diff --git a/tc/q_netem.c b/tc/q_netem.c
-index 8ace2b6..95f0eb3 100644
+index 90b2613..00df8a9 100644
 --- a/tc/q_netem.c
 +++ b/tc/q_netem.c
-@@ -130,7 +130,7 @@ static int get_distribution(const char *type, __s16 *data, int maxdata)
+@@ -131,7 +131,7 @@ static int get_distribution(const char *type, __s16 *data, int maxdata)
  	char *line = NULL;
  	char name[128];
  
@@ -41,7 +41,7 @@ index 8ace2b6..95f0eb3 100644
  	if (f == NULL) {
  		fprintf(stderr, "No distribution data for %s (%s: %s)\n",
 diff --git a/tc/tc_util.c b/tc/tc_util.c
-index 8c0e19e..b54a797 100644
+index cf89fb7..052d44d 100644
 --- a/tc/tc_util.c
 +++ b/tc/tc_util.c
 @@ -26,6 +26,10 @@
@@ -74,14 +74,14 @@ index 8c0e19e..b54a797 100644
  {
  	unsigned long maj;
 diff --git a/tc/tc_util.h b/tc/tc_util.h
-index c535dcc..9faaeb3 100644
+index ec20637..9474c53 100644
 --- a/tc/tc_util.h
 +++ b/tc/tc_util.h
-@@ -71,6 +71,7 @@ struct exec_util {
+@@ -72,6 +72,7 @@ struct exec_util {
  };
  
  const char *get_tc_lib(void);
 +const char *get_tc_datadir(void);
  
- struct qdisc_util *get_qdisc_kind(const char *str);
- struct filter_util *get_filter_kind(const char *str);
+ const struct qdisc_util *get_qdisc_kind(const char *str);
+ const struct filter_util *get_filter_kind(const char *str);
