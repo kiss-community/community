@@ -40,6 +40,7 @@ To build the manpages sphinx is needed. In kisslinux sphinx is not packaged.
 So the files:
 
 * zathura.1 
+* zathura-sandbox.1
 * zathurarc.5
 
 have to be taken from somewhere. The maintainer has the following

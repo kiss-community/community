@@ -6,8 +6,8 @@ export DESTDIR="$1"
 
 # Fix build errors when appstream-glib or
 # desktop-file-utils are installed.
-sed -i 's/appstream-util//'        data/meson.build
-sed -i 's/desktop-file-validate//' data/meson.build
+#sed -i 's/appstream-util//'        data/meson.build
+#sed -i 's/desktop-file-validate//' data/meson.build
 
 meson setup \
     -Dprefix=/usr \
@@ -19,5 +19,9 @@ meson setup \
 ninja -C output
 ninja -C output install
 
-install -Dm 0644 zathura.1   "$1/usr/share/man/man1/zathura.1"
-install -Dm 0644 zathurarc.5 "$1/usr/share/man/man5/zathurarc.5"
+mkdir -p "$1/usr/share/man/man1"
+mkdir -p "$1/usr/share/man/man5"
+
+cp zathura.1           "$1/usr/share/man/man1/zathura.1"
+cp zathura-sandbox.1   "$1/usr/share/man/man1/zathura-sandbox.1"
+cp zathurarc.5         "$1/usr/share/man/man5/zathurarc.5"
