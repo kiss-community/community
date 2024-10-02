@@ -1,30 +1,8 @@
-diff --git a/lib/commands/toolcontext.c b/lib/commands/toolcontext.c
-index 4e05f90..428c886 100644
---- a/lib/commands/toolcontext.c
-+++ b/lib/commands/toolcontext.c
-@@ -1667,7 +1667,7 @@ struct cmd_context *create_toolcontext(unsigned is_clvmd,
- 	/* FIXME Make this configurable? */
- 	reset_lvm_errno(1);
- 
--#ifndef VALGRIND_POOL
-+#if !defined(VALGRIND_POOL) && defined(__GLIBC__)
- 	/* Set in/out stream buffering before glibc */
- 	if (set_buffering
- #ifdef SYS_gettid
-@@ -2043,7 +2043,7 @@ void destroy_toolcontext(struct cmd_context *cmd)
- 		dm_hash_destroy(cmd->cft_def_hash);
- 
- 	dm_device_list_destroy(&cmd->cache_dm_devs);
--#ifndef VALGRIND_POOL
-+#if !defined(VALGRIND_POOL) && defined(__GLIBC__)
- 	if (cmd->linebuffer) {
- 		/* Reset stream buffering to defaults */
- 		if (is_valid_fd(STDIN_FILENO) &&
 diff --git a/tools/lvmcmdline.c b/tools/lvmcmdline.c
-index a5bb6a5..0ebfa37 100644
+index 1b2f7f4..e0674d4 100644
 --- a/tools/lvmcmdline.c
 +++ b/tools/lvmcmdline.c
-@@ -3422,7 +3422,7 @@ static int _check_standard_fds(void)
+@@ -3378,7 +3378,7 @@ static int _check_standard_fds(void)
  	int err = is_valid_fd(STDERR_FILENO);
  
  	if (!is_valid_fd(STDIN_FILENO) &&
@@ -33,7 +11,7 @@ index a5bb6a5..0ebfa37 100644
  		if (err)
  			perror("stdin stream open");
  		else
-@@ -3432,7 +3432,7 @@ static int _check_standard_fds(void)
+@@ -3388,7 +3388,7 @@ static int _check_standard_fds(void)
  	}
  
  	if (!is_valid_fd(STDOUT_FILENO) &&
@@ -42,7 +20,7 @@ index a5bb6a5..0ebfa37 100644
  		if (err)
  			perror("stdout stream open");
  		/* else no stdout */
-@@ -3440,7 +3440,7 @@ static int _check_standard_fds(void)
+@@ -3396,7 +3396,7 @@ static int _check_standard_fds(void)
  	}
  
  	if (!is_valid_fd(STDERR_FILENO) &&
