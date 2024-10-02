@@ -1,5 +1,5 @@
-https://github.com/docker/cli/archive/v26.1.2.tar.gz cli
-https://github.com/moby/moby/archive/refs/tags/v26.1.2.tar.gz moby
+https://github.com/docker/cli/archive/v27.3.1.tar.gz cli
+https://github.com/moby/moby/archive/refs/tags/v27.3.1.tar.gz moby
 https://github.com/krallin/tini/archive/de40ad007797e0dcd8b7126f27bb87401d224240.tar.gz tini
 files/run
 patches/tini-basename.patch
