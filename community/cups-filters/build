@@ -4,7 +4,7 @@
     --prefix=/usr \
     --sbindir=/usr/bin \
     --sysconfdir=/etc \
-    --disable-mutool \
+    --disable-mutool 
 
 make
 make DESTDIR="$1" MAKEFLAGS="-j1" install

@@ -19,12 +19,25 @@ ________________________________________________________________________________
 [001] Installation
 ________________________________________________________________________________
 
+cups-filters needs ghostscript with cups support. To keep ghostscript as 
+light as possible, cups is not a dependency for ghostscript. In order to get
+cups-filters functional, cups has to be installed first and then ghostcript. 
+Ghostcript will then detect cups and it will be compiled with cups support. 
+it can be done with
+
++------------------------------------------------------------------------------+
+|                                                                              |
+|  $ kiss b cups ghostscript cups-filters                                      |
+|                                                                              |
++------------------------------------------------------------------------------+
+
+If ghostscript has cups support, only cups-filters has to be installed
+
 +------------------------------------------------------------------------------+
 |                                                                              |
 |  $ kiss b cups-filters                                                       |
 |                                                                              |
 +------------------------------------------------------------------------------+
-
 
 [002] Packaging
 ________________________________________________________________________________
@@ -32,8 +45,15 @@ ________________________________________________________________________________
 libexif was introduced as a dependency with version 1.28.16. See [0]
 and [1]. 
 
+The install step needs to be executed with 
+
+MAKEFLAGS="-j1"
+
+otherwise it can lead to an error. [2]
+
 [003] References
 ________________________________________________________________________________
 
 [0] https://github.com/OpenPrinting/cups-filters/issues/362 
 [1] https://github.com/kiss-community/community/issues/1252
+[2] https://github.com/OpenPrinting/cups-filters/issues/594
