@@ -9,7 +9,6 @@ export LDFLAGS="$LDFLAGS -static"
     --mandir=/usr/share/man \
     --localstatedir=/var \
     --with-user=nsd \
-    --with-xfrdir=/etc/nsd \
     --with-chroot=/etc/nsd \
     --with-pidfile="" \
     --with-ssl \
