@@ -1,4 +1,4 @@
-https://github.com/neovim/neovim/archive/refs/tags/v0.10.1.tar.gz
+https://github.com/neovim/neovim/archive/refs/tags/v0.10.2.tar.gz
 https://github.com/LuaJIT/LuaJIT/archive/75e92777988017fe47c5eb290998021bbf972d1f.tar.gz?no-extract .deps/build/downloads/luajit/
 https://github.com/MDeiml/tree-sitter-markdown/archive/v0.2.3.tar.gz?no-extract .deps/build/downloads/treesitter_markdown/
 https://github.com/libuv/libuv/archive/v1.48.0.tar.gz?no-extract .deps/build/downloads/libuv/
@@ -14,5 +14,3 @@ https://github.com/tree-sitter-grammars/tree-sitter-lua/archive/v0.1.0.tar.gz?no
 https://github.com/tree-sitter-grammars/tree-sitter-query/archive/v0.4.0.tar.gz?no-extract .deps/build/downloads/treesitter_query/
 https://github.com/tree-sitter/tree-sitter-c/archive/v0.21.3.tar.gz?no-extract .deps/build/downloads/treesitter_c/
 https://github.com/tree-sitter/tree-sitter/archive/v0.22.6.tar.gz?no-extract .deps/build/downloads/treesitter/
-https://github.com/tree-sitter/tree-sitter-python/archive/v0.21.0.tar.gz?no-extract .deps/build/downloads/treesitter_python/
-https://github.com/tree-sitter/tree-sitter-bash/archive/v0.21.0.tar.gz?no-extract .deps/build/downloads/treesitter_bash/
