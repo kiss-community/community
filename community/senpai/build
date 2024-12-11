@@ -1,5 +1,8 @@
 #!/bin/sh -e
 
+export GOPATH="$PWD/go"
+export GO111MODULE=on
+
 go build \
     -trimpath \
     -modcacherw \
