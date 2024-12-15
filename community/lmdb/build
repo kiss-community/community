@@ -1,6 +1,0 @@
-#!/bin/sh -e
-
-cd libraries/liblmdb
-
-make CC="${CC:-cc}"
-make DESTDIR="$1" prefix=/usr install
