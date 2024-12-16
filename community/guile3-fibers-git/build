@@ -1,0 +1,13 @@
+#!/bin/sh -e
+
+: > nostrip
+
+export DESTDIR="$1"
+
+autoreconf -vif
+
+./configure \
+    --prefix=/usr
+
+make
+make install
