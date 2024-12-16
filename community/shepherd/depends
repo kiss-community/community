@@ -1,0 +1,3 @@
+gawk make
+guile3
+guile3-fibers-git

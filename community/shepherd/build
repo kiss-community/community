@@ -1,0 +1,13 @@
+#!/bin/sh -e
+
+: > nostrip
+
+export DESTDIR="$1"
+
+./configure \
+    --prefix=/usr \
+    --sbindir=/usr/bin \
+    --sysconfdir=/etc
+
+make
+make install
