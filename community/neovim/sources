@@ -1,4 +1,4 @@
-https://github.com/neovim/neovim/archive/refs/tags/v0.10.2.tar.gz
+https://github.com/neovim/neovim/archive/refs/tags/v0.10.3.tar.gz
 https://github.com/LuaJIT/LuaJIT/archive/75e92777988017fe47c5eb290998021bbf972d1f.tar.gz?no-extract .deps/build/downloads/luajit/
 https://github.com/MDeiml/tree-sitter-markdown/archive/v0.2.3.tar.gz?no-extract .deps/build/downloads/treesitter_markdown/
 https://github.com/libuv/libuv/archive/v1.48.0.tar.gz?no-extract .deps/build/downloads/libuv/
