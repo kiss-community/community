@@ -1,6 +1,7 @@
 #!/bin/sh -e
 
-make
+make \
+    SFEED_CURSES_LDFLAGS="$LDFLAGS -lncurses -ltinfo"
 make \
     DESTDIR="$1" \
     PREFIX=/usr \
