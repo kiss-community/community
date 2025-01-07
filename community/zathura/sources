@@ -1,4 +1,4 @@
-https://github.com/pwmt/zathura/archive/0.5.8.tar.gz
+https://pwmt.org/projects/zathura/download/zathura-0.5.11.tar.xz
 patches/remove_gettext.patch
 files/zathura.1
 files/zathura-sandbox.1
