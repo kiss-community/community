@@ -1,11 +1,16 @@
 #!/bin/sh -e
 
-patch -p0 < bashism.patch
+export DESTDIR="$1"
 
-./configure \
-    --prefix=/usr \
-    --disable-backtrace \
-    --disable-nls
+meson setup \
+    -Dprefix=/usr \
+    -Dnls=false \
+    -Dbacktrace=false \
+    -Dtre=false \
+    -Didn=false \
+    -Dlibcss=false \
+    -Dgpm=false \
+    output
 
-make -j1
-make DESTDIR="$1" install
+ninja -C output
+ninja -C output install

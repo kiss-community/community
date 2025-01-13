@@ -1,0 +1,5 @@
+expat
+meson make
+openssl
+samurai make
+zlib
