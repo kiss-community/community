@@ -13,7 +13,7 @@ ________________________________________________________________________________
 * Installation ........................................................... [001]
 * BIOS Systems ........................................................... [002]
 * UEFI Systems ........................................................... [003]
-* Configuration file: limine.cfg ......................................... [004]
+* Configuration file: limine.conf ........................................ [004]
 * Packaging .............................................................. [005]
 * References ............................................................. [006]
 
@@ -50,7 +50,7 @@ Then stage 1 and 2 must be deployed with the limine utility.
 +------------------------------------------------------------------------------+
 
 where /dev/sdX is the disk (and not the partition) where limine is to be 
-installed. Then the configuration file limine.cfg must be created, see [004].
+installed. Then the configuration file limine.conf must be created, see [004].
 
 [003] UEFI Systems 
 ________________________________________________________________________________
@@ -102,19 +102,19 @@ position with
 
 where XXXX, YYYY and ZZZZ are the bootnumbers.
 
-After limine has been installed, the configuration file limine.cfg
+After limine has been installed, the configuration file limine.conf
 must be created, see [004].
 
-[004] Configuration file: limine.cfg
+[004] Configuration file: limine.conf
 ________________________________________________________________________________
 
 This package doesn't provide a sample configuration file. The configuration
-file limine.cfg can reside on root or /boot like limine.sys. Here is a sample
+file limine.conf can reside on root or /boot like limine-bios.sys. Here is a sample
 configuration file:
 
 +------------------------------------------------------------------------------+
 |                                                                              |
-| limine.cfg:                                                                  |
+| limine.conf:                                                                 |
 |                                                                              |
 | TIMEOUT=5                                                                    |
 |                                                                              |
