@@ -10,7 +10,7 @@ export CC="${CC:-cc}"
 export GOARCH=amd64
 export GO_LDFLAGS="-w -s"
 
-export GOROOT_BOOTSTRAP="/usr/lib/go1.20.6"
+export GOROOT_BOOTSTRAP="/usr/lib/go1.22.6"
 export GOROOT="$PWD"
 export GOROOT_FINAL="/usr/lib/go"
 
