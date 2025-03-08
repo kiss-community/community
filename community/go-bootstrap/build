@@ -31,4 +31,7 @@ GOROOT_BOOTSTRAP="$PWD/lib/go1.4-bootstrap" \
     mk "$PWD/go1.17.13" "$PWD/lib/go1.17.13"
 
 GOROOT_BOOTSTRAP="$PWD/lib/go1.17.13" \
+    mk "$PWD/go1.20.6" "$PWD/lib/go1.20.6"
+
+GOROOT_BOOTSTRAP="$PWD/lib/go1.20.6" \
     mk "$PWD/go$2" "$1/usr/lib/go$2"
