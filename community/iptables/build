@@ -4,6 +4,11 @@ for p in *.patch; do
     patch -p1 < "$p"
 done
 
+for f in extensions/libxt_mac.c extensions/libipt_CLUSTERIP.c extensions/libipt_realm.c; do
+    sed '/<linux\/if_ether.h\>/d' "$f" > _
+    mv -f _ "$f"
+done
+
 ./configure \
     --prefix=/usr \
     --sbindir=/usr/bin \
