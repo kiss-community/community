@@ -2,6 +2,7 @@
 
 mkdir -p "$1/usr/bin" "$1/usr/lib/docker/cli-plugins"
 
+cd docker-compose-*
 chmod +x docker-compose-linux-x86_64
 
 cp docker-compose-linux-x86_64 "$1/usr/lib/docker/cli-plugins/docker-compose"
