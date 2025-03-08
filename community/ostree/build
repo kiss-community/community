@@ -6,6 +6,9 @@ cat >> src/libotutil/otutil.h <<EOF
 #endif
 EOF
 
+sed '/<linux\/prctl.h\>/d' src/libotutil/ot-unix-utils.c > _
+mv -f _ src/libotutil/ot-unix-utils.c
+
 ./configure \
     --prefix=/usr \
     --libexecdir=/usr/lib \
