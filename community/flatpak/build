@@ -8,7 +8,6 @@ export PYTHONPATH
 meson setup \
     -Dprefix=/usr \
     -Dsysconfdir=/etc \
-    -Dsystem_dbus_proxy=/usr/bin/true \
     -Dsystem_bubblewrap=/usr/bin/bwrap \
     -Dseccomp=enabled \
     -Dsystem_helper=disabled \
