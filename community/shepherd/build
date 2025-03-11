@@ -4,6 +4,13 @@
 
 export DESTDIR="$1"
 
+# The configure script is broken? Checks for gzip & zstd incorrectly.
+sed -e 's/GZIP=".*"/GZIP=gzip/' \
+    -e 's/ZSTD=".*"/ZSTD=zstd/' \
+    configure > _
+mv -f _ configure
+chmod +x configure
+
 ./configure \
     --prefix=/usr \
     --sbindir=/usr/bin \
