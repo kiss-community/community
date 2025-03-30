@@ -1,2 +1,2 @@
-https://www.kernel.org/pub/linux/utils/net/iproute2/iproute2-6.13.0.tar.xz
+https://www.kernel.org/pub/linux/utils/net/iproute2/iproute2-6.14.0.tar.xz
 patches/make-iproute2-fhs-compliant.patch
