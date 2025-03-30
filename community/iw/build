@@ -1,15 +1,4 @@
 #!/bin/sh -e
 
-# Don't bother compressing tiny man page.
-sed 's@\(iw\.8\)\.gz@\1@' Makefile > _
-mv -f _ Makefile
-
-export CFLAGS="$CFLAGS -I/usr/include/libnl-tiny -D_GNU_SOURCE -DCONFIG_LIBNL20"
-export LDFLAGS="$LDFLAGS -static"
-
-make \
-    DESTDIR="$1"
-    SBINDIR=/usr/bin \
-    NO_PKG_CONFIG=Y \
-    LIBS=-lnl-tiny \
-    install
+make
+make DESTDIR="$1" install
