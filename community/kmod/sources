@@ -1,1 +1,2 @@
-https://www.kernel.org/pub/linux/utils/kernel/kmod/kmod-33.tar.xz
+https://www.kernel.org/pub/linux/utils/kernel/kmod/kmod-34.2.tar.xz
+patches/fix-ln.patch

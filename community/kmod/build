@@ -1,7 +1,10 @@
 #!/bin/sh -e
 
+patch -p1 < fix-ln.patch
+
 ./configure \
     --prefix=/usr \
+    --sbindir=/usr/bin \
     --sysconfdir=/etc \
     --with-xz \
     --with-zlib \
