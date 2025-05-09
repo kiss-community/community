@@ -118,26 +118,25 @@ configuration file:
 |                                                                              |
 | TIMEOUT=5                                                                    |
 |                                                                              |
-| :Kiss Linux 5.7.12.7                                                         |
-|                                                                              |
-| PROTOCOL=linux                                                               |
-| KERNEL_PATH=boot:///vmlinuz-5.7.12.7                                         |
-| CMDLINE=root=/dev/sda1 ro loglevel=3 quiet                                   |
+| /Kiss Linux 6.14.3                                                           |
+| 	protocol: linux                                                            |
+| 	kernel_path: boot():/vmlinuz-6.14.3                                        |
+| 	cmdline: root=/dev/sda1 ro loglevel=3 quiet                                |
 +------------------------------------------------------------------------------+
 
-Each entry begins with a colon ":" followed by a description of the entry. In 
-this example the entry "Kiss Linux 5.7.12.7" will boot with kernel 
-"vmlinuz-5.7.12.7". 
+Each entry begins with a "/" followed by a description of the entry. In 
+this example the entry "Kiss Linux 6.14.3" will boot with kernel 
+"vmlinuz-6.14.3". 
 
 In this case, the kernel load without an initramfs.
 
 Parameters:
 
-- KERNEL_PATH: "boot:///" refers to the partition containing "/boot". 
-               If there is no separate partition for boot, the entry
-               should be: "boot:///boot/". 
-- CMDLINE: the partition containing root "/" must be given. Here
-	   root is on partition "/dev/sda1".
+- kernel_path: "boot():/" refers to the partition on which "limine.conf" is
+				located. If the partition containing /boot and "limine.conf"
+				don't match, refer to the documentation.
+- cmdline: the partition containing root "/" must be given. Here
+	       root is on partition "/dev/sda1".
 
 [005] Packaging
 ________________________________________________________________________________
