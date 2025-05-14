@@ -1,8 +1,8 @@
 diff --git a/Makelists b/Makelists
-index ac54f6f..af430d6 100644
+index 5d4adb9..09064da 100644
 --- a/Makelists
 +++ b/Makelists
-@@ -272,37 +272,6 @@ JBIG2DEC_SRC += thirdparty/jbig2dec/jbig2_segment.c
+@@ -288,37 +288,6 @@ JBIG2DEC_SRC += thirdparty/jbig2dec/jbig2_segment.c
  JBIG2DEC_SRC += thirdparty/jbig2dec/jbig2_symbol_dict.c
  JBIG2DEC_SRC += thirdparty/jbig2dec/jbig2_text.c
  
@@ -37,11 +37,11 @@ index ac54f6f..af430d6 100644
 -OPENJPEG_SRC += thirdparty/openjpeg/src/lib/openjp2/tgt.c
 -OPENJPEG_SRC += thirdparty/openjpeg/src/lib/openjp2/thread.c
 -
- # --- FREEGLUT ---
+ # --- BROTLI ---
  
- GLUT_CFLAGS += -Ithirdparty/freeglut/include
+ BROTLI_CFLAGS += -Ithirdparty/brotli/c/include
 diff --git a/source/fitz/encode-jpx.c b/source/fitz/encode-jpx.c
-index 40cca5a..e38604f 100644
+index 8df2b7e..29fbab2 100644
 --- a/source/fitz/encode-jpx.c
 +++ b/source/fitz/encode-jpx.c
 @@ -22,10 +22,10 @@
