@@ -4,9 +4,10 @@
 # This breaks Go.
 :> nostrip
 
-patch -p1 < posix-build.patch
+patch -p1 < posix-build-gcc-15.patch
 
 export CC="${CC:-cc}"
+export CFLAGS="$CFLAGS -std=c17"
 export GOARCH=amd64
 export GO_LDFLAGS="-w -s"
 
