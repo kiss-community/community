@@ -2,6 +2,9 @@
 
 export DESTDIR="$1"
 
+# Fix build with gcc>=15.
+export CFLAGS="$CFLAGS -std=c17"
+
 ./configure \
     --prefix=/usr
 
