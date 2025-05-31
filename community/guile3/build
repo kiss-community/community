@@ -4,6 +4,10 @@
 
 export DESTDIR="$1"
 
+patch -p1 < guile-3.0.10-c23.patch
+
+export CFLAGS="$CFLAGS -std=gnu17"
+
 ./configure \
     --prefix=/usr \
     --program-suffix=3 \
