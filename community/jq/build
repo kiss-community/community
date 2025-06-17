@@ -1,9 +1,17 @@
 #!/bin/sh -e
 
+# Configuration error due to non-standard sed feature being used.
+# Can be removed in the next release.
+#
+# https://github.com/jqlang/jq/commit/023f274
+#
+sed -i 's/x23define/#define/' Makefile.am
+autoreconf -fi
+
 ./configure \
     --prefix=/usr \
     --disable-maintainer-mode \
-    --with-oniguruma=no
+    --with-onigurama=builtin
 
 make
 make DESTDIR="$1" install
