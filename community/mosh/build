@@ -5,6 +5,9 @@
 # https://github.com/mobile-shell/mosh/commit/eee1a8cf413051c2a9104e8158e699028ff56b26
 patch -p1 < use_cxx17.patch
 
+# ncurses breaks the build w/ bool definition
+patch -p1 < fix-bool.patch
+
 sed '/perl -Mdiagnostics/d' scripts/Makefile.am > _
 mv _ scripts/Makefile.am
 

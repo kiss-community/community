@@ -1,0 +1,14 @@
+diff --git a/src/terminal/terminaldisplayinit.cc b/src/terminal/terminaldisplayinit.cc
+index 6dffc51..87ce7d5 100644
+--- a/src/terminal/terminaldisplayinit.cc
++++ b/src/terminal/terminaldisplayinit.cc
+@@ -57,6 +57,9 @@
+ #else
+ #  error "SysV or X/Open-compatible Curses header file required"
+ #endif
++// PATCH:  Something in ncurses redefines bool
++#undef bool
++// END PATCH
+ #include <stdlib.h>
+ #include <string.h>
+ 
