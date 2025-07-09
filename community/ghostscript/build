@@ -1,5 +1,8 @@
 #!/bin/sh -e
 
+# Fixes for gcc 15
+patch -p1 < gcc15_fixes.patch
+
 ./configure \
     --prefix=/usr \
     --disable-gtk \
