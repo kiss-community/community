@@ -2,8 +2,10 @@
 
 export CFLAGS="$CFLAGS -fcommon"
 
-make -C src
 make -C src \
-    DESTDIR="$1" \
-    prefix=/usr \
+    PREFIX=/usr
+
+make -C src \
+	DESTDIR="$1" \
+	PREFIX=/usr \
     install
