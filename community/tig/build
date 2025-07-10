@@ -4,5 +4,8 @@
     --prefix=/usr \
     --sysconfdir=/etc
 
+# Patch out -Wint-conversion bugs
+patch -p1 < fix-int-conversions.patch
+
 make
 make DESTDIR="$1" install

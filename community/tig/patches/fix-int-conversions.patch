@@ -1,0 +1,35 @@
+diff --git a/src/diff.c b/src/diff.c
+index 9f070f5..fd3bce6 100644
+--- a/src/diff.c
++++ b/src/diff.c
+@@ -279,7 +279,7 @@ diff_common_read_diff_wdiff(struct view *view, const char *text)
+ 		;
+ 
+ 	diff_common_add_cell(&context, strlen(context.text), true);
+-	return diff_common_add_line(view, text, LINE_DEFAULT, &context);
++	return diff_common_add_line(view, text, LINE_DEFAULT, &context) != NULL;
+ }
+ 
+ static bool
+@@ -296,7 +296,7 @@ diff_common_highlight(struct view *view, const char *text, enum line_type type)
+ 		;
+ 
+ 	diff_common_add_cell(&context, strlen(context.text), true);
+-	return diff_common_add_line(view, text, type, &context);
++	return diff_common_add_line(view, text, type, &context) != NULL;
+ }
+ 
+ bool
+diff --git a/src/io.c b/src/io.c
+index 1e87273..7636550 100644
+--- a/src/io.c
++++ b/src/io.c
+@@ -605,7 +605,7 @@ io_get_line(struct io *io, struct buffer *buf, int c, size_t *lineno, bool can_r
+ 		io->bufpos = io->buf;
+ 		readsize = io_read(io, io->buf + io->bufsize, io->bufalloc - io->bufsize);
+ 		if (io_error(io))
+-			return NULL;
++			return false;
+ 		io->bufsize += readsize;
+ 	}
+ }
