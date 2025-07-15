@@ -2,7 +2,7 @@
 
 export CFLAGS="$CFLAGS -fPIC"
 
-for patch in readline82-0* ; do
+for patch in readline83-0* ; do
     patch -p0 < "$patch"
 done
 
