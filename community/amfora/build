@@ -1,4 +1,9 @@
 #!/bin/sh -e
 
+export GOPATH="$PWD/go"
+
 make VERSION="$2"
-install -Dm755 -t "$1/usr/bin" amfora
+make DESTDIR="$1" PREFIX=/usr install
+
+mkdir -p "$1/usr/share/man/man1/"
+cp amfora.1 "$1/usr/share/man/man1/"
