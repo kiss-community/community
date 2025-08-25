@@ -1,8 +1,12 @@
 #!/bin/sh -e
 
-./autogen.sh
-./configure \
-    --prefix=/usr
+export DESTDIR="$1"
 
-make
-make DESTDIR="$1" install
+meson setup \
+    -Dtests=false \
+    --prefix=/usr \
+    --buildtype=release \
+    . output
+
+ninja -C output
+ninja -C output install
