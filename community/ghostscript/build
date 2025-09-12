@@ -1,7 +1,6 @@
 #!/bin/sh -e
 
-# Fixes for gcc 15
-patch -p1 < gcc15_fixes.patch
+export CFLAGS="$CFLAGS -fPIC"
 
 ./configure \
     --prefix=/usr \
