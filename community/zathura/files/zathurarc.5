@@ -27,7 +27,7 @@ level margin: \\n[rst2man-indent\\n[rst2man-indent-level]]
 .\" new: \\n[rst2man-indent\\n[rst2man-indent-level]]
 .in \\n[rst2man-indent\\n[rst2man-indent-level]]u
 ..
-.TH "ZATHURARC" "5" "2025-07-04" "0.5.12" "zathura"
+.TH "ZATHURARC" "5" "2025-09-24" "0.5.13" "zathura"
 .SH NAME
 zathurarc \- zathura configuration file
 .SH SYNOPSIS
@@ -472,6 +472,8 @@ backward
 .IP \(bu 2
 collapse
 .IP \(bu 2
+collapse\-recursive
+.IP \(bu 2
 collapse\-all
 .IP \(bu 2
 default
@@ -479,6 +481,8 @@ default
 down
 .IP \(bu 2
 expand
+.IP \(bu 2
+expand\-recursive
 .IP \(bu 2
 expand\-all
 .IP \(bu 2
@@ -1064,8 +1068,17 @@ Value type: Integer
 Default value: 15
 .UNINDENT
 .TP
-.B \fIpage\-padding\fP
-The page padding defines the gap in pixels between each rendered page.
+.B \fIpage\-v\-padding\fP
+Vertical page padding defines the vertical gap in pixels between each rendered page.
+.INDENT 7.0
+.IP \(bu 2
+Value type: Integer
+.IP \(bu 2
+Default value: 1
+.UNINDENT
+.TP
+.B \fIpage\-h\-padding\fP
+Horizontal page padding defines the horizontal gap in pixels between each rendered page.
 .INDENT 7.0
 .IP \(bu 2
 Value type: Integer

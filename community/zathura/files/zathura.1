@@ -27,7 +27,7 @@ level margin: \\n[rst2man-indent\\n[rst2man-indent-level]]
 .\" new: \\n[rst2man-indent\\n[rst2man-indent-level]]
 .in \\n[rst2man-indent\\n[rst2man-indent-level]]u
 ..
-.TH "ZATHURA" "1" "2025-07-04" "0.5.12" "zathura"
+.TH "ZATHURA" "1" "2025-09-24" "0.5.13" "zathura"
 .SH NAME
 zathura \- a document viewer
 .SH SYNOPSIS
@@ -278,20 +278,38 @@ Index mode
 .B k, j
 Move to upper or lower entry
 .TP
-.B l
+.B Up, Down
+Move to upper or lower entry
+.TP
+.B ^u, ^d
+Scroll and move up or down by half a screen
+.TP
+.B l, Right, zo
 Expand entry
 .TP
-.B L
+.B zO
+Expand entry recursively
+.TP
+.B L, zR
 Expand all entries
 .TP
-.B h
+.B h, Left, zc
 Collapse entry
 .TP
-.B H
+.B zC
+Collapse entry recursively
+.TP
+.B H, zM
 Collapse all entries
 .TP
-.B space, Return
+.B space, Return, ^j
 Select and open entry
+.TP
+.B gg, G
+Goto to the first or last entry
+.TP
+.B Tab, Escape, ^[, ^c
+Hide index and switch to normal mode
 .UNINDENT
 .UNINDENT
 .UNINDENT
