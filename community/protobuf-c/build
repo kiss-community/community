@@ -1,8 +1,9 @@
 #!/bin/sh -e
 
+export CXXFLAGS="$CXXFLAGS -include stdint.h"
+
 ./configure \
-    --prefix=/usr \
-    --disable-protoc
+    --prefix=/usr
 
 make
 make DESTDIR="$1" install
