@@ -36,7 +36,6 @@ mkdir -p \
 cp -f docs/neomuttrc "$1/etc"
 cp -f docs/neomutt.1 \
       docs/pgpewrap.1 \
-      docs/smime_keys.1 \
       "$1/usr/share/man/man1/"
 cp -f docs/neomuttrc.5 \
       docs/mbox.5 \
