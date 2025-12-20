@@ -28,7 +28,9 @@ _args="
     USE_SYSTEM_OPENJPEG=no
     VENV_FLAG=
     "
+# shellcheck disable=2086
 make $_args
+# shellcheck disable=2086
 make $_args prefix=/usr DESTDIR="$1" install-shared-c
 
 mkdir -p "$1/usr/lib/pkgconfig"
