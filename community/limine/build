@@ -3,6 +3,8 @@
 # Support for uefi aarch64 disabled because it's unsupported
 # in kiss
 
+export LD_FOR_TARGET=ld
+
 ./configure \
 	--prefix=/usr \
 	--enable-all \

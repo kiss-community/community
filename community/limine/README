@@ -31,26 +31,7 @@ ________________________________________________________________________________
 [002] BIOS Systems
 ________________________________________________________________________________
 
-After the installation, the file "limine-bios.sys" must be copied to root or the 
-/boot directory of any partition on the disk onto which limine will be deployed,
-as long as the filesystem is supported.
-
-+------------------------------------------------------------------------------+
-|                                                                              |
-|  # cp /usr/share/limine/limine-bios.sys /boot                                |
-|                                                                              |
-+------------------------------------------------------------------------------+
-
-Then stage 1 and 2 must be deployed with the limine utility.
-
-+------------------------------------------------------------------------------+
-|                                                                              |
-|  # limine bios-install /dev/sdX                                              |
-|                                                                              |
-+------------------------------------------------------------------------------+
-
-where /dev/sdX is the disk (and not the partition) where limine is to be 
-installed. Then the configuration file limine.conf must be created, see [004].
+See [0].
 
 [003] UEFI Systems 
 ________________________________________________________________________________
@@ -143,9 +124,10 @@ ________________________________________________________________________________
 
 Build file:
 
--> --disable-uefi-aarch64 [0]
+-> --disable-uefi-aarch64 [1]
 
 [006] References
 ________________________________________________________________________________
 
-[0] https://github.com/limine-bootloader/limine/issues/213
+[0] https://wiki.archlinux.org/title/Limine
+[1] https://github.com/limine-bootloader/limine/issues/213
