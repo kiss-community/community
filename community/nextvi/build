@@ -3,3 +3,4 @@
 DESTDIR="$1" ./cbuild.sh install
 mkdir -p "$1/usr/share/man/man1"
 install -Dm644 vi.1 "$1/usr/share/man/man1"
+ln -sf "./vi.1" "$1/usr/share/man/man1/nextvi.1"
