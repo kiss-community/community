@@ -1,8 +1,21 @@
 diff --git a/Makelists b/Makelists
-index 5d4adb9..09064da 100644
+index 316628e..373bdca 100644
 --- a/Makelists
 +++ b/Makelists
-@@ -288,37 +288,6 @@ JBIG2DEC_SRC += thirdparty/jbig2dec/jbig2_segment.c
+@@ -240,12 +240,6 @@ LCMS2_SRC += thirdparty/lcms2/src/cmsvirt.c
+ LCMS2_SRC += thirdparty/lcms2/src/cmswtpnt.c
+ LCMS2_SRC += thirdparty/lcms2/src/cmsxform.c
+ 
+-# --- MUJS ---
+-
+-MUJS_CFLAGS += -Ithirdparty/mujs
+-
+-MUJS_SRC += thirdparty/mujs/one.c
+-
+ # --- ZLIB ---
+ 
+ ZLIB_CFLAGS += -Ithirdparty/zlib
+@@ -288,37 +282,6 @@ JBIG2DEC_SRC += thirdparty/jbig2dec/jbig2_segment.c
  JBIG2DEC_SRC += thirdparty/jbig2dec/jbig2_symbol_dict.c
  JBIG2DEC_SRC += thirdparty/jbig2dec/jbig2_text.c
  
@@ -41,7 +54,7 @@ index 5d4adb9..09064da 100644
  
  BROTLI_CFLAGS += -Ithirdparty/brotli/c/include
 diff --git a/source/fitz/encode-jpx.c b/source/fitz/encode-jpx.c
-index 8df2b7e..29fbab2 100644
+index 14c811d..72b96ee 100644
 --- a/source/fitz/encode-jpx.c
 +++ b/source/fitz/encode-jpx.c
 @@ -22,10 +22,10 @@

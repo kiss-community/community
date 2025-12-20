@@ -1,31 +1,35 @@
 #!/bin/sh -e
 
-export CFLAGS="$CFLAGS -fPIC"
-export CFLAGS="$CFLAGS -DFZ_ENABLE_HTML_ENGINE=0 \
-    -DFZ_ENABLE_JPX=0 -DFZ_ENABLE_EPUB=0 \
-    -DNO_CJK -DFZ_ENABLE_ICC=0 -DFZ_ENABLE_JS=0 \
-    -DFZ_ENABLE_OFFICE=0 -DFZ_ENABLE_TXT=0 \
-    -DFZ_ENABLE_FB2=0 -DFZ_ENABLE_MOBI=0 \
-    -DFZ_ENABLE_HTML=0"
-
 for p in *.patch; do
     patch -p1 < "$p"
 done
 
-make \
-    DESTDIR="$1" \
-    prefix=/usr \
-    shared=yes \
-    build=release \
-    html=no \
-    USE_SYSTEM_LIBS=yes \
-    USE_SYSTEM_OPENJPEG=no \
-    HAVE_X11=no \
-    HAVE_GLUT=no \
-    install
+export CFLAGS="$CFLAGS \
+    -DFZ_ENABLE_HTML=0 \
+    -DFZ_ENABLE_HTML_ENGINE=0 \
+    -DFZ_ENABLE_EPUB=0 \
+    -DFZ_ENABLE_FB2=0 \
+    -DFZ_ENABLE_ICC=0 \
+    -DFZ_ENABLE_JPX=0 \
+    -DFZ_ENABLE_JS=0 \
+    -DFZ_ENABLE_MOBI=0 \
+    -DFZ_ENABLE_OFFICE=0 \
+    -DFZ_ENABLE_TXT=0 \
+    -DNO_CJK \
+    "
+
+_args="
+    html=no
+    build=release
+    shared=yes
+    HAVE_X11=no
+    HAVE_GLUT=no
+    USE_SYSTEM_LIBS=yes
+    USE_SYSTEM_OPENJPEG=no
+    VENV_FLAG=
+    "
+make $_args
+make $_args prefix=/usr DESTDIR="$1" install-shared-c
 
 mkdir -p "$1/usr/lib/pkgconfig"
 sed "s/@@VERSION@@/$2/" mupdf.pc.in > "$1/usr/lib/pkgconfig/mupdf.pc"
-
-cd "$1/usr/lib"
-find . -name '*.so.*' -exec ln -sf {} libmupdf.so \;
