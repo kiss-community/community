@@ -1,0 +1,12 @@
+#!/bin/sh -e
+
+export RUSTFLAGS="-C target-feature=-crt-static"
+
+cargo fetch --locked --target "$(rustc --print host-tuple)"
+cargo build --frozen --release
+
+mkdir -p "$1/usr/bin" "$1/usr/lib/helix"
+mv target/release/hx "$1/usr/lib/helix/hx"
+ln -s /usr/lib/helix/hx "$1/usr/bin/hx"
+rm -rf runtime/grammars/sources
+mv runtime "$1/usr/lib/helix/"
