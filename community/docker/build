@@ -30,7 +30,7 @@ patch -p1 < tini-basename.patch
 (
     out "Building daemon"
 
-    cdgopath moby github.com/docker/docker
+    cdgopath moby github.com/moby/moby/v2
     DOCKER_GITCOMMIT="$2" DOCKER_BUILDTAGS=seccomp VERSION="$2" hack/make.sh dynbinary
 )
 

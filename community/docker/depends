@@ -5,4 +5,5 @@ containerd
 iptables
 libseccomp
 lvm2
+nftables
 runc
