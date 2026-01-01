@@ -1,2 +1,4 @@
 libassuan
 libgpg-error
+ncurses
+pkgconf make
