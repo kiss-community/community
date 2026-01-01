@@ -1,0 +1,13 @@
+#!/bin/sh -e
+
+patch -p1 < fix-bashism.patch
+
+./configure \
+    --prefix=/usr \
+    --sbindir=/usr/bin \
+    --sysconfdir=/usr/share \
+    --without-cli \
+    --disable-debug
+
+make
+make DESTDIR="$1" install
