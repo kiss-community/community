@@ -1,5 +1,4 @@
-https://mirrors.kernel.org/sourceware/lvm2/releases/LVM2.2.03.31.tgz
-patches/0001-lvresize-use-POSIX-shell.patch
+https://mirrors.kernel.org/sourceware/lvm2/releases/LVM2.2.03.38.tgz
 patches/fix-stdio-usage.patch
 patches/library_dir-default-config.patch
 patches/mlockall-default-config.patch
