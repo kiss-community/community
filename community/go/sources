@@ -1,2 +1,2 @@
-https://golang.org/dl/go1.24.3.src.tar.gz
+https://golang.org/dl/go1.25.5.src.tar.gz
 patches/posix-build.patch
