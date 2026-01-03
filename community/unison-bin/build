@@ -1,0 +1,6 @@
+#!/bin/sh -e
+
+mkdir -p "$1/usr/bin" "$1/usr/share/man/man1"
+
+mv bin/* "$1/usr/bin/"
+mv man/unison.1 "$1/usr/share/man/man1"
