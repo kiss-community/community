@@ -1,0 +1,14 @@
+diff --git a/g/gdb-17.1/gdb/ser-unix.c b/gdb-17.1/gdb/ser-unix.c
+index 6f27665..7054f6a 100644
+--- a/gdb/ser-unix.c
++++ b/gdb/ser-unix.c
+@@ -51,6 +51,8 @@
+ #  include <termios.h>
+ #endif
+ 
++#include <asm-generic/ioctls.h>
++
+ #include "gdbsupport/scoped_ignore_sigttou.h"
+ 
+ #if defined(HAVE_SYS_IOCTL_H) && (defined(BOTHER) || defined(IOSSIOSPEED))
+
