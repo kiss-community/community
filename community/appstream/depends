@@ -1,6 +1,7 @@
 curl
 glib
 gperf make
+libfyaml
 libxml2
 libxmlb
 libyaml
