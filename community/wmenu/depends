@@ -1,6 +1,7 @@
 cairo
 glib
 libxkbcommon
+meson make
 pango
 wayland
 wayland-protocols make
