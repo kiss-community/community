@@ -1,2 +1,3 @@
-go make
+bash make
+go   make
 libseccomp
