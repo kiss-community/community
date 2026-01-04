@@ -1,3 +1,4 @@
+bison make
 curl
 e2fsprogs make
 glib
@@ -5,6 +6,7 @@ gpgme
 libarchive
 libassuan
 libgpg-error
+python make
 util-linux
 xz
 zlib
