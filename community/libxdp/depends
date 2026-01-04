@@ -4,3 +4,4 @@ libelf
 libpcap
 linux-headers
 llvm
+m4 make
