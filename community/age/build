@@ -6,6 +6,7 @@ go build \
     -trimpath \
     -modcacherw \
     -buildmode=pie \
+    -mod=vendor \
     -o bin filippo.io/age/cmd/...
 
 mkdir -p "$1/usr/bin"
