@@ -1,4 +1,5 @@
 libdrm
 libepoxy
 mesa
-meson make
+meson       make
+python-yaml make
