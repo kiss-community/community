@@ -1,5 +1,39 @@
 #!/bin/sh -e
 
+# Extract each crate and generate a checksum file. This effectively mimics
+# 'cargo vendor' without the network requirement. This allows the package
+# manager to cache each crate and handle them as regular sources.
+(
+    cd vendor
+
+    for crate in *.crate; do
+        tar xf "$crate"
+
+        # Strip the filename from the sha256sum output.
+        sha256=$(sha256sum "$crate")
+        sha256=${sha256%% *}
+
+        printf '{"package":"%s","files":{}}\n' "$sha256" \
+            > "${crate%.crate}/.cargo-checksum.json"
+    done
+
+    printf '{"package":"null","files":{}}\n' > "ffmpeg-sys-next/.cargo-checksum.json"
+)
+
+mkdir -p .cargo
+cat <<EOF > .cargo/config.toml
+[source.crates-io]
+replace-with = "vendored-sources"
+
+[source."git+https://github.com/russelltg/rust-ffmpeg-sys?branch=vulkan"]
+git = "https://github.com/russelltg/rust-ffmpeg-sys"
+branch = "vulkan"
+replace-with = "vendored-sources"
+
+[source.vendored-sources]
+directory = "vendor"
+EOF
+
 cargo build --release
 
 mkdir -p "$1/usr/bin"
