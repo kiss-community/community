@@ -1,4 +1,0 @@
-#!/bin/sh -e
-
-mkdir -p "$1/usr/bin"
-mv "zls-$2/zls" "$1/usr/bin/"

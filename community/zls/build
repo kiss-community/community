@@ -1,0 +1,12 @@
+#!/bin/sh -e
+
+export ZIG_GLOBAL_CACHE_DIR="$PWD/.zig-cache"
+
+zig build \
+    -Dcpu=baseline \
+    -Doptimize=ReleaseSafe \
+    -Dversion-string="$2" \
+    -Dpie=true
+
+mkdir -p "$1/usr/bin"
+cp zig-out/bin/zls "$1/usr/bin/"
