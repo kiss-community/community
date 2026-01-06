@@ -2,5 +2,24 @@
 
 cd gopls
 
+(
+    cd vendor
+
+    for zip in ./*/*.zip; do
+        unzip "$zip"
+    done
+
+    IFS=' '
+    grep '^# ' modules.txt | while read -r _ mod ver; do
+        basedir="$(echo "$mod" | tr 'A-Z' 'a-z')@$ver"
+        mkdir -p "${mod%/*}"
+        if [ -d "$mod" ]; then
+            cp -R "$basedir"/* "$mod"
+        else
+            mv "$basedir" "$mod"
+        fi
+    done
+)
+
 mkdir -p "$1/usr/bin/"
-go build -v -o "$1/usr/bin/gopls"
+go build -mod=vendor -v -o "$1/usr/bin/gopls"
