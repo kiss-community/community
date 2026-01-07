@@ -9,9 +9,29 @@ done
     --localstatedir=/var \
     --sysconfdir=/etc \
     --libexecdir=/usr/lib/qemu \
-    --disable-werror \
+    --enable-linux-user \
+    --disable-system \
+    --disable-kvm \
+    --disable-png \
+    --disable-tools \
+    --static
+
+make
+make DESTDIR="$1" PREFIX=/usr install
+
+for bin in "$1/usr/bin/qemu-"*; do
+    mv -f "$bin" "$bin-static"
+done
+
+make clean
+
+./configure \
+    --prefix=/usr \
+    --localstatedir=/var \
+    --sysconfdir=/etc \
+    --libexecdir=/usr/lib/qemu \
     --disable-tcg-interpreter \
-    --enable-pie \
+    --disable-debug-info \
     --audio-drv-list=alsa \
     --enable-alsa \
     --enable-bzip2 \
@@ -32,15 +52,16 @@ done
     --enable-png \
     --enable-sdl \
     --disable-sdl-image \
+    --enable-slirp \
     --enable-virglrenderer \
     --disable-vnc \
-    --disable-vnc-jpeg \
+    --disable-werror \
     --enable-xkbcommon \
     --enable-zstd \
     --enable-system \
     --disable-user \
-    --enable-linux-user \
-    --disable-debug-info
+    --disable-linux-user \
+    --enable-pie
 
 make
 make DESTDIR="$1" PREFIX=/usr install

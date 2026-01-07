@@ -1,10 +1,12 @@
 alsa-lib
 bash make
+bison make
 bzip2
 curl
 glib
 libepoxy
 libpng
+libslirp
 libudev-zero
 liburing
 libusb
