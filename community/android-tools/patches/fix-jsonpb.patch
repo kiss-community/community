@@ -1,0 +1,16 @@
+diff --git a/vendor/extras/libjsonpb/parse/jsonpb.cpp b/vendor/extras/libjsonpb/parse/jsonpb.cpp
+index b342c2b..ebd71bf 100644
+--- a/vendor/extras/libjsonpb/parse/jsonpb.cpp
++++ b/vendor/extras/libjsonpb/parse/jsonpb.cpp
+@@ -33,7 +33,7 @@ using google::protobuf::util::TypeResolver;
+ static constexpr char kTypeUrlPrefix[] = "type.googleapis.com";
+ 
+ std::string GetTypeUrl(const Message& message) {
+-  return std::string(kTypeUrlPrefix) + "/" + message.GetDescriptor()->full_name();
++  return std::string(kTypeUrlPrefix) + "/" + std::string(message.GetDescriptor()->full_name());
+ }
+ 
+ ErrorOr<std::string> MessageToJsonString(const Message& message) {
+-- 
+2.49.0
+
