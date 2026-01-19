@@ -2,6 +2,7 @@ bash        make
 btrfs-progs make
 cmake       make
 containerd
+go          make
 iptables
 libseccomp
 lvm2
