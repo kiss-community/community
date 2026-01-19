@@ -1,1 +1,2 @@
 https://github.com/github/cmark-gfm/archive/refs/tags/0.29.0.gfm.13.tar.gz
+patches/cmake-version.patch

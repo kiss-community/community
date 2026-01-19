@@ -1,0 +1,19 @@
+From 1b84236e4254e04f97e61d0630607dd58b423dc7 Mon Sep 17 00:00:00 2001
+From: Kevin Backhouse <kevinbackhouse@github.com>
+Date: Fri, 19 Dec 2025 17:19:55 +0000
+Subject: [PATCH] Update cmake minimum requirement.
+
+---
+ CMakeLists.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index a6a663c81..12b4915e3 100755
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -1,4 +1,4 @@
+-cmake_minimum_required(VERSION 3.0)
++cmake_minimum_required(VERSION 3.5)
+ project(cmark-gfm)
+ 
+ set(PROJECT_VERSION_MAJOR 0)
