@@ -3,6 +3,7 @@ bash make
 bison make
 bzip2
 curl
+flex make
 glib
 libepoxy
 libpng
