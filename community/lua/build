@@ -8,6 +8,7 @@ mv -f _ src/luaconf.h
 
 make MYCFLAGS="$CFLAGS -fPIC" \
      MYLDFLAGS="$LDFLAGS" \
+     CC="$CC" \
      linux
 
 make INSTALL_TOP="$1/usr" \
