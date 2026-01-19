@@ -4,6 +4,7 @@ patch -p1 < no-bash.patch
 
 mk() {
     make \
+        CC="$CC" \
         GOLANG=no \
         PREFIX=/usr \
         SBINDIR=/usr/bin \
