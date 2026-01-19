@@ -1,3 +1,4 @@
 gmp
 linux-headers make
+mpfr
 ncurses
