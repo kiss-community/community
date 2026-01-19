@@ -4,6 +4,8 @@ for patch in *.patch; do
     patch -p1 < "$patch"
 done
 
+export LDFLAGS="$LDFLAGS -Wl,--undefined-version"
+
 # Bashism banished.
 export CONFIG_SHELL=/bin/sh
 
