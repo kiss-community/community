@@ -1,0 +1,13 @@
+#!/bin/sh -e
+
+:>nostrip
+
+WRAPPER="$PWD/bin-wrapper"
+
+mkdir -p "$1/opt/cosmocc" "$1/usr/bin"
+bsdtar -C "$1/opt/cosmocc" -xf "cosmocc-$2.zip"
+
+cd "$1/opt/cosmocc/bin"
+for bin in cosmo* aarch64-* x86_64-*; do
+    cp "$WRAPPER" "$1/usr/bin/$bin"
+done
