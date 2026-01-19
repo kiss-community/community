@@ -1,2 +1,3 @@
 bison make
+flex  make
 linux-headers make
