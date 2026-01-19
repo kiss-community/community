@@ -1,6 +1,11 @@
 #!/bin/sh -e
 
-make amalg   PREFIX=/usr
+libunwind_path=$("$CC" -print-file-name=libunwind.so)
+case $libunwind_path in */*)
+    export LDFLAGS="$LDFLAGS -lunwind"
+esac
+
+make amalg   PREFIX=/usr CC="$CC"
 make install PREFIX=/usr DESTDIR="$1"
 
 # Create these symlinks ourselves as luajit relies
