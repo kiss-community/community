@@ -16,6 +16,7 @@ meson setup \
     -Dstemming=false \
     -Dgir=false \
     -Dsystemd=false \
+    -Dbash-completion=false \
     output
 
 ninja -C output
