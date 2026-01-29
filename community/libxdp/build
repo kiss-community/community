@@ -1,5 +1,7 @@
 #!/bin/sh -e
 
+patch -p1 < musl-ether-include.patch
+
 export PRODUCTION=1
 export DYNAMIC_LIBXDP=1
 export FORCE_SYSTEM_LIBBPF=1
