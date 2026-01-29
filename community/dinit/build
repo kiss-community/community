@@ -1,0 +1,13 @@
+#!/bin/sh -e
+
+export LDFLAGS="$LDFLAGS -static"
+export CXXFLAGS="$CXXFLAGS -fno-rtti"
+
+./configure \
+    --enable-capabilities \
+    --sbindir=/usr/bin
+
+make
+make DESTDIR="$1" install
+
+ln -s dinit "$1/usr/bin/init"
