@@ -1,0 +1,38 @@
+#!/bin/sh -e
+
+export DESTDIR="$1"
+
+cmake -B build \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DCMAKETYPE=Release \
+    -DFLAG=1 \
+    -DUSEWX=no \
+    -DTTYX=no \
+    -DTTYXI=no \
+    -DUSEUCD=no \
+    -DICU_MODE=prebuilt \
+    -DALIGN=yes \
+    -DARCLITE=yes \
+    -DAUTOWRAP=yes \
+    -DCALC=yes \
+    -DCOLORER=no \
+    -DCOMPARE=yes \
+    -DDRAWLINE=yes \
+    -DEDITCASE=yes \
+    -DEDITORCOMP=yes \
+    -DEDSORT=yes \
+    -DFARFTP=yes \
+    -DFILECASE=yes \
+    -DHEXITOR=yes \
+    -DIMAGEVIEWER=yes \
+    -DINCSRCH=yes \
+    -DINSIDE=yes \
+    -DMULTIARC=yes \
+    -DNETROCKS=no \
+    -DOPENWITH=yes \
+    -DSIMPLEINDENT=yes \
+    -DTMPPANEL=yes \
+    -DTRUNCATE=yes
+
+cmake --build   build
+cmake --install build
