@@ -10,7 +10,6 @@ meson setup \
     -Dsysconfdir=/etc \
     -Dbuildtype=release \
     -Dbackend=ninja \
-    -Djson=disabled \
     -Ddocs=disabled \
     -Dtests=disabled \
     output
