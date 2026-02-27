@@ -1,5 +1,5 @@
 .\" Man page generated from reStructuredText
-.\" by the Docutils 0.22.2 manpage writer.
+.\" by the Docutils 0.22.3 manpage writer.
 .
 .
 .nr rst2man-indent-level 0
@@ -28,7 +28,7 @@ level margin: \\n[rst2man-indent\\n[rst2man-indent-level]]
 .\" new: \\n[rst2man-indent\\n[rst2man-indent-level]]
 .in \\n[rst2man-indent\\n[rst2man-indent-level]]u
 ..
-.TH "ZATHURARC" "5" "2025-10-28" "0.5.14" "zathura"
+.TH "ZATHURARC" "5" "2026-02-22" "2026.02.22" "zathura"
 .SH NAME
 zathurarc \- zathura configuration file
 .SH SYNOPSIS
@@ -376,6 +376,12 @@ Navigate through the index.
 .sp
 Show the print dialog.
 .IP \(bu 2
+\fBpage_mode\fP
+.sp
+Set the page sizing mode. Default is \fBequal_none\fP, which doesn\(aqt resize
+individual pages. \fBequal_width\fP and \fBequal_height\fP resizes each page to
+have the same width and height respectively.
+.IP \(bu 2
 \fBquit\fP
 .sp
 Quit zathura.
@@ -426,6 +432,10 @@ Show or hide inputbar.
 .sp
 Toggle between one and multiple pages per row.
 .IP \(bu 2
+\fBtoggle_single_page_mode\fP
+.sp
+Toggle between displaying a page grid or a single page.
+.IP \(bu 2
 \fBtoggle_statusbar\fP
 .sp
 Show or hide statusbar.
@@ -433,6 +443,10 @@ Show or hide statusbar.
 \fBzoom\fP
 .sp
 Zoom in or out.
+.IP \(bu 2
+\fBzoom_page\fP
+.sp
+Zoom in or out of the current page.
 .IP \(bu 2
 \fBmark_add\fP
 .sp
@@ -497,6 +511,10 @@ half\-down
 .IP \(bu 2
 half\-up
 .IP \(bu 2
+smooth\-down
+.IP \(bu 2
+smooth\-up
+.IP \(bu 2
 in
 .IP \(bu 2
 left
@@ -528,6 +546,12 @@ top
 up
 .IP \(bu 2
 width
+.IP \(bu 2
+equal_none
+.IP \(bu 2
+equal_width
+.IP \(bu 2
+equal_height
 .UNINDENT
 .UNINDENT
 .SS unmap \- Removing a shortcut
@@ -1251,11 +1275,12 @@ Default value: true
 .UNINDENT
 .TP
 .B \fIselection\-clipboard\fP
-Defines the X clipboard into which mouse\-selected data will be written.  When it
-is \(dqclipboard\(dq, selected data will be written to the CLIPBOARD clipboard, and
-can be pasted using the Ctrl+v key combination.  When it is \(dqprimary\(dq, selected
-data will be written to the PRIMARY clipboard, and can be pasted using the
-middle mouse button, or the Shift\-Insert key combination.
+Defines the X clipboard into which mouse\-selected data will be written.  When
+it is \(dqclipboard\(dq, selected data will be written to the CLIPBOARD clipboard,
+and can be pasted using the Ctrl+v key combination.  When it is \(dqprimary\(dq,
+selected data will be written to the PRIMARY clipboard, and can be pasted
+using the middle mouse button, or the Shift\-Insert key combination. The value
+\(dqfalse\(dq can be used to disable copying to the clipboard.
 .INDENT 7.0
 .IP \(bu 2
 Value type: String
