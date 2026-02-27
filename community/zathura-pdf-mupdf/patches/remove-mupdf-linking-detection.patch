@@ -1,9 +1,9 @@
 diff --git a/meson.build b/meson.build
-index 182b979..956e4b8 100644
+index 2133f20..e91bcf8 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -23,7 +23,6 @@ zathura = dependency('zathura', version: '>=0.5.2')
- girara = dependency('girara-gtk3')
+@@ -23,7 +23,6 @@ zathura = dependency('zathura', version: '>=2026.01.30')
+ girara = dependency('girara')
  glib = dependency('glib-2.0')
  cairo = dependency('cairo')
 -mupdf = dependency('mupdf', required: false, version: '>=@0@.@1@'.format(mupdf_required_version_major, mupdf_required_version_minor))
@@ -40,7 +40,7 @@ index 182b979..956e4b8 100644
 +build_dependencies += [
 +  mupdf,
 +  libjpeg,
-+  libjbig2dec,
++  libjbig2dec
 +]
  
  if get_option('plugindir') == ''
