@@ -1,11 +1,14 @@
 #!/bin/sh -e
 
+# Set "--disable-doc" otherwise texinfo is needed
+
 ./configure \
     --prefix=/usr \
     --disable-nls \
     --with-nettle-mini \
     --with-included-libtasn1 \
     --with-included-unistring \
+    --disable-doc \
     --enable-static \
     --without-p11-kit
 
