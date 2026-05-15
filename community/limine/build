@@ -1,9 +1,10 @@
 #!/bin/sh -e
 
+# Set the compiler to gcc otherwise clang is needed
+export TOOLCHAIN_FOR_TARGET=
+
 # Support for uefi aarch64 disabled because it's unsupported
 # in kiss
-
-export LD_FOR_TARGET=ld
 
 ./configure \
 	--prefix=/usr \
