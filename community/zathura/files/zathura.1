@@ -1,5 +1,5 @@
 .\" Man page generated from reStructuredText
-.\" by the Docutils 0.22.3 manpage writer.
+.\" by the Docutils 0.22.4 manpage writer.
 .
 .
 .nr rst2man-indent-level 0
@@ -28,7 +28,7 @@ level margin: \\n[rst2man-indent\\n[rst2man-indent-level]]
 .\" new: \\n[rst2man-indent\\n[rst2man-indent-level]]
 .in \\n[rst2man-indent\\n[rst2man-indent-level]]u
 ..
-.TH "ZATHURA" "1" "2026-02-22" "2026.02.22" "zathura"
+.TH "ZATHURA" "1" "2026-05-11" "2026.05.11" "zathura"
 .SH NAME
 zathura \- a document viewer
 .SH SYNOPSIS
@@ -38,6 +38,10 @@ zathura [\-e XID] [\-c PATH] [\-d PATH] [\-p PATH] [\-w PASSWORD] [\-P NUMBER]
 [\-find STRING]
 <files>
 .SH DESCRIPTION
+.sp
+\fBzathura\fP is a highly customizable and functional document viewer. It provides
+a minimalistic and space saving interface as well as an easy usage that mainly
+focuses on keyboard interaction.
 .sp
 \fBzathura\fP displays the given files. If a single hyphen\-minus (\-) is given as
 file name, the content will be read from the standard input. If no files are
@@ -74,7 +78,7 @@ Opens the document and searches for the given string.
 Set log level (debug, info, warning, error)
 .TP
 .BI \-x\fP,\fB  \-\-synctex\-editor\-command\fB= command
-Set the synctex editor command. Overrides the synctex\-editor\-command setting.
+Set the SyncTeX editor command. Overrides the synctex\-editor\-command setting.
 .TP
 .BI \-\-synctex\-forward\fB= input
 Jump to the given position. The switch expects the same format as specified
@@ -428,8 +432,8 @@ the \fIzathurarc\fP file (default path: ~/.config/zathura/zathurarc). For a deta
 description please consult zathurarc(5).
 .SH SYNCTEX SUPPORT
 .sp
-Both synctex forward and backwards synchronization are supported by zathura, To
-enable synctex forward synchronization, please look at the \fI\-\-synctex\-forward\fP
+Both SyncTeX forward and backwards synchronization are supported by zathura, To
+enable SyncTeX forward synchronization, please look at the \fI\-\-synctex\-forward\fP
 and \fI\-\-synctex\-editor\fP options. zathura will also emit a signal via the D\-Bus
 interface. To support synctex backwards synchronization, zathura provides a
 D\-Bus interface that can be called by the editor. For convince zathura also
@@ -480,7 +484,7 @@ no other directory was specified using \-\-plugins\-dir.
 .UNINDENT
 .SH SANDBOX
 .sp
-The \fBzathura\-sandbox\fP binary runs \fIzathura\fP with a seccomp and/or landlock
+The \fBzathura\-sandbox\fP binary runs zathura with a seccomp and/or landlock
 based sandbox enabled. Some features are disabled when using sandbox mode:
 .INDENT 0.0
 .IP \(bu 2
@@ -492,9 +496,9 @@ printing
 .IP \(bu 2
 bookmarks and history
 .IP \(bu 2
-dbus integration
+D\-Bus integration
 .IP \(bu 2
-synctex support
+SyncTeX support
 .UNINDENT
 .sp
 The sandbox mode is still experimental with some libc implementations. The
@@ -511,5 +515,5 @@ appear, if overlay\-scrollbar is enabled in GTK_MODULES.
 .SH Author
 pwmt.org
 .SH Copyright
-2009-2018, pwmt.org
+2009-2026, pwmt.org
 .\" End of generated man page.
