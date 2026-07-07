@@ -1,6 +1,9 @@
 #!/bin/sh -e
 
-./configure \
+sed 's/-lncurses/-lncurses -ltinfow/g' configure > _
+mv -f _ configure
+
+sh ./configure \
     --prefix=/usr \
     --enable-ksh \
     --enable-static
