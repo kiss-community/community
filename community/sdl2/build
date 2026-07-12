@@ -1,10 +1,13 @@
 #!/bin/sh -e
 
-./configure \
-    --disable-video-opengl \
-    --enable-video-opengles \
-    --disable-rpath \
-    --prefix=/usr
+export DESTDIR="$1"
 
-make
-make DESTDIR="$1" install
+cmake -B build \
+    -DCMAKE_BUILD_TYPE=None \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DCMAKE_INSTALL_LIBDIR=/usr/lib \
+    -DSDL2COMPAT_TESTS=OFF \
+    -DSDL2COMPAT_X11=OFF
+
+cmake --build build
+cmake --install build
