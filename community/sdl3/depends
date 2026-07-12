@@ -1,0 +1,8 @@
+alsa-lib make
+cmake make
+libudev-zero make
+libxkbcommon make
+linux-headers make
+mesa make
+wayland make
+wayland-protocols make
