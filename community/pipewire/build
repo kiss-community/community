@@ -1,10 +1,13 @@
 #!/bin/sh -e
 
+export DESTDIR="$1"
+
 for p in *.patch; do
     patch -p1 < "$p"
 done
 
-export DESTDIR="$1"
+sed "/subdir('po'/d" subprojects/wireplumber/meson.build > _
+mv -f _ subprojects/wireplumber/meson.build
 
 meson \
     --prefix=/usr \
