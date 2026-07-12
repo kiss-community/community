@@ -2,4 +2,4 @@ android-tools
 ffmpeg
 libusb
 meson make
-sdl2
+sdl3

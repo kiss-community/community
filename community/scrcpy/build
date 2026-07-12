@@ -4,6 +4,7 @@ export DESTDIR="$1"
 
 meson \
     --prefix=/usr \
+    --buildtype=release \
     -Dprebuilt_server="$PWD/scrcpy-server-v$2" \
     . output
 
