@@ -1,4 +1,4 @@
-https://mirrors.kernel.org/sourceware/lvm2/releases/LVM2.2.03.38.tgz
+https://mirrors.kernel.org/sourceware/lvm2/releases/LVM2.2.03.41.tgz
 patches/fix-stdio-usage.patch
 patches/library_dir-default-config.patch
 patches/mlockall-default-config.patch
