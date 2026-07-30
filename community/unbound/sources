@@ -1,2 +1,3 @@
-https://github.com/NLnetLabs/unbound/archive/refs/tags/release-1.24.2.tar.gz
+https://github.com/NLnetLabs/unbound/archive/refs/tags/release-1.25.1.tar.gz
 files/unbound.run
+patches/0001-Fix-build-failure-with-openssl4.0.patch
