@@ -1,0 +1,84 @@
+From 907c5a99ad126bbef72b4a5d67e363decbd3d1ac Mon Sep 17 00:00:00 2001
+From: Jouni Malinen <j@w1.fi>
+Date: Mon, 6 Apr 2026 11:59:07 +0300
+Subject: [PATCH 3/3] OpenSSL: Mark more ASN1/X509 values const
+
+OpenSSL 4.0 enforces this. A couple of additional typecasts are needed
+to get rid of the const marking for function calls with OpenSSL 1.1.1,
+but those could be removed for OpenSSL 3.0 and newer.
+
+Signed-off-by: Jouni Malinen <j@w1.fi>
+---
+ src/crypto/crypto_openssl.c |  4 ++--
+ src/crypto/tls_openssl.c    | 18 ++++++++++--------
+ 2 files changed, 12 insertions(+), 10 deletions(-)
+
+diff --git a/src/crypto/crypto_openssl.c b/src/crypto/crypto_openssl.c
+index dbe85d5e3..3e88c3d0a 100644
+--- a/src/crypto/crypto_openssl.c
++++ b/src/crypto/crypto_openssl.c
+@@ -4479,8 +4479,8 @@ const u8 * crypto_csr_get_attribute(struct crypto_csr *csr,
+ 				    size_t *len, int *type)
+ {
+ 	X509_ATTRIBUTE *attrib;
+-	ASN1_TYPE *attrib_type;
+-	ASN1_STRING *data;
++	const ASN1_TYPE *attrib_type;
++	const ASN1_STRING *data;
+ 	int loc;
+ 	int nid;
+ 
+diff --git a/src/crypto/tls_openssl.c b/src/crypto/tls_openssl.c
+index fc7b4d2f9..292017cc4 100644
+--- a/src/crypto/tls_openssl.c
++++ b/src/crypto/tls_openssl.c
+@@ -2163,7 +2163,7 @@ static int match_dn_field(const X509 *cert, int nid, const char *field,
+ 			  const struct tls_dn_field_order_cnt *dn_cnt)
+ {
+ 	int i, ret = 0, len, config_dn_field_index, match_index = 0;
+-	X509_NAME *name;
++	const X509_NAME *name;
+ 
+ 	len = os_strlen(value);
+ 	name = X509_get_subject_name((X509 *) cert);
+@@ -2175,9 +2175,10 @@ static int match_dn_field(const X509 *cert, int nid, const char *field,
+ 		return 0;
+ 
+ 	/* Fetch value based on NID */
+-	for (i = -1; (i = X509_NAME_get_index_by_NID(name, nid, i)) > -1;) {
+-		X509_NAME_ENTRY *e;
+-		ASN1_STRING *cn;
++	for (i = -1; (i = X509_NAME_get_index_by_NID((X509_NAME *) name, nid,
++						     i)) > -1;) {
++		const X509_NAME_ENTRY *e;
++		const ASN1_STRING *cn;
+ 
+ 		e = X509_NAME_get_entry(name, i);
+ 		if (!e)
+@@ -2332,7 +2333,7 @@ static int tls_match_suffix_helper(X509 *cert, const char *match,
+ 	int i;
+ 	stack_index_t j;
+ 	int dns_name = 0;
+-	X509_NAME *name;
++	const X509_NAME *name;
+ 
+ 	wpa_printf(MSG_DEBUG, "TLS: Match domain against %s%s",
+ 		   full ? "": "suffix ", match);
+@@ -2366,10 +2367,11 @@ static int tls_match_suffix_helper(X509 *cert, const char *match,
+ 	name = X509_get_subject_name(cert);
+ 	i = -1;
+ 	for (;;) {
+-		X509_NAME_ENTRY *e;
+-		ASN1_STRING *cn;
++		const X509_NAME_ENTRY *e;
++		const ASN1_STRING *cn;
+ 
+-		i = X509_NAME_get_index_by_NID(name, NID_commonName, i);
++		i = X509_NAME_get_index_by_NID((X509_NAME *) name,
++					       NID_commonName, i);
+ 		if (i == -1)
+ 			break;
+ 		e = X509_NAME_get_entry(name, i);
+-- 
+2.53.0
+

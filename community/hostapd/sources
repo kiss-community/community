@@ -1,2 +1,5 @@
 https://w1.fi/releases/hostapd-2.11.tar.gz
 files/hostapd.run hostapd
+patches/OpenSSL-Mark-more-ASN1-X509-values-const.patch
+patches/OpenSSL-Set-X509_REQ-subject-name-using-proper-API-c.patch
+patches/OpenSSL-Use-ASN1_STRING_length-get0_data-more-consis.patch

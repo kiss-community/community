@@ -1,0 +1,64 @@
+From ec00192a5a56cadbb250816b2ed1552f6a4fdabe Mon Sep 17 00:00:00 2001
+From: Jouni Malinen <j@w1.fi>
+Date: Mon, 6 Apr 2026 11:57:19 +0300
+Subject: [PATCH 2/3] OpenSSL: Set X509_REQ subject name using proper API calls
+
+X509_REQ_set_subject_name() should have used for this instead of adding
+entries into whatever X509_REQ_get_subject_name() returned. OpenSSL 4.0
+enforces this by marking the returned value from
+X509_REQ_get_subject_name() const.
+
+Signed-off-by: Jouni Malinen <j@w1.fi>
+---
+ src/crypto/crypto_openssl.c | 15 +++++++++++----
+ 1 file changed, 11 insertions(+), 4 deletions(-)
+
+diff --git a/src/crypto/crypto_openssl.c b/src/crypto/crypto_openssl.c
+index 0514185c9..dbe85d5e3 100644
+--- a/src/crypto/crypto_openssl.c
++++ b/src/crypto/crypto_openssl.c
+@@ -4405,6 +4405,7 @@ int crypto_csr_set_name(struct crypto_csr *csr, enum crypto_csr_name type,
+ {
+ 	X509_NAME *n;
+ 	int nid;
++	int ret = -1;
+ 
+ 	switch (type) {
+ 	case CSR_NAME_CN:
+@@ -4426,7 +4427,7 @@ int crypto_csr_set_name(struct crypto_csr *csr, enum crypto_csr_name type,
+ 		return -1;
+ 	}
+ 
+-	n = X509_REQ_get_subject_name((X509_REQ *) csr);
++	n = X509_NAME_new();
+ 	if (!n)
+ 		return -1;
+ 
+@@ -4434,15 +4435,21 @@ int crypto_csr_set_name(struct crypto_csr *csr, enum crypto_csr_name type,
+ 	if (!X509_NAME_add_entry_by_NID(n, nid, MBSTRING_UTF8,
+ 					(unsigned char *) name,
+ 					os_strlen(name), -1, 0))
+-		return -1;
++		goto fail;
+ #else
+ 	if (!X509_NAME_add_entry_by_NID(n, nid, MBSTRING_UTF8,
+ 					(const unsigned char *) name,
+ 					os_strlen(name), -1, 0))
+-		return -1;
++		goto fail;
+ #endif
+ 
+-	return 0;
++	if (X509_REQ_set_subject_name((X509_REQ *) csr, n) != 1)
++		goto fail;
++
++	ret = 0;
++fail:
++	X509_NAME_free(n);
++	return ret;
+ }
+ 
+ 
+-- 
+2.53.0
+

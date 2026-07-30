@@ -1,5 +1,9 @@
 #!/bin/sh -e
 
+for patch in *.patch; do
+    patch -p1 < "$patch"
+done
+
 cd hostapd
 
 sed -i -e "s:/etc/hostapd:/etc/hostapd/hostapd:g" hostapd.conf
