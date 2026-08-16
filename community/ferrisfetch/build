@@ -1,0 +1,12 @@
+#!/bin/sh -e
+
+cargo build \
+    --release \
+    --locked
+
+install -Dm755 target/release/ferrisfetch "$1/usr/bin/ferrisfetch"
+install -Dm644 completions/ferrisfetch.bash "$1/usr/share/bash-completion/completions/ferrisfetch"
+install -Dm644 completions/_ferrisfetch "$1/usr/share/zsh/site-functions/_ferrisfetch"
+install -Dm644 completions/ferrisfetch.fish "$1/usr/share/fish/vendor_completions.d/ferrisfetch.fish"
+install -Dm644 README.md "$1/usr/share/doc/ferrisfetch/README.md"
+install -Dm644 LICENSE "$1/usr/share/licenses/ferrisfetch/LICENSE"
