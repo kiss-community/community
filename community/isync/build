@@ -1,5 +1,9 @@
 #!/bin/sh -e
 
+patch -p1 < openssl-4.0.patch
+
+export CPPFLAGS="$CPPFLAGS -DQPRINTF_BUFF=4000"
+
 ./configure \
     --prefix=/usr
 
