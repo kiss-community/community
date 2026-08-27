@@ -1,13 +1,18 @@
 #!/bin/sh -e
 
-./configure                               \
-    --prefix=/usr                         \
-    --sbindir=/usr/bin                    \
-    --libexecdir=/usr/lib                 \
-    --with-secure-path                    \
-    --with-env-editor                     \
+patch -p1 < fix-openssl-4.patch
+
+./configure \
+    --prefix=/usr \
+    --sbindir=/usr/bin \
+    --libexecdir=/usr/lib \
+    --disable-nls \
+    --with-secure-path \
+    --with-env-editor \
     --with-passprompt="[sudo] password for %p: "
 
 make
 make DESTDIR="$1" install
-rm -rf "$1/usr/share/locale/"
+
+# Remove unneeded files
+rm -rf "$1/usr/share/locale/" 
