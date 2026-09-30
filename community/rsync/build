@@ -3,6 +3,7 @@
 ./configure \
     --prefix=/usr \
     --with-included-popt \
+    --disable-idn \
     --disable-xxhash \
     --disable-zstd \
     --disable-lz4 \
