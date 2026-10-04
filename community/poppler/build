@@ -7,6 +7,7 @@ cmake -B build \
     -DCMAKE_INSTALL_LIBDIR=/usr/lib \
     -DENABLE_GPGME=OFF \
     -DENABLE_BOOST=OFF \
+    -DENABLE_BROTLI=OFF \
     -DENABLE_CPP=ON \
     -DENABLE_QT5=OFF \
     -DENABLE_QT6=OFF \
