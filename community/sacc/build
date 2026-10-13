@@ -1,0 +1,5 @@
+#!/bin/sh -e
+
+# ncurses is built with a separate libtinfo.
+make PREFIX=/usr LIBS="-lcurses -ltinfo"
+make PREFIX=/usr LIBS="-lcurses -ltinfo" DESTDIR="$1" install
